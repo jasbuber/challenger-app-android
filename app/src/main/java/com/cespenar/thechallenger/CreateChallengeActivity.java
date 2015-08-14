@@ -6,32 +6,24 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
-import android.widget.TextView;
+
+import com.cespenar.thechallenger.models.Challenge;
+import com.cespenar.thechallenger.services.ChallengeService;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
 
 public class CreateChallengeActivity extends Activity {
 
     private static final int SELECT_VIDEO = 1;
 
     private String challengeVideo;
-    private String challengeName;
-    private int challengeCategory;
-    private int challengeDifficulty;
-    private int challengeVisibility;
-    private String challengeParticipants;
 
     private boolean isStep2Visible = false;
     private boolean isStep3Visible = false;
@@ -44,46 +36,32 @@ public class CreateChallengeActivity extends Activity {
         if(savedInstanceState != null){
             if(savedInstanceState.getBoolean("isStep2Visible")) {
 
-                findViewById(R.id.show_second_step_action).setVisibility(View.GONE);
-                findViewById(R.id.second_step).setVisibility(View.VISIBLE);
-                findViewById(R.id.first_step_arrow).setVisibility(View.VISIBLE);
-                isStep2Visible = true;
+                onClickStepOne(findViewById(R.id.show_second_step_action));
 
                 if (savedInstanceState.getBoolean("isStep3Visible")) {
-                    findViewById(R.id.show_third_step_action).setVisibility(View.GONE);
-                    findViewById(R.id.third_step).setVisibility(View.VISIBLE);
-                    findViewById(R.id.second_step_arrow).setVisibility(View.VISIBLE);
-                    isStep3Visible = true;
+                    onClickStepTwo(findViewById(R.id.show_third_step_action));
                 }
             }
 
-            ((EditText) findViewById(R.id.create_challenge_name)).setText(savedInstanceState.getString("challengeName"));
+            getChallengeNameElement().setText(savedInstanceState.getString("challengeName"));
             challengeVideo = savedInstanceState.getString("challengeVideo");
             if(challengeVideo != null) {
-                ((Button) findViewById(R.id.create_challenge_upload)).setText(new File(challengeVideo).getName());
+                getChallengeVideoElement().setText(new File(challengeVideo).getName());
             }
-            ((Spinner) findViewById(R.id.create_challenge_category)).setSelection(savedInstanceState.getInt("challengeCategory"));
-            ((SeekBar) findViewById(R.id.create_challenge_difficulty)).setProgress(savedInstanceState.getInt("challengeDifficulty"));
-            ((Spinner) findViewById(R.id.create_challenge_visibility)).setSelection(savedInstanceState.getInt("challengeVisibility"));
-
-
+            getChallengeCategoryElement().setSelection(savedInstanceState.getInt("challengeCategory"));
+            getChallengeDifficultyElement().setProgress(savedInstanceState.getInt("challengeDifficulty"));
+            getChallengeVisibilityElement().setSelection(savedInstanceState.getInt("challengeVisibility"));
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState){
 
-        EditText challengeName = (EditText) findViewById(R.id.create_challenge_name);
-        Spinner challengeCategory = (Spinner) findViewById(R.id.create_challenge_category);
-        SeekBar challengeDifficulty = (SeekBar) findViewById(R.id.create_challenge_difficulty);
-        Spinner challengeVisibility = (Spinner) findViewById(R.id.create_challenge_visibility);
-
-        savedInstanceState.putString("challengeName", challengeName.getText().toString());
-        savedInstanceState.putInt("challengeCategory", challengeCategory.getSelectedItemPosition());
+        savedInstanceState.putString("challengeName", getChallengeNameElement().getText().toString());
+        savedInstanceState.putInt("challengeCategory", getChallengeCategoryElement().getSelectedItemPosition());
         savedInstanceState.putString("challengeVideo", challengeVideo);
-        savedInstanceState.putInt("challengeDifficulty", challengeDifficulty.getProgress());
-        savedInstanceState.putInt("challengeVisibility", challengeVisibility.getSelectedItemPosition());
-
+        savedInstanceState.putInt("challengeDifficulty", getChallengeDifficultyElement().getProgress());
+        savedInstanceState.putInt("challengeVisibility", getChallengeVisibilityElement().getSelectedItemPosition());
 
         savedInstanceState.putBoolean("isStep2Visible", isStep2Visible);
         savedInstanceState.putBoolean("isStep3Visible", isStep3Visible);
@@ -126,7 +104,7 @@ public class CreateChallengeActivity extends Activity {
                 challengeVideo = getPath(data.getData());
                 File videoName = new File(challengeVideo);
 
-                ((Button)findViewById(R.id.create_challenge_upload)).setText(videoName.getName());
+                getChallengeVideoElement().setText(videoName.getName());
             }
         }
     }
@@ -162,5 +140,38 @@ public class CreateChallengeActivity extends Activity {
     public void onClickSubmit(View view){
         view.setEnabled(false);
 
+        String challengeName = getChallengeNameElement().getText().toString();
+        int challengeCategory = getChallengeCategoryElement().getSelectedItemPosition();
+        boolean challengeVisibility = false;
+        if(getChallengeVisibilityElement().getSelectedItemPosition() == 0){
+            challengeVisibility = true;
+        }
+        int challengeDifficulty = getChallengeDifficultyElement().getProgress();
+
+        Challenge challenge = new Challenge(challengeName, challengeVideo, challengeCategory,
+                challengeVisibility, challengeDifficulty);
+
+        ChallengeService.getService().createChallenge(challenge);
     }
+
+    private EditText getChallengeNameElement(){
+        return (EditText) findViewById(R.id.create_challenge_name);
+    }
+
+    private Spinner getChallengeCategoryElement(){
+        return (Spinner) findViewById(R.id.create_challenge_category);
+    }
+
+    private Spinner getChallengeVisibilityElement(){
+        return (Spinner) findViewById(R.id.create_challenge_visibility);
+    }
+
+    private SeekBar getChallengeDifficultyElement(){
+        return (SeekBar) findViewById(R.id.create_challenge_difficulty);
+    }
+
+    private Button getChallengeVideoElement(){
+        return (Button) findViewById(R.id.create_challenge_upload);
+    }
+
 }
