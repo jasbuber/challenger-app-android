@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">TheChallenger</string>
+    <string name="create_challenge">Create a Challenge</string>
+    <string name="discover_challenges">Discover Challenges</string>
+    <string name="rankings">Rankings</string>
+    <string name="my_challenges">My Challenges</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="challenge_name_hint">Name Your challenge&#8230;</string>
+    <string name="difficulty_easy">easy</string>
+    <string name="difficulty_medium">medium</string>
+    <string name="difficulty_hard">hard</string>
+    <string name="difficulty_insane">insane</string>
+
+    <string-array name="challenge_categories">
+        <item>AQUA SPHERE</item>
+        <item>DRINKING ZONE</item>
+        <item>EARGASMIC</item>
+        <item>FITNESS AVENUE</item>
+        <item>FOOD COMA</item>
+        <item>FREAK MODE</item>
+        <item>GIVING BACK</item>
+        <item>MIND GAMES</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="challenge_visibility">
+        <item>Public</item>
+        <item>Private</item>
+    </string-array>
+
+    <string name="visibility_public">Public</string>
+    <string name="visibility_private">Private</string>
+    <string name="challenge_category">Category:</string>
+    <string name="challenge_visibility">Privacy:</string>
+    <string name="create_action">Create!</string>
+    <string name="upload_action">Upload a video challenge&#8230;</string>
+    <string name="next_action">next</string>
+    <string name="next_step">Next step</string>
+</resources>
