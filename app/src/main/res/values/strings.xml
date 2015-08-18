@@ -13,6 +13,7 @@
     <string name="difficulty_insane">insane</string>
 
     <string-array name="challenge_categories">
+        <item>ALL</item>
         <item>AQUA SPHERE</item>
         <item>DRINKING ZONE</item>
         <item>EARGASMIC</item>
@@ -37,4 +38,9 @@
     <string name="upload_action">Upload a video challenge&#8230;</string>
     <string name="next_action">next</string>
     <string name="next_step">Next step</string>
+
+    <string name="validation_challenge_name_empty">You forgot to type the challenge name, you know&#8230;</string>
+    <string name="validation_challenge_name_too_short">Challenge name should be at least 5 characters long. Just because :P</string>
+    <string name="validation_challenge_name_too_long">Name longer than 250 characters ? Seriously ? ;]</string>
+
 </resources>
