@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="green_success">#48c9b0</color>
-    <color name="main_green_background">#27ae60</color>
-    <color name="main_blue_background">#2980b9</color>
-    <color name="main_orange_background">#d35400</color>
-    <color name="main_dark_background">#2c3e50</color>
-    <color name="blue_light_background">#f6fbff</color>
-    <color name="blue_dark_background">#dfeffb</color>
+    <color name="success_green">#48c9b0</color>
+    <color name="background_main_green">#27ae60</color>
+    <color name="background_main_blue">#2980b9</color>
+    <color name="background_main_orange">#d35400</color>
+    <color name="background_main_dark">#2c3e50</color>
+    <color name="background_light_blue">#f6fbff</color>
+    <color name="background_dark_blue">#dfeffb</color>
+    <color name="background_progress_white">#ebedef</color>
+    <color name="progress_green">#2ecc71</color>
     <color name="font_dark">#34495e</color>
     <color name="white">#ffffff</color>
-    <color name="orange_upload">#f1c40f</color>
-    <color name="gray_border">#bdc3c7</color>
-    <color name="dark_green_select">#2c3e50</color>
+    <color name="upload_orange">#f1c40f</color>
+    <color name="border_grey">#bdc3c7</color>
+    <color name="select_dark_green">#2c3e50</color>
 </resources>

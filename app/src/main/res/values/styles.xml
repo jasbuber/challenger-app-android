@@ -6,7 +6,7 @@
         <item name="android:spinnerItemStyle">@style/SpinnerChosenItem</item>
     </style>
     <style name="CommonScreen">
-        <item name="android:background">@color/blue_dark_background</item>
+        <item name="android:background">@color/background_dark_blue</item>
         <item name="android:textColor">@color/font_dark</item>
     </style>
     <style name="Glyph">
@@ -25,7 +25,7 @@
     </style>
     <style name="SpinnerItem" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
         <item name="android:textColor">@color/white</item>
-        <item name="android:background">@color/dark_green_select</item>
+        <item name="android:background">@color/select_dark_green</item>
     </style>
     <style name="SpinnerChosenItem">
         <item name="android:textColor">@color/white</item>
@@ -35,13 +35,23 @@
     <style name="CommonInput">
         <item name="android:background">@drawable/input</item>
         <item name="android:padding">5dp</item>
-        <item name="android:textColorHint">@color/gray_border</item>
+        <item name="android:textColorHint">@color/border_grey</item>
     </style>
     <style name="MainBlock">
         <item name="android:layout_height">170dp</item>
         <item name="android:layout_width">170dp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:gravity">center</item>
+    </style>
+    <style name="ProgressBar" parent="@android:style/Widget.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_bar</item>
+        <item name="android:layout_height">7dp</item>
+    </style>
+    <style name="Header">
+        <item name="android:color">@color/font_dark</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
     </style>
 
 </resources>
