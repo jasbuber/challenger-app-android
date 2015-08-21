@@ -16,6 +16,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 
 import com.cespenar.thechallenger.models.Challenge;
+import com.cespenar.thechallenger.models.CustomResponse;
 import com.cespenar.thechallenger.services.ChallengeService;
 
 import java.io.File;
@@ -173,6 +174,28 @@ public class CreateChallengeActivity extends Activity {
             return false;
         }
         return true;
+    }
+
+    public void finalizeCreateChallenge(CustomResponse response){
+        Intent intent = new Intent(this, CreateChallengeFinalizeActivity.class);
+
+        if(response.getStatus() == CustomResponse.ResponseStatus.failure){
+
+            for(String message : response.getMessages()){
+                switch(message){
+                    case "no_participants" :
+                        break;
+                }
+
+            }
+
+            findViewById(R.id.create_challenge_submit).setEnabled(true);
+
+            return;
+        }
+       // intent.putExtra("challengeId", response.getChallengeId());
+
+        startActivity(intent);
     }
 
     private EditText getChallengeNameElement() {

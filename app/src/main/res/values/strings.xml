@@ -42,5 +42,11 @@
     <string name="validation_challenge_name_empty">You forgot to type the challenge name, you know&#8230;</string>
     <string name="validation_challenge_name_too_short">Challenge name should be at least 5 characters long. Just because :P</string>
     <string name="validation_challenge_name_too_long">Name longer than 250 characters ? Seriously ? ;]</string>
+    <string name="title_activity_create_challenge_finalize">CreateChallengeFinalizeActivity</string>
+
+    <string name="success">Success</string>
+
+    <string name="challenge_created">Challenge created and ready to join !</string>
+    <string name="proceed_to_challenge">Go to challenge&#8230;</string>
 
 </resources>

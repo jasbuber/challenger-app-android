@@ -1,12 +1,15 @@
 package com.cespenar.thechallenger.services;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.cespenar.thechallenger.CreateChallengeActivity;
+import com.cespenar.thechallenger.CreateChallengeFinalizeActivity;
 import com.cespenar.thechallenger.models.Challenge;
 import com.cespenar.thechallenger.models.CustomResponse;
 import com.google.gson.Gson;
@@ -36,7 +39,7 @@ public class ChallengeService {
         return service;
     }
 
-    public String createChallenge(Context context, Challenge challenge) {
+    public String createChallenge(final Context context, Challenge challenge) {
 
         RequestQueue queue = Volley.newRequestQueue(context);
 
@@ -46,6 +49,8 @@ public class ChallengeService {
 
                 CustomResponse customResponse = new Gson().fromJson(response.toString(), CustomResponse.class);
                 Log.e("success", String.valueOf(customResponse.getChallengeId()));
+
+                ((CreateChallengeActivity) context).finalizeCreateChallenge(customResponse);
             }
         };
 
