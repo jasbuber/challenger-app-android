@@ -45,7 +45,7 @@ public class Router {
     public CustomRequest createPostRequest(ROUTE_NAME name, final HashMap<String, String> params, Response.Listener listener,
                                      Response.ErrorListener errorListener){
 
-        String url = generateUrl(routes.get(ROUTE_NAME.CREATE_CHALLENGE).getUrl(), null);
+        String url = generateUrl(routes.get(name).getUrl(), null);
 
         CustomRequest request = new CustomRequest( Request.Method.POST, url, params, listener, errorListener);
 
@@ -55,7 +55,7 @@ public class Router {
     public CustomRequest createGetRequest(ROUTE_NAME name, final HashMap<String, String> params, Response.Listener listener,
                                            Response.ErrorListener errorListener){
 
-        String url = generateUrl(routes.get(ROUTE_NAME.CREATE_CHALLENGE).getUrl(), params);
+        String url = generateUrl(routes.get(name).getUrl(), params);
 
         CustomRequest request = new CustomRequest( Request.Method.GET, url, null, listener, errorListener);
 
