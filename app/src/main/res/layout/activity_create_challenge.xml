@@ -186,6 +186,13 @@
             android:layout_height="wrap_content"
             android:visibility="invisible">
 
+            <ProgressBar
+                android:layout_width="300dp"
+                android:id="@+id/create_challenge_progress"
+                style="@style/ProgressBar"
+                android:max="100"
+                android:progress="40" />
+
             <Button
                 android:id="@+id/create_challenge_upload"
                 style="@style/CommonButton"
@@ -194,7 +201,8 @@
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/button_upload"
                 android:onClick="onClickUpload"
-                android:text="@string/upload_action" />
+                android:text="@string/upload_action"
+                android:layout_below="@+id/create_challenge_progress"/>
 
             <TextView
                 android:id="@+id/video_name_label"
