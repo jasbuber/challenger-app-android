@@ -16,7 +16,8 @@
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             style="@style/Glyph"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/first_step">
 
             <EditText
                 android:id="@+id/create_challenge_name"
