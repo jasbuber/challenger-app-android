@@ -7,9 +7,11 @@ import java.util.HashMap;
  */
 public class Challenge {
 
+    public enum CHALLENGE_CATEGORY{ ALL, FOOD_COMA, EARGASMIC, DRINKING_ZONE, FREAK_MODE, GIVING_BACK, FITNESS_AVENUE, MIND_GAMES, AQUA_SPHERE, OTHER }
+
     private String name;
     private String videoPath;
-    private String category;
+    private CHALLENGE_CATEGORY category;
     private boolean visibility;
     private int difficulty;
 
@@ -18,9 +20,9 @@ public class Challenge {
     public Challenge(String name, String videoPath, String category, boolean visibility, int difficulty) {
         this.name = name;
         this.videoPath = videoPath;
-        this.category = category.replace(" ", "_").toUpperCase();
+        this.category = validateCategory(category);
         this.visibility = visibility;
-        this.difficulty = difficulty;
+        this.difficulty = validateDifficulty(difficulty);
     }
 
     public String getName() {
@@ -31,11 +33,11 @@ public class Challenge {
         return videoPath;
     }
 
-    public String getCategory() {
+    public CHALLENGE_CATEGORY getCategory() {
         return category;
     }
 
-    public boolean isVisibility() {
+    public boolean isVisibile() {
         return visibility;
     }
 
@@ -52,6 +54,27 @@ public class Challenge {
         properties.put("difficulty", String.valueOf(difficulty));
 
         return properties;
+    }
+
+    private int validateDifficulty(int difficulty){
+        if(difficulty < 0 || difficulty > 3){
+            return 1;
+        }
+
+        return difficulty;
+    }
+
+    private CHALLENGE_CATEGORY validateCategory(String category){
+
+        String formattedCategory = category.replace(" ", "_").toUpperCase();
+        for(CHALLENGE_CATEGORY cat : CHALLENGE_CATEGORY.values()){
+            if(cat.toString().equals(formattedCategory)){
+                return cat;
+            }
+        }
+
+        return CHALLENGE_CATEGORY.ALL;
+
     }
 
 }
