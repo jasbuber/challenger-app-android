@@ -12,11 +12,6 @@ import android.widget.Spinner;
 
 import java.lang.reflect.Method;
 
-import android.net.Uri;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 /**
  * Created by Jasbuber on 25/08/2015.
  */

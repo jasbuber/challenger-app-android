@@ -14,7 +14,6 @@ public class Route {
     private String url;
 
     public Route(int type, String url){
-
         this.requestType = type;
         this.url = url;
     }
