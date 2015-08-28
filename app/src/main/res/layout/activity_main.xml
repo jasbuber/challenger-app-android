@@ -7,7 +7,7 @@
         android:background="@color/background_main_green" android:onClick="onClickCreateChallenge" style="@style/MainBlock"/>
     <Button android:id="@+id/browse_challenges_block" android:text="@string/discover_challenges" style="@style/MainBlock"
         android:layout_toRightOf="@id/create_challenge_block" android:layout_toEndOf="@id/create_challenge_block"
-        android:layout_centerHorizontal="true" android:background="@color/background_main_blue"/>
+        android:layout_centerHorizontal="true" android:background="@color/background_main_blue" android:onClick="onClickBrowseChallenges"/>
     <Button android:id="@+id/rankings_block" android:text="@string/rankings" android:layout_below="@id/create_challenge_block"
         android:background="@color/background_main_orange" style="@style/MainBlock"/>
     <Button android:id="@+id/my_challenges_block" android:text="@string/my_challenges" android:layout_toRightOf="@id/rankings_block" android:layout_toEndOf="@id/rankings_block"

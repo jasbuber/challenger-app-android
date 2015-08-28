@@ -48,5 +48,8 @@
 
     <string name="challenge_created">Challenge created and ready to join !</string>
     <string name="proceed_to_challenge">Go to challenge&#8230;</string>
+    <string name="title_activity_browse_challenges">BrowseChallengesActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>

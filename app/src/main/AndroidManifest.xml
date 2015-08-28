@@ -27,6 +27,10 @@
             android:name=".CreateChallengeFinalizeActivity"
             android:label="@string/success" >
         </activity>
+        <activity
+            android:name=".BrowseChallengesActivity"
+            android:label="@string/title_activity_browse_challenges" >
+        </activity>
     </application>
 
 </manifest>

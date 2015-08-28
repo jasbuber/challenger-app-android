@@ -1,24 +1,32 @@
 package com.cespenar.thechallenger;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.ListView;
 
-public class MainActivity extends Activity {
+import com.cespenar.thechallenger.models.Challenge;
+import com.cespenar.thechallenger.models.User;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class BrowseChallengesActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_browse_challenges);
+
+        populateChallengesList();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_browse_challenges, menu);
         return true;
     }
 
@@ -37,15 +45,16 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onClickCreateChallenge(View view){
+    private void populateChallengesList(){
 
-        Intent intent = new Intent(this, CreateChallengeActivity.class);
-        startActivity(intent);
+        ListView challengesListView = (ListView) findViewById(R.id.browse_challenges_list);
 
-    }
+        List<Challenge> challenges = new ArrayList<>();
 
-    public void onClickBrowseChallenges(View view){
-        Intent intent = new Intent(this, BrowseChallengesActivity.class);
-        startActivity(intent);
+        challenges.add(new Challenge(new User("username1"), "Challenge1", 3));
+        challenges.add(new Challenge(new User("username2"), "Challengefdfdfd fddffd", 4));
+
+        BrowseChallengesListAdapter adapter = new BrowseChallengesListAdapter(this, challenges);
+        challengesListView.setAdapter(adapter);
     }
 }

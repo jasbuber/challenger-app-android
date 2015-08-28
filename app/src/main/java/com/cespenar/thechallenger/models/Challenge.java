@@ -14,6 +14,9 @@ public class Challenge {
     private CHALLENGE_CATEGORY category;
     private boolean visibility;
     private int difficulty;
+    private long id;
+    private User creator;
+    private float rating;
 
     public Challenge(){}
 
@@ -23,6 +26,13 @@ public class Challenge {
         this.category = validateCategory(category);
         this.visibility = visibility;
         this.difficulty = validateDifficulty(difficulty);
+    }
+
+    public Challenge(User creator, String name, float rating) {
+        this.creator = creator;
+        this.name = name;
+        this.difficulty = validateDifficulty(difficulty);
+        this.rating = rating;
     }
 
     public String getName() {
@@ -43,6 +53,10 @@ public class Challenge {
 
     public int getDifficulty() {
         return difficulty;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public HashMap<String, String> getPropertyHashmap(){
@@ -77,4 +91,7 @@ public class Challenge {
 
     }
 
+    public User getCreator() {
+        return creator;
+    }
 }
