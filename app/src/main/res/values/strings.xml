@@ -50,6 +50,11 @@
     <string name="proceed_to_challenge">Go to challenge&#8230;</string>
     <string name="title_activity_browse_challenges">BrowseChallengesActivity</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="search_hint">Search&#8230;</string>
+    <string name="search_action">Search</string>
+
+    <string name="show_more">show more</string>
+
+
 
 </resources>

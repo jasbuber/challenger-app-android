@@ -1,26 +1,35 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent" android:paddingBottom="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="10dp"
     android:paddingTop="10dp">
 
     <ImageView
         android:id="@+id/browse_challenges_picture"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/avatar_small"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginRight="10dp"
+        android:src="@drawable/avatar_small" />
+
     <TextView
         android:id="@+id/browse_challenges_name"
-        android:layout_width="wrap_content"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/browse_challenges_picture"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
+
     <TextView
         android:id="@+id/browse_challenges_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/browse_challenges_name"
-        android:layout_toRightOf="@+id/browse_challenges_picture"
-        />
+        android:layout_toRightOf="@+id/browse_challenges_picture" />
 
-
+    <RatingBar
+        android:id="@+id/browse_challenges_rating"
+        style="@style/RatingBarSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:isIndicator="true"/>
 </RelativeLayout>

@@ -62,7 +62,7 @@ public class ChallengeTest extends TestCase {
 
         HashMap<String, String> params = challenge.getPropertyHashmap();
 
-        assertTrue(params.get("name").equals(TEST_NAME));
+        assertTrue(params.get("challengeName").equals(TEST_NAME));
         assertNull(params.get("videoPath"));
         assertTrue(params.get("category").equals(TEST_CATEGORY_EXPECTED.toString()));
         assertEquals(Integer.parseInt(params.get("difficulty")), 2);

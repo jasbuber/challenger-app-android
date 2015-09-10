@@ -40,7 +40,7 @@ public class RouterTest extends TestCase {
         params.put("param1", "param1Value");
         params.put("param2", "param2Value");
 
-        CustomRequest request = router.createPostRequest(ROUTE, params, null, null);
+        CustomRequest request = router.createPostRequest(ROUTE, params, null, null, Object.class);
 
         try {
             assertEquals(params, request.getParams());
@@ -50,7 +50,7 @@ public class RouterTest extends TestCase {
     }
 
     public void testCreatePostRequestWithoutParams() {
-        CustomRequest request = router.createPostRequest(ROUTE, null, null, null);
+        CustomRequest request = router.createPostRequest(ROUTE, null, null, null, Object.class);
 
         try {
             assertEquals(null, request.getParams());
@@ -60,14 +60,14 @@ public class RouterTest extends TestCase {
     }
 
     public void testCreatePostRequestValidUrl() {
-        CustomRequest request = router.createPostRequest(ROUTE, null, null, null);
+        CustomRequest request = router.createPostRequest(ROUTE, null, null, null, Object.class);
 
         assertTrue(request.getUrl().endsWith(request.getUrl()));
         assertTrue(request.getUrl().matches("^(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]"));
     }
 
     public void testCreatePostRequestValidMethod() {
-        CustomRequest request = router.createPostRequest(ROUTE, null, null, null);
+        CustomRequest request = router.createPostRequest(ROUTE, null, null, null, Object.class);
         assertEquals(request.getMethod(), Request.Method.POST);
     }
 
@@ -76,7 +76,7 @@ public class RouterTest extends TestCase {
         params.put("param1", "param1Value");
         params.put("param2", "param2Value");
 
-        CustomRequest request = router.createGetRequest(ROUTE, params, null, null);
+        CustomRequest request = router.createGetRequest(ROUTE, params, null, null, Object.class);
 
         String url = request.getUrl();
 
@@ -85,7 +85,7 @@ public class RouterTest extends TestCase {
     }
 
     public void testCreateGetRequestWithoutParams() {
-        CustomRequest request = router.createGetRequest(ROUTE, null, null, null);
+        CustomRequest request = router.createGetRequest(ROUTE, null, null, null, Object.class);
 
         assertFalse(request.getUrl().contains("?"));
         try {
@@ -96,14 +96,14 @@ public class RouterTest extends TestCase {
     }
 
     public void testCreateGetRequestValidUrl() {
-        CustomRequest request = router.createPostRequest(ROUTE, null, null, null);
+        CustomRequest request = router.createPostRequest(ROUTE, null, null, null, Object.class);
 
         assertTrue(request.getUrl().endsWith(request.getUrl()));
         assertTrue(request.getUrl().matches("^(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]"));
     }
 
     public void testCreateGetRequestValidMethod() {
-        CustomRequest request = router.createGetRequest(ROUTE, null, null, null);
+        CustomRequest request = router.createGetRequest(ROUTE, null, null, null, Object.class);
         assertEquals(request.getMethod(), Request.Method.GET);
     }
 

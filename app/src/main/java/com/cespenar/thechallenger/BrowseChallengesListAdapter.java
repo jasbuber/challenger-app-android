@@ -58,7 +58,7 @@ public class BrowseChallengesListAdapter extends BaseAdapter {
             holder.nameView = (TextView) convertView.findViewById(R.id.browse_challenges_name);
             holder.usernameView = (TextView) convertView.findViewById(R.id.browse_challenges_username);
             holder.pictureView = (ImageView) convertView.findViewById(R.id.browse_challenges_picture);
-            //holder.ratingView = (RatingBar) convertView.findViewById(R.id.browse_challenges_rating);
+            holder.ratingView = (RatingBar) convertView.findViewById(R.id.browse_challenges_rating);
 
             convertView.setTag(holder);
         } else {
@@ -70,6 +70,7 @@ public class BrowseChallengesListAdapter extends BaseAdapter {
         holder.id = challenge.getId();
         holder.nameView.setText(challenge.getName());
         holder.usernameView.setText(challenge.getCreator().getUsername());
+        holder.ratingView.setRating(challenge.getRating());
 
         return convertView;
     }

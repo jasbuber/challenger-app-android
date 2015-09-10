@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="success_green">#48c9b0</color>
+    <color name="search_blue">#3498db</color>
     <color name="background_main_green">#27ae60</color>
     <color name="background_main_blue">#2980b9</color>
     <color name="background_main_orange">#d35400</color>
