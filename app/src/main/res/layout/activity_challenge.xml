@@ -20,7 +20,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@+id/challenge_details_video"
-        android:id="@+id/challenge_details_action_bar">
+        android:id="@+id/challenge_details_action_bar"
+        android:visibility="gone">
 
         <Button
             android:id="@+id/challenge_details_join"
@@ -30,7 +31,8 @@
             android:layout_above="@+id/challenge_details_name"
             android:background="@drawable/button_submit"
             android:text="@string/join_action"
-            android:onClick="onClickJoinChallenge"/>
+            android:onClick="onClickJoinChallenge"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/challenge_details_show_respond"
@@ -40,7 +42,7 @@
             android:layout_above="@+id/challenge_details_name"
             android:background="@drawable/button_upload"
             android:text="@string/show_respond_action"
-            android:visibility="invisible" />
+            android:visibility="gone" />
     </LinearLayout>
 
     <RelativeLayout

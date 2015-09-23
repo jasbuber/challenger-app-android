@@ -114,11 +114,11 @@ public class ChallengeActivity extends Activity {
     }
 
     private void checkIfUserParticipatesInChallenge(int participationState) {
-        if (participationState == ChallengeParticipation.CREATOR_STATE ||
-                participationState == ChallengeParticipation.RESPONDED) {
-            findViewById(R.id.challenge_details_join).setVisibility(View.INVISIBLE);
+        if (participationState == ChallengeParticipation.NOT_PARTICIPATING_STATE) {
+            findViewById(R.id.challenge_details_join).setVisibility(View.VISIBLE);
+            findViewById(R.id.challenge_details_action_bar).setVisibility(View.VISIBLE);
         } else if (participationState == ChallengeParticipation.NOT_RESPONDED_STATE) {
-            findViewById(R.id.challenge_details_join).setVisibility(View.INVISIBLE);
+            findViewById(R.id.challenge_details_action_bar).setVisibility(View.VISIBLE);
             findViewById(R.id.challenge_details_show_respond).setVisibility(View.VISIBLE);
         }
     }
