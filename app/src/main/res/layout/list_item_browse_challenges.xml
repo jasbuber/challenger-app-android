@@ -29,7 +29,6 @@
         android:id="@+id/browse_challenges_rating"
         style="@style/RatingBarSmall"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
         android:layout_alignParentRight="true"
         android:isIndicator="true"/>
 </RelativeLayout>

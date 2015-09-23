@@ -49,11 +49,9 @@ public class CustomRequest<T> extends Request<T> {
     @Override
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
         try {
-            Log.e("response", new String(response.data,
-                    HttpHeaderParser.parseCharset(response.headers)));
             String jsonString = new String(response.data,
                     HttpHeaderParser.parseCharset(response.headers));
-            Log.e("class", responseClass.toString());
+
             return Response.success(
                     new Gson().fromJson(jsonString, responseClass),
                     HttpHeaderParser.parseCacheHeaders(response));
