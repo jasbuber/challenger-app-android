@@ -31,6 +31,22 @@
             android:name=".BrowseChallengesActivity"
             android:label="@string/title_activity_browse_challenges" >
         </activity>
+        <activity
+            android:name=".ChallengeActivity"
+            android:label="@string/title_activity_challenge" >
+        </activity>
+        <activity
+            android:name=".MyChallengesActivity"
+            android:label="@string/title_activity_my_challenges" >
+        </activity>
+        <activity
+            android:name=".CreatedChallengesActivity"
+            android:label="@string/title_activity_created_challenged" >
+        </activity>
+        <activity
+            android:name=".ChallengeParticipationsActivity"
+            android:label="@string/title_activity_challenge_participations" >
+        </activity>
     </application>
 
 </manifest>

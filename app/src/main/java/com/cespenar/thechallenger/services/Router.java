@@ -19,7 +19,7 @@ public class Router {
 
     Map<ROUTE_NAME, Route> routes = new HashMap<>();
 
-    public static enum ROUTE_NAME { CREATE_CHALLENGE, LATEST_CHALLENGES, FIND_CHALLENGES }
+    public enum ROUTE_NAME { CREATE_CHALLENGE, LATEST_CHALLENGES, FIND_CHALLENGES, CHALLENGE_RESPONSES, JOIN_CHALLENGE, MY_CHALLENGES, GET_CHALLENGE, GET_PARTICIPATION_STATE, MY_PARTICIPATIONS }
 
     private static final String server = "http://10.0.2.2:9000/";//"https://nameless-badlands-7043.herokuapp.com/";
 
@@ -39,28 +39,32 @@ public class Router {
         routes.put(ROUTE_NAME.CREATE_CHALLENGE, new Route(Request.Method.POST, "services/challenge/create"));
         routes.put(ROUTE_NAME.LATEST_CHALLENGES, new Route(Request.Method.GET, "services/challenge/latest"));
         routes.put(ROUTE_NAME.FIND_CHALLENGES, new Route(Request.Method.GET, "services/challenge/search"));
+        routes.put(ROUTE_NAME.CHALLENGE_RESPONSES, new Route(Request.Method.GET, "services/challenge/responses"));
+        routes.put(ROUTE_NAME.JOIN_CHALLENGE, new Route(Request.Method.POST, "services/challenge/join"));
+        routes.put(ROUTE_NAME.MY_CHALLENGES, new Route(Request.Method.GET, "services/user/mychallenges"));
+        routes.put(ROUTE_NAME.GET_CHALLENGE, new Route(Request.Method.GET, "services/challenge"));
+        routes.put(ROUTE_NAME.GET_PARTICIPATION_STATE, new Route(Request.Method.GET, "services/participation/state"));
+        routes.put(ROUTE_NAME.MY_PARTICIPATIONS, new Route(Request.Method.GET, "services/user/participations"));
     }
 
     public Route getRoute(ROUTE_NAME name){
         return routes.get(name);
     }
 
-    public <T>CustomRequest createPostRequest(ROUTE_NAME name, final HashMap<String, String> params, Response.Listener listener,
-                                     Response.ErrorListener errorListener, Class responseClass){
-
-        String url = generateUrl(routes.get(name).getUrl(), null);
-
-        CustomRequest request = new CustomRequest<T>( Request.Method.POST, url, params, listener, errorListener, responseClass);
-
-        return request;
-    }
-
-    public CustomRequest createGetRequest(ROUTE_NAME name, final HashMap<String, String> params, Response.Listener listener,
+    public CustomRequest createRequest(ROUTE_NAME name, final HashMap<String, String> params, Response.Listener listener,
                                            Response.ErrorListener errorListener, Class responseClass){
 
-        String url = generateUrl(routes.get(name).getUrl(), params);
+        Route route = routes.get(name);
+        CustomRequest request;
+        String url;
 
-        CustomRequest request = new CustomRequest( Request.Method.GET, url, null, listener, errorListener, responseClass);
+        if(route.getRequestType() == Request.Method.GET){
+            url = generateUrl(routes.get(name).getUrl(), params);
+            request = new CustomRequest( Request.Method.GET, url, null, listener, errorListener, responseClass);
+        }else{
+            url = generateUrl(routes.get(name).getUrl(), null);
+            request = new CustomRequest( Request.Method.POST, url, params, listener, errorListener, responseClass);
+        }
 
         return request;
     }

@@ -68,14 +68,16 @@ public class BrowseChallengesListAdapter extends BaseAdapter {
         Challenge challenge = challenges.get(position);
 
         holder.id = challenge.getId();
+        holder.challenge = challenge;
         holder.nameView.setText(challenge.getName());
-        holder.usernameView.setText(challenge.getCreator().getUsername());
+        holder.usernameView.setText(challenge.getCreator().getFormattedName());
         holder.ratingView.setRating(challenge.getRating());
 
         return convertView;
     }
 
-    private class ViewHolder {
+    public class ViewHolder {
+        Challenge challenge;
         long id;
         TextView nameView;
         TextView usernameView;

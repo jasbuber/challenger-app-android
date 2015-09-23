@@ -11,21 +11,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.cespenar.thechallenger.BrowseChallengesActivity;
+import com.cespenar.thechallenger.ChallengeActivity;
+import com.cespenar.thechallenger.ChallengeParticipationsActivity;
 import com.cespenar.thechallenger.CreateChallengeActivity;
-import com.cespenar.thechallenger.CreateChallengeFinalizeActivity;
-import com.cespenar.thechallenger.R;
+import com.cespenar.thechallenger.CreatedChallengesActivity;
 import com.cespenar.thechallenger.models.Challenge;
+import com.cespenar.thechallenger.models.ChallengeResponse;
+import com.cespenar.thechallenger.models.ChallengeWithParticipantsNr;
 import com.cespenar.thechallenger.models.CustomResponse;
 import com.cespenar.thechallenger.models.User;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.internal.LinkedTreeMap;
-import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -75,7 +72,7 @@ public class ChallengeService {
         params.put("token", UserService.getCurrentToken());
 
         CustomRequest request = Router.getRouter()
-                .createPostRequest(Router.ROUTE_NAME.CREATE_CHALLENGE, params, listener, errorListener, CustomResponse.class);
+                .createRequest(Router.ROUTE_NAME.CREATE_CHALLENGE, params, listener, errorListener, CustomResponse.class);
 
         queue.add(request);
     }
@@ -135,9 +132,204 @@ public class ChallengeService {
         }
         params.put("username", UserService.getCurrentUsername());
 
-        CustomRequest request = Router.getRouter().createGetRequest(route_name, params, listener, errorListener, List.class);
+        CustomRequest request = Router.getRouter().createRequest(route_name, params, listener, errorListener, List.class);
 
         // Add the request to the RequestQueue.
         queue.add(request);
     }
+
+    public void getChallengeResponses(final ChallengeActivity context, Challenge challenge) {
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        Response.Listener<List<LinkedTreeMap<String, Object>>> listener = new Response.Listener<List<LinkedTreeMap<String, Object>>>() {
+            @Override
+            public void onResponse(List<LinkedTreeMap<String, Object>> response) {
+                List<ChallengeResponse> responses = ChallengeResponse.castLinkedTreeMapToChallengeResponseList(response);
+                context.setChallengeResponses(responses);
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error", error.toString());
+            }
+        };
+
+        User currentUser = UserService.getCurrentUser();
+
+        HashMap<String, String> params = challenge.getPropertyHashmap();
+        params.put("challengeId", String.valueOf(challenge.getId()));
+        params.put("username", currentUser.getUsername());
+        params.put("token", UserService.getCurrentToken());
+
+        CustomRequest request = Router.getRouter()
+                .createRequest(Router.ROUTE_NAME.CHALLENGE_RESPONSES, params, listener, errorListener, List.class);
+
+        queue.add(request);
+    }
+
+    public void joinChallenge(final ChallengeActivity context, Challenge challenge) {
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        Response.Listener<CustomResponse> listener = new Response.Listener<CustomResponse>() {
+            @Override
+            public void onResponse(CustomResponse response) {
+                context.finalizeJoinChallenge(response);
+
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error", error.toString());
+            }
+        };
+
+        User currentUser = UserService.getCurrentUser();
+
+        HashMap<String, String> params = challenge.getPropertyHashmap();
+        params.put("challengeId", String.valueOf(challenge.getId()));
+        params.put("username", currentUser.getUsername());
+        params.put("fullName", currentUser.getFormattedName());
+
+        //params.put("token", UserService.getCurrentToken());
+
+        CustomRequest request = Router.getRouter()
+                .createRequest(Router.ROUTE_NAME.JOIN_CHALLENGE, params, listener, errorListener, CustomResponse.class);
+
+        queue.add(request);
+    }
+
+    public void getMyChallenges(final CreatedChallengesActivity context, int page) {
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        Response.Listener<List<LinkedTreeMap<String, Object>>> listener = new Response.Listener<List<LinkedTreeMap<String, Object>>>() {
+            @Override
+            public void onResponse(List<LinkedTreeMap<String, Object>> response) {
+                context.populateChallengesList(ChallengeWithParticipantsNr.castLinkedTreeMapToChallengeList(response));
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error", error.toString());
+            }
+        };
+
+        User currentUser = UserService.getCurrentUser();
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("username", currentUser.getUsername());
+        params.put("page", String.valueOf(page));
+
+        //params.put("token", UserService.getCurrentToken());
+
+        CustomRequest request = Router.getRouter()
+                .createRequest(Router.ROUTE_NAME.MY_CHALLENGES, params, listener, errorListener, List.class);
+
+        queue.add(request);
+    }
+
+    public void getChallenge(final ChallengeActivity context, final long challengeId) {
+
+        Log.e("id", String.valueOf(challengeId));
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        Response.Listener<HashMap> listener = new Response.Listener<HashMap>() {
+            @Override
+            public void onResponse(HashMap response) {
+                Log.e("response" , response.toString());
+                Log.e("challenge", response.get("challenge").toString());
+                LinkedTreeMap<String, Object> challenge = (LinkedTreeMap<String, Object>)response.get("challenge");
+                int participationState = (int) ((double)response.get("participationState"));
+                context.populateChallenge(Challenge.castLinkedTreeMapToChallenge(challenge), participationState);
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error", "error");
+                Log.e("error", error.toString());
+            }
+        };
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("id", String.valueOf(challengeId));
+        params.put("username", UserService.getCurrentUser().getUsername());
+
+        CustomRequest request = Router.getRouter()
+                .createRequest(Router.ROUTE_NAME.GET_CHALLENGE, params, listener, errorListener, HashMap.class);
+
+        queue.add(request);
+    }
+
+    public void getChallengeParticipationState(final ChallengeActivity context, final Challenge challenge) {
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        Response.Listener<Integer> listener = new Response.Listener<Integer>() {
+            @Override
+            public void onResponse(Integer participationState) {
+                context.populateChallenge( challenge, participationState);
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error", "error");
+                Log.e("error", error.toString());
+            }
+        };
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("id", String.valueOf(challenge.getId()));
+        params.put("username", UserService.getCurrentUser().getUsername());
+
+        CustomRequest request = Router.getRouter()
+                .createRequest(Router.ROUTE_NAME.GET_PARTICIPATION_STATE, params, listener, errorListener, Integer.class);
+
+        queue.add(request);
+    }
+
+    public void getMyParticipations(final ChallengeParticipationsActivity context, int page) {
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        Response.Listener<List<ArrayList>> listener = new Response.Listener<List<ArrayList>>() {
+            @Override
+            public void onResponse(List<ArrayList> response) {
+                context.populateChallengesList(ChallengeWithParticipantsNr.castToChallengeList(response));
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error", error.toString());
+            }
+        };
+
+        User currentUser = UserService.getCurrentUser();
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("username", currentUser.getUsername());
+        params.put("page", String.valueOf(page));
+
+        //params.put("token", UserService.getCurrentToken());
+
+        CustomRequest request = Router.getRouter()
+                .createRequest(Router.ROUTE_NAME.MY_PARTICIPATIONS, params, listener, errorListener, List.class);
+
+        queue.add(request);
+    }
+
+
 }

@@ -12,5 +12,5 @@
         android:background="@color/background_main_orange" style="@style/MainBlock"/>
     <Button android:id="@+id/my_challenges_block" android:text="@string/my_challenges" android:layout_toRightOf="@id/rankings_block" android:layout_toEndOf="@id/rankings_block"
         android:layout_below="@id/browse_challenges_block" android:background="@color/background_main_dark"
-        style="@style/MainBlock"/>
+        style="@style/MainBlock" android:onClick="onClickMyChallenges"/>
 </RelativeLayout>

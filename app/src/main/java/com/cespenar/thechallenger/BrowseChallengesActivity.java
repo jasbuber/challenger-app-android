@@ -1,11 +1,14 @@
 package com.cespenar.thechallenger;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -35,6 +38,7 @@ public class BrowseChallengesActivity extends Activity {
 
         ChallengeService.getService().getLatestChallenges(this);
         challengesListView.setOnScrollListener(getOnScrollListener(this));
+        challengesListView.setOnItemClickListener(getOnItemClickListener(this));
 
     }
 
@@ -106,5 +110,22 @@ public class BrowseChallengesActivity extends Activity {
 
     public void setHasMore(boolean hasMore){
         this.hasMore = hasMore;
+    }
+
+    public AdapterView.OnItemClickListener getOnItemClickListener(final BrowseChallengesActivity activity){
+
+        return new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                BrowseChallengesListAdapter.ViewHolder holder = (BrowseChallengesListAdapter.ViewHolder) view.getTag();
+
+                Intent intent = new Intent(activity, ChallengeActivity.class);
+                intent.putExtra("challenge", holder.challenge);
+
+                Log.e("challenge", intent.getSerializableExtra("challenge").toString());
+                startActivity(intent);
+            }
+        };
     }
 }

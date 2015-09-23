@@ -37,15 +37,20 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onClickCreateChallenge(View view){
+    public void onClickCreateChallenge(View view) {
 
         Intent intent = new Intent(this, CreateChallengeActivity.class);
         startActivity(intent);
 
     }
 
-    public void onClickBrowseChallenges(View view){
+    public void onClickBrowseChallenges(View view) {
         Intent intent = new Intent(this, BrowseChallengesActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickMyChallenges(View view) {
+        Intent intent = new Intent(this, MyChallengesActivity.class);
         startActivity(intent);
     }
 }
