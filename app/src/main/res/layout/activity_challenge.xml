@@ -119,14 +119,15 @@
             android:layout_width="wrap_content"
             android:layout_below="@+id/challenge_details_difficulty_label" />
 
+        <ListView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/challenge_details_responses"
+            android:dividerHeight="10sp"
+            android:divider="@color/background_dark_blue"
+            android:layout_alignParentRight="true">
+        </ListView>
+
     </RelativeLayout>
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/challenge_details_responses"
-        android:layout_toRightOf="@+id/challenge_details">
-
-    </ListView>
-
 
 </RelativeLayout>

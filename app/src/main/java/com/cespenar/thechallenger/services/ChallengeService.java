@@ -146,7 +146,7 @@ public class ChallengeService {
             @Override
             public void onResponse(List<LinkedTreeMap<String, Object>> response) {
                 List<ChallengeResponse> responses = ChallengeResponse.castLinkedTreeMapToChallengeResponseList(response);
-                context.setChallengeResponses(responses);
+                context.populateChallengeResponses(responses);
             }
         };
 

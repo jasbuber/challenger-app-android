@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -25,6 +26,8 @@ import java.util.List;
 public class ChallengeActivity extends Activity {
 
     private List<ChallengeResponse> challengeResponses = new ArrayList<>();
+
+    private static ListView challengeResponsesListView;
 
     private Challenge challenge;
 
@@ -90,9 +93,24 @@ public class ChallengeActivity extends Activity {
 
         fillChallengeDetails(challenge);
 
-        ChallengeService.getService().getChallengeResponses(this, challenge);
-
         checkIfUserParticipatesInChallenge(participationState);
+
+        ChallengeService.getService().getChallengeResponses(this, challenge);
+    }
+
+    public void populateChallengeResponses(List<ChallengeResponse> responses){
+        challengeResponsesListView = (ListView) findViewById(R.id.challenge_details_responses);
+
+        /*
+        ChallengeResponse response = new ChallengeResponse(new ChallengeParticipation(new Challenge("ffddfdfdffd", "ddfsdsdsdsdds", "ALL", true, 3), new User("1384032931905091", "ble", "Janusz", "One")));
+        ChallengeResponse response2 = new ChallengeResponse(new ChallengeParticipation(new Challenge("ffddfdfdffd", "ddfsdsdsdsdds", "ALL", true, 3), new User("1384032931905091", "ble", "Janusz", "Two")));
+        ChallengeResponse response3 = new ChallengeResponse(new ChallengeParticipation(new Challenge("ffddfdfdffd", "ddfsdsdsdsdds", "ALL", true, 3), new User("1384032931905091", "ble", "Janusz", "Three")));
+        responses.add(response);
+        responses.add(response2);
+        responses.add(response3);*/
+        ChallengeResponsesListAdapter adapter = new ChallengeResponsesListAdapter(this, responses);
+        challengeResponsesListView.setAdapter(adapter);
+
     }
 
     private void checkIfUserParticipatesInChallenge(int participationState) {
