@@ -1,22 +1,25 @@
 package com.cespenar.thechallenger;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.cespenar.thechallenger.models.Challenge;
+
 
 public class CreateChallengeFinalizeActivity extends Activity {
 
-    private static int challengeId;
+    private static long challengeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_challenge_finalize);
 
-        challengeId = getIntent().getIntExtra("challengeId", -1);
+        challengeId = getIntent().getLongExtra("challengeId", -1);
     }
 
     @Override
@@ -42,6 +45,8 @@ public class CreateChallengeFinalizeActivity extends Activity {
     }
 
     public void onClickShowChallenge(View view){
-
+        Intent intent = new Intent(this, ChallengeActivity.class);
+        intent.putExtra("challengeId", challengeId);
+        startActivity(intent);
     }
 }

@@ -193,7 +193,7 @@ public class CreateChallengeActivity extends Activity {
 
             return;
         }
-       // intent.putExtra("challengeId", response.getChallengeId());
+        intent.putExtra("challengeId", response.getChallengeId());
 
         startActivity(intent);
     }
