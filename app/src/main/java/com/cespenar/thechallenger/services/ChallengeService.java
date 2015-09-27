@@ -15,6 +15,7 @@ import com.cespenar.thechallenger.ChallengeActivity;
 import com.cespenar.thechallenger.ChallengeParticipationsActivity;
 import com.cespenar.thechallenger.CreateChallengeActivity;
 import com.cespenar.thechallenger.CreatedChallengesActivity;
+import com.cespenar.thechallenger.RankingsActivity;
 import com.cespenar.thechallenger.models.Challenge;
 import com.cespenar.thechallenger.models.ChallengeResponse;
 import com.cespenar.thechallenger.models.ChallengeWithParticipantsNr;
@@ -327,6 +328,41 @@ public class ChallengeService {
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.MY_PARTICIPATIONS, params, listener, errorListener, List.class);
+
+        queue.add(request);
+    }
+
+    public void getRankings(final RankingsActivity context) {
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        Response.Listener<HashMap> listener = new Response.Listener<HashMap>() {
+            @Override
+            public void onResponse(HashMap response) {
+
+                List<Challenge> topRatedChallenges = Challenge.castLinkedTreeMapToChallengeList((List<LinkedTreeMap<String, Object>>) response.get("topRatedChallenges"));
+                List<Challenge> trendingChallenges = Challenge.castLinkedTreeMapToChallengeList((List<LinkedTreeMap<String, Object>>) response.get("trendingChallenges"));
+                List<ChallengeWithParticipantsNr> mostPopularChallenges =
+                        ChallengeWithParticipantsNr.castLinkedTreeMapToChallengeList((List<LinkedTreeMap<String, Object>>) response.get("mostPopularChallenges"));
+                List<User> topRatedUsers = User.castLinkedTreeMapToUserList((List<LinkedTreeMap<String, Object>>) response.get("topRatedUsers"));
+
+
+                context.populateRankings(topRatedChallenges, topRatedUsers, trendingChallenges, mostPopularChallenges);
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error", error.toString());
+            }
+        };
+
+        HashMap<String, String> params = new HashMap<>();
+        //params.put("username", UserService.getCurrentUser().getUsername());
+
+        CustomRequest request = Router.getRouter()
+                .createRequest(Router.ROUTE_NAME.RANKINGS, params, listener, errorListener, HashMap.class);
 
         queue.add(request);
     }

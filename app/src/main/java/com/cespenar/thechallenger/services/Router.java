@@ -19,7 +19,8 @@ public class Router {
 
     Map<ROUTE_NAME, Route> routes = new HashMap<>();
 
-    public enum ROUTE_NAME { CREATE_CHALLENGE, LATEST_CHALLENGES, FIND_CHALLENGES, CHALLENGE_RESPONSES, JOIN_CHALLENGE, MY_CHALLENGES, GET_CHALLENGE, GET_PARTICIPATION_STATE, MY_PARTICIPATIONS }
+    public enum ROUTE_NAME { CREATE_CHALLENGE, LATEST_CHALLENGES, FIND_CHALLENGES, CHALLENGE_RESPONSES, JOIN_CHALLENGE, MY_CHALLENGES,
+        GET_CHALLENGE, GET_PARTICIPATION_STATE, MY_PARTICIPATIONS, RANKINGS }
 
     private static final String server = "http://10.0.2.2:9000/";//"https://nameless-badlands-7043.herokuapp.com/";
 
@@ -45,6 +46,7 @@ public class Router {
         routes.put(ROUTE_NAME.GET_CHALLENGE, new Route(Request.Method.GET, "services/challenge"));
         routes.put(ROUTE_NAME.GET_PARTICIPATION_STATE, new Route(Request.Method.GET, "services/participation/state"));
         routes.put(ROUTE_NAME.MY_PARTICIPATIONS, new Route(Request.Method.GET, "services/user/participations"));
+        routes.put(ROUTE_NAME.RANKINGS, new Route(Request.Method.GET, "services/rankings"));
     }
 
     public Route getRoute(ROUTE_NAME name){

@@ -53,4 +53,9 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, MyChallengesActivity.class);
         startActivity(intent);
     }
+
+    public void onClickRankings(View view) {
+        Intent intent = new Intent(this, RankingsActivity.class);
+        startActivity(intent);
+    }
 }

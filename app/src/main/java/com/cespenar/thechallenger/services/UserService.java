@@ -10,7 +10,7 @@ public class UserService {
     //Blank until facebook integration implemented
     private static String currentToken = "dummyToken";
 
-    private static User currentUser = new User("1384032931905091", "stubphoto", "Janusz", "Two");
+    private static User currentUser = new User("1384398625202082", "stubphoto", "Janusz", "One");
 
     public static String getCurrentUsername(){
         return currentUser.getUsername();

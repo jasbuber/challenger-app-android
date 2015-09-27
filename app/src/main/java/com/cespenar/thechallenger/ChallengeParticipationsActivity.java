@@ -51,7 +51,7 @@ public class ChallengeParticipationsActivity extends Activity {
     }
 
     public void populateChallengesList(List<ChallengeWithParticipantsNr> challenges){
-        ChallengesListAdapter adapter = new ChallengesListAdapter(this, challenges);
+        ChallengesListAdapter adapter = new ChallengesListAdapter(this, challenges, ChallengesListAdapter.TYPE.CHALLENGES_LIST);
         challengesListView.setAdapter(adapter);
     }
 

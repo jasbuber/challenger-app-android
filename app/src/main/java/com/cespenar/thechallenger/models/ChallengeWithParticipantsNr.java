@@ -68,7 +68,9 @@ public class ChallengeWithParticipantsNr {
         Date creationDate = new Date();
 
         try {
-            creationDate = new SimpleDateFormat("MMM dd, yyyy h:mm:ss a").parse((String) challenge.get("challengeCreationDate"));
+            if(challenge.get("challengeCreationDate") != null) {
+                creationDate = new SimpleDateFormat("MMM dd, yyyy h:mm:ss a").parse((String) challenge.get("challengeCreationDate"));
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }

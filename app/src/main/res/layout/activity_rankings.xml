@@ -1,0 +1,181 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        style="@style/CommonScreen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.cespenar.thechallenger.RankingsActivity">
+
+
+        <RelativeLayout
+            style="@style/GlyphArea"
+            android:layout_width="wrap_content"
+            android:layout_height="400dp"
+            android:layout_gravity="center_horizontal">
+
+            <LinearLayout
+                android:id="@+id/best_users_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal">
+
+                <ImageView
+                    android:id="@+id/best_users_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/trophy_small" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/best_users" />
+            </LinearLayout>
+
+            <View android:layout_width="200dp"
+                android:id="@+id/best_users_divider"
+                android:layout_below="@+id/best_users_header"
+                style="@style/Divider"/>
+
+            <ListView
+                android:id="@+id/rankings_best_users_list"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/best_users_divider"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            style="@style/GlyphArea"
+            android:layout_width="wrap_content"
+            android:layout_height="400dp"
+            android:layout_gravity="center_horizontal">
+
+            <LinearLayout
+                android:id="@+id/best_challenges_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal">
+
+                <ImageView
+                    android:id="@+id/best_challenges_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/star_small"
+                    android:layout_marginRight="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/best_challenges" />
+            </LinearLayout>
+
+            <View android:layout_width="200dp"
+                android:id="@+id/best_challenges_divider"
+                android:layout_below="@+id/best_challenges_header"
+                style="@style/Divider"/>
+
+            <ListView
+                android:id="@+id/best_challenges_list"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/best_challenges_divider"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            style="@style/GlyphArea"
+            android:layout_width="wrap_content"
+            android:layout_height="400dp"
+            android:layout_gravity="center_horizontal">
+
+            <LinearLayout
+                android:id="@+id/trending_challenges_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal">
+
+                <ImageView
+                    android:id="@+id/trending_challenges_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/glyph_sandals_small"
+                    android:layout_marginRight="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/trending_challenges" />
+            </LinearLayout>
+
+            <View android:layout_width="200dp"
+                android:id="@+id/trending_challenges_divider"
+                android:layout_below="@+id/trending_challenges_header"
+                style="@style/Divider"/>
+
+            <ListView
+                android:id="@+id/rankings_trending_challenges_list"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/trending_challenges_divider"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            style="@style/GlyphArea"
+            android:layout_width="wrap_content"
+            android:layout_height="400dp"
+            android:layout_gravity="center_horizontal">
+
+            <LinearLayout
+                android:id="@+id/most_popular_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal">
+
+                <ImageView
+                    android:id="@+id/popular_challenges_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/speedometer_5_small"
+                    android:layout_marginRight="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/popular_challenges" />
+            </LinearLayout>
+
+            <View android:layout_width="200dp"
+                android:id="@+id/most_popular_divider"
+                android:layout_below="@+id/most_popular_header"
+                style="@style/Divider"/>
+
+            <ListView
+                android:id="@+id/rankings_popular_challenges_list"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/most_popular_divider"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</ScrollView>

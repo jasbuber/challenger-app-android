@@ -22,10 +22,13 @@ public class ChallengesListAdapter extends BaseAdapter {
 
     Activity context;
     List<ChallengeWithParticipantsNr> challenges;
+    public enum TYPE { CHALLENGES_LIST, MOST_POPULAR_LIST }
+    private TYPE type;
 
-    public ChallengesListAdapter(Activity context, List<ChallengeWithParticipantsNr> challenges) {
+    public ChallengesListAdapter(Activity context, List<ChallengeWithParticipantsNr> challenges, TYPE type) {
         this.context = context;
         this.challenges = challenges;
+        this.type = type;
     }
 
     @Override
@@ -54,11 +57,17 @@ public class ChallengesListAdapter extends BaseAdapter {
 
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            convertView = inflater.inflate(R.layout.list_item_challenges, null);
+            if(type == TYPE.CHALLENGES_LIST) {
+                convertView = inflater.inflate(R.layout.list_item_challenges, null);
 
-            holder.nameView = (TextView) convertView.findViewById(R.id.challenges_list_name);
+                holder.nameView = (TextView) convertView.findViewById(R.id.challenges_list_name);
+                holder.popularityView = (ImageView) convertView.findViewById(R.id.challenges_list_popularity);
+            }else{
+                convertView = inflater.inflate(R.layout.list_item_popular_challenges, null);
 
-            holder.popularityView = (ImageView) convertView.findViewById(R.id.challenges_list_popularity);
+                holder.nameView = (TextView) convertView.findViewById(R.id.popular_challenges_name);
+                holder.participantsView = (TextView) convertView.findViewById(R.id.popular_challenges_rating);
+            }
 
             convertView.setTag(holder);
         } else {
@@ -69,8 +78,13 @@ public class ChallengesListAdapter extends BaseAdapter {
 
         holder.id = challenge.getChallengeId();
         holder.nameView.setText(challenge.getChallengeName());
-        holder.popularityView
-                .setImageResource(getPopularityLevelImage(challenge.getParticipantsNr()));
+
+        if(type == TYPE.CHALLENGES_LIST) {
+            holder.popularityView
+                    .setImageResource(getPopularityLevelImage(challenge.getParticipantsNr()));
+        }else{
+            holder.participantsView.setText(String.valueOf(challenge.getParticipantsNr()));
+        }
 
         return convertView;
     }
@@ -97,6 +111,7 @@ public class ChallengesListAdapter extends BaseAdapter {
     public class ViewHolder {
         long id;
         TextView nameView;
+        TextView participantsView;
         ImageView popularityView;
     }
 }
