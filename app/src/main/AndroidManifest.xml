@@ -29,23 +29,27 @@
         </activity>
         <activity
             android:name=".BrowseChallengesActivity"
-            android:label="@string/title_activity_browse_challenges" >
+            android:label="@string/discover_challenges" >
         </activity>
         <activity
             android:name=".ChallengeActivity"
-            android:label="@string/title_activity_challenge" >
+            android:label="@string/title_challenge_details" >
         </activity>
         <activity
             android:name=".MyChallengesActivity"
-            android:label="@string/title_activity_my_challenges" >
+            android:label="@string/my_challenges" >
         </activity>
         <activity
             android:name=".CreatedChallengesActivity"
-            android:label="@string/title_activity_created_challenged" >
+            android:label="@string/my_challenges" >
         </activity>
         <activity
             android:name=".ChallengeParticipationsActivity"
-            android:label="@string/title_activity_challenge_participations" >
+            android:label="@string/my_participations" >
+        </activity>
+        <activity
+            android:name=".RankingsActivity"
+            android:label="@string/rankings" >
         </activity>
     </application>
 
