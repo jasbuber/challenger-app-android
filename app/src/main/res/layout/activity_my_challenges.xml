@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="My Challenges"
+            android:text="@string/my_challenges"
             android:textSize="18sp"/>
     </LinearLayout>
 
@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="My Participations"
+            android:text="@string/my_participations"
             android:textSize="18sp"/>
     </LinearLayout>
 
