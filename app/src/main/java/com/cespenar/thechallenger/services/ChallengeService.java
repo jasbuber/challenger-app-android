@@ -14,6 +14,7 @@ import com.cespenar.thechallenger.BrowseChallengesActivity;
 import com.cespenar.thechallenger.ChallengeActivity;
 import com.cespenar.thechallenger.ChallengeParticipationsActivity;
 import com.cespenar.thechallenger.CreateChallengeActivity;
+import com.cespenar.thechallenger.CreateChallengeFinalizeActivity;
 import com.cespenar.thechallenger.CreatedChallengesActivity;
 import com.cespenar.thechallenger.RankingsActivity;
 import com.cespenar.thechallenger.models.Challenge;
@@ -70,7 +71,7 @@ public class ChallengeService {
 
         HashMap<String, String> params = challenge.getPropertyHashmap();
         params.put("username", UserService.getCurrentUsername());
-        params.put("token", UserService.getCurrentToken());
+        params.put("token", FacebookService.getService().getAccessToken().getToken());
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.CREATE_CHALLENGE, params, listener, errorListener, CustomResponse.class);
@@ -78,8 +79,40 @@ public class ChallengeService {
         queue.add(request);
     }
 
-    public String updateChallenge(Challenge challenge) {
-        return "not implemented method";
+    public void updateChallengeVideo(final Context context, final long challengeId, String videoId) {
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        Response.Listener<String> listener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(response.equals("success")){
+
+                    Intent intent = new Intent(context, CreateChallengeFinalizeActivity.class);
+                    intent.putExtra("challengeId", challengeId);
+
+                    context.startActivity(intent);
+                }
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error", error.toString());
+            }
+        };
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("username", UserService.getCurrentUser().getUsername());
+        params.put("videoId", videoId);
+        params.put("challengeId", String.valueOf(challengeId));
+
+
+        CustomRequest request = Router.getRouter()
+                .createRequest(Router.ROUTE_NAME.UPDATE_CHALLENGE_VIDEO, params, listener, errorListener, String.class);
+
+        queue.add(request);
     }
 
     public void getLatestChallenges(final BrowseChallengesActivity context) {
@@ -163,7 +196,7 @@ public class ChallengeService {
         HashMap<String, String> params = challenge.getPropertyHashmap();
         params.put("challengeId", String.valueOf(challenge.getId()));
         params.put("username", currentUser.getUsername());
-        params.put("token", UserService.getCurrentToken());
+        params.put("token", FacebookService.getService().getAccessToken().getToken());
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.CHALLENGE_RESPONSES, params, listener, errorListener, List.class);

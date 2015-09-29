@@ -192,7 +192,7 @@
                 android:id="@+id/create_challenge_progress"
                 style="@style/ProgressBar"
                 android:max="100"
-                android:progress="40" />
+                android:progress="0" />
 
             <Button
                 android:id="@+id/create_challenge_upload"

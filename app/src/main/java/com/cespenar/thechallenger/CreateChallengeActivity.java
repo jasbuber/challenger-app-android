@@ -12,12 +12,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 
 import com.cespenar.thechallenger.models.Challenge;
 import com.cespenar.thechallenger.models.CustomResponse;
 import com.cespenar.thechallenger.services.ChallengeService;
+import com.cespenar.thechallenger.services.FacebookService;
 
 import java.io.File;
 
@@ -25,7 +27,7 @@ public class CreateChallengeActivity extends Activity {
 
     private static final int SELECT_VIDEO = 1;
 
-    private String challengeVideo;
+    private static String challengeVideo;
 
     private boolean isStep2Visible = false;
     private boolean isStep3Visible = false;
@@ -101,12 +103,15 @@ public class CreateChallengeActivity extends Activity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        super.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_VIDEO) {
                 challengeVideo = getPath(data.getData());
                 File videoName = new File(challengeVideo);
 
                 getChallengeVideoElement().setText(videoName.getName());
+                getChallengeVideoElement().setError(null);
             }
         }
     }
@@ -144,7 +149,7 @@ public class CreateChallengeActivity extends Activity {
         EditText challengeNameElement = getChallengeNameElement();
         String challengeName = challengeNameElement.getText().toString();
 
-        if (validateChallengeName(challengeNameElement, challengeName)) {
+        if (validateChallengeName(challengeNameElement, challengeName) & validateChallengeVideo()) {
 
             view.setEnabled(false);
 
@@ -173,11 +178,20 @@ public class CreateChallengeActivity extends Activity {
             challengeNameElement.setError(getString(R.string.validation_challenge_name_too_long));
             return false;
         }
+        challengeNameElement.setError(null);
+        return true;
+    }
+
+    private boolean validateChallengeVideo() {
+        if (challengeVideo == null) {
+            getChallengeVideoElement().setError(getString(R.string.validation_challenge_video_empty));
+            return false;
+        }
+        getChallengeVideoElement().setError(null);
         return true;
     }
 
     public void finalizeCreateChallenge(CustomResponse response){
-        Intent intent = new Intent(this, CreateChallengeFinalizeActivity.class);
 
         if(response.getStatus() == CustomResponse.ResponseStatus.failure){
 
@@ -193,9 +207,11 @@ public class CreateChallengeActivity extends Activity {
 
             return;
         }
-        intent.putExtra("challengeId", response.getChallengeId());
 
-        startActivity(intent);
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.create_challenge_progress);
+        String challengeName = getChallengeNameElement().getText().toString();
+
+        FacebookService.getService().publishVideo(this, challengeVideo, challengeName, progressBar, response.getChallengeId());
     }
 
     private EditText getChallengeNameElement() {

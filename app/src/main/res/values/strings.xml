@@ -47,6 +47,7 @@
     <string name="validation_challenge_name_empty">You forgot to type the challenge name, you know&#8230;</string>
     <string name="validation_challenge_name_too_short">Challenge name should be at least 5 characters long. Just because :P</string>
     <string name="validation_challenge_name_too_long">Name longer than 250 characters ? Seriously ? ;]</string>
+    <string name="validation_challenge_video_empty">Upload a video description&#8230;</string>
 
     <string name="success">Success</string>
 
@@ -65,5 +66,7 @@
     <string name="best_challenges">BEST CHALLENGES</string>
     <string name="trending_challenges">TRENDING</string>
     <string name="popular_challenges">MOST POPULAR</string>
+    
+    <string name="facebook_app_id">582814825153806</string>
 
 </resources>

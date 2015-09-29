@@ -3,16 +3,37 @@ package com.cespenar.thechallenger;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.cespenar.thechallenger.services.FacebookService;
+import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+
+        if(!FacebookService.isAccessTokenValid()) {
+            FacebookService.getService().logIn(this);
+        }else{
+            setContentView(R.layout.activity_main);
+        }
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        // Logs 'install' and 'app activate' App Events.
+        AppEventsLogger.activateApp(this);
     }
 
     @Override
@@ -57,5 +78,11 @@ public class MainActivity extends Activity {
     public void onClickRankings(View view) {
         Intent intent = new Intent(this, RankingsActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        FacebookService.callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

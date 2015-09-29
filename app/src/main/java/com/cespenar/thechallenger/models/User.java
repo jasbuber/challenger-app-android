@@ -112,4 +112,12 @@ public class User implements Serializable{
     public Integer getAllPoints(){
         return this.creationPoints + this.participationPoints + this.otherPoints;
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
 }
