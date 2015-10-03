@@ -11,125 +11,177 @@
 
     <VideoView
         android:id="@+id/challenge_details_video"
-        android:layout_width="fill_parent"
-        android:layout_height="200dp"
-        android:layout_centerHorizontal="true" />
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/challenge_details_video"
-        android:id="@+id/challenge_details_action_bar"
-        android:visibility="gone">
-
-        <Button
-            android:id="@+id/challenge_details_join"
-            style="@style/CommonButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/challenge_details_name"
-            android:background="@drawable/button_submit"
-            android:text="@string/join_action"
-            android:onClick="onClickJoinChallenge"
-            android:visibility="gone"/>
-
-        <Button
-            android:id="@+id/challenge_details_show_respond"
-            style="@style/CommonButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/challenge_details_name"
-            android:background="@drawable/button_upload"
-            android:text="@string/show_respond_action"
-            android:visibility="gone" />
-    </LinearLayout>
-
-    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/challenge_details_action_bar"
-        android:id="@+id/challenge_details">
+        android:layout_centerHorizontal="true" />
 
-        <TextView
-            android:id="@+id/challenge_details_name"
-            style="@style/Header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/challenge_details_video">
 
-        <TextView
-            android:id="@+id/challenge_details_category_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/challenge_details_name"
-            android:text="@string/challenge_category" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/challenge_details_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/challenge_details_name"
-            android:layout_toRightOf="@+id/challenge_details_category_label" />
+            <ProgressBar
+                android:id="@+id/challenge_details_progress"
+                style="@style/ProgressBar"
+                android:layout_width="fill_parent"
+                android:layout_marginTop="5dp"
+                android:max="100"
+                android:progress="0"
+                android:visibility="gone" />
 
+            <LinearLayout
+                android:id="@+id/challenge_details_action_bar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/challenge_details_progress"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
 
-        <ImageView
-            android:id="@+id/challenge_details_picture"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_below="@id/challenge_details_category"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/avatar_small" />
+                <Button
+                    android:id="@+id/challenge_details_join"
+                    style="@style/CommonButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/challenge_details_name"
+                    android:background="@drawable/button_submit"
+                    android:onClick="onClickJoinChallenge"
+                    android:text="@string/join_action"
+                    android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/challenge_details_creator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/challenge_details_category"
-            android:layout_toRightOf="@+id/challenge_details_picture" />
+                <Button
+                    android:id="@+id/challenge_details_show_respond"
+                    style="@style/CommonButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/challenge_details_name"
+                    android:background="@drawable/button_upload"
+                    android:onClick="onClickRespond"
+                    android:text="@string/show_respond_action"
+                    android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/challenge_details_created_at_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/challenge_details_picture"
-            android:text="@string/challenge_details_created_at" />
+                <TextView
+                    android:id="@+id/challenge_details_response_video"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/challenge_details_name"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:clickable="true"
+                    android:maxWidth="220dp"
+                    android:onClick="onClickResponseVideo"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/challenge_details_created_at"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/challenge_details_picture"
-            android:layout_toRightOf="@+id/challenge_details_created_at_label" />
+                <Button
+                    android:id="@+id/challenge_details_submit_response"
+                    style="@style/CommonButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/challenge_details_name"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/button_submit"
+                    android:onClick="onClickSubmit"
+                    android:text="@string/ok"
+                    android:visibility="gone" />
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/challenge_details_difficulty_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/challenge_details_created_at_label"
-            android:text="@string/challenge_details_difficulty" />
+            <RelativeLayout
+                android:id="@+id/challenge_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/challenge_details_action_bar">
 
-        <TextView
-            android:id="@+id/challenge_details_difficulty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/challenge_details_created_at"
-            android:layout_toRightOf="@id/challenge_details_difficulty_label" />
+                <TextView
+                    android:id="@+id/challenge_details_name"
+                    style="@style/Header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-        <RatingBar
-            android:id="@+id/challenge_details_rating"
-            style="@style/RatingBarSmall"
-            android:layout_width="wrap_content"
-            android:layout_below="@+id/challenge_details_difficulty_label" />
-    </RelativeLayout>
-    <ListView
-        android:layout_marginTop="10dp"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/challenge_details_responses"
-        android:dividerHeight="10sp"
-        android:divider="@color/background_dark_blue"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/challenge_details_video">
-    </ListView>
+                <ImageView
+                    android:id="@+id/challenge_details_picture"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_below="@id/challenge_details_name"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/avatar_small" />
+
+                <TextView
+                    android:id="@+id/challenge_details_creator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/challenge_details_name"
+                    android:layout_marginBottom="5dp"
+                    android:layout_toRightOf="@+id/challenge_details_picture" />
+
+                <TextView
+                    android:id="@+id/challenge_details_category_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/challenge_details_picture"
+                    android:text="@string/challenge_category" />
+
+                <TextView
+                    android:id="@+id/challenge_details_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/challenge_details_picture"
+                    android:layout_marginBottom="1dp"
+                    android:layout_toRightOf="@+id/challenge_details_category_label" />
+
+                <TextView
+                    android:id="@+id/challenge_details_created_at_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/challenge_details_category"
+                    android:text="@string/challenge_details_created_at" />
+
+                <TextView
+                    android:id="@+id/challenge_details_created_at"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/challenge_details_category"
+                    android:layout_marginBottom="1dp"
+                    android:layout_toRightOf="@+id/challenge_details_created_at_label" />
+
+                <TextView
+                    android:id="@+id/challenge_details_difficulty_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/challenge_details_created_at_label"
+                    android:text="@string/challenge_details_difficulty" />
+
+                <TextView
+                    android:id="@+id/challenge_details_difficulty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/challenge_details_created_at"
+                    android:layout_toRightOf="@id/challenge_details_difficulty_label" />
+
+                <RatingBar
+                    android:id="@+id/challenge_details_rating"
+                    style="@style/RatingBarSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_below="@+id/challenge_details_difficulty_label"
+                    android:layout_marginTop="4dp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/challenge_details_responses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/challenge_details"
+                android:layout_marginTop="10dp"
+                android:divider="@color/background_dark_blue"
+                android:dividerHeight="10sp"
+                android:orientation="vertical"/>
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

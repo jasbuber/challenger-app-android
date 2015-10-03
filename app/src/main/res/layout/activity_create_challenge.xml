@@ -131,36 +131,11 @@
                     android:text="@string/difficulty_insane" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/create_challenge_visibility_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/create_challenge_difficulty"
-                android:layout_alignStart="@id/create_challenge_difficulty"
-                android:layout_below="@+id/create_challenge_difficulty_labels"
-                android:layout_marginEnd="40dp"
-                android:layout_marginRight="40dp"
-                android:text="@string/challenge_visibility" />
-
-            <Spinner
-                android:id="@+id/create_challenge_visibility"
-                android:layout_width="180dip"
-                android:layout_height="32dip"
-                android:layout_alignBaseline="@id/create_challenge_visibility_label"
-                android:layout_alignEnd="@id/create_challenge_difficulty"
-                android:layout_alignRight="@+id/create_challenge_difficulty"
-                android:layout_below="@+id/create_challenge_difficulty_labels"
-                android:layout_marginBottom="10dp"
-                android:layout_toEndOf="@id/create_challenge_visibility_label"
-                android:layout_toRightOf="@id/create_challenge_visibility_label"
-                android:background="@drawable/spinner_background"
-                android:entries="@array/challenge_visibility" />
-
             <Button
                 style="@style/CommonButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/create_challenge_visibility"
+                android:layout_below="@+id/create_challenge_difficulty_labels"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="0dp"
                 android:background="@drawable/button_submit"
