@@ -11,6 +11,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.cespenar.thechallenger.models.Challenge;
+import com.cespenar.thechallenger.services.FacebookService;
 
 import java.util.List;
 
@@ -72,6 +73,7 @@ public class BrowseChallengesListAdapter extends BaseAdapter {
         holder.nameView.setText(challenge.getName());
         holder.usernameView.setText(challenge.getCreator().getFormattedName());
         holder.ratingView.setRating(challenge.getRating());
+        FacebookService.getService().loadProfilePicture(holder.pictureView, holder.challenge.getCreator().getProfilePictureUrl());
 
         return convertView;
     }

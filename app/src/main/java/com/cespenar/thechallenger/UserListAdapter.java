@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cespenar.thechallenger.models.User;
+import com.cespenar.thechallenger.services.FacebookService;
 
 import java.util.List;
 
@@ -57,6 +59,8 @@ public class UserListAdapter extends BaseAdapter {
 
             holder.ratingView = (TextView) convertView.findViewById(R.id.best_users_points);
 
+            holder.pictureView = (ImageView) convertView.findViewById(R.id.best_users_profile_picture);
+
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -68,6 +72,7 @@ public class UserListAdapter extends BaseAdapter {
         holder.username = user.getUsername();
         holder.nameView.setText(user.getFormattedName());
         holder.ratingView.setText(String.valueOf(user.getAllPoints()));
+        FacebookService.getService().loadProfilePicture(holder.pictureView, user.getProfilePictureUrl());
 
         return convertView;
     }
@@ -77,5 +82,6 @@ public class UserListAdapter extends BaseAdapter {
         String username;
         TextView nameView;
         TextView ratingView;
+        ImageView pictureView;
     }
 }
