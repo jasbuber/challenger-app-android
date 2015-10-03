@@ -186,14 +186,14 @@ public class FacebookService {
                     HttpMethod.GET,
                     new GraphRequest.Callback() {
                         public void onCompleted(GraphResponse response) {
-
                             try {
 
-                                String videoSource = response.getJSONObject().getString("source");
-
-                                if (videoSource == null) {
+                                if (response.getJSONObject() == null) {
+                                    videoView.setVisibility(View.GONE);
                                     return;
                                 }
+
+                                String videoSource = response.getJSONObject().getString("source");
 
                                 MediaController controller = new MediaController(activity);
                                 videoView.setVideoPath(videoSource);
