@@ -2,15 +2,23 @@ package com.cespenar.thechallenger.services;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.ProgressBar;
+import android.widget.VideoView;
 
+import com.cespenar.thechallenger.ChallengeActivity;
+import com.cespenar.thechallenger.CreateChallengeActivity;
 import com.cespenar.thechallenger.CreateChallengeFinalizeActivity;
 import com.cespenar.thechallenger.R;
 import com.cespenar.thechallenger.models.User;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
+import com.facebook.FacebookAuthorizationException;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
@@ -19,9 +27,12 @@ import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+
+import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -72,6 +83,12 @@ public class FacebookService {
                     @Override
                     public void onError(FacebookException exception) {
                         Log.e("error", exception.toString());
+                        if (exception instanceof FacebookAuthorizationException) {
+                            if (AccessToken.getCurrentAccessToken() != null) {
+                                LoginManager.getInstance().logOut();
+                                logIn(activity);
+                            }
+                        }
                     }
                 });
 
@@ -132,7 +149,7 @@ public class FacebookService {
 
     public void publishVideo(final Activity activity, String path, String description, ProgressBar progressBar, final long challengeId) {
 
-        if(!isAccessTokenValidForPublishing()) {
+        if (!isAccessTokenValidForPublishing()) {
             acquirePublishPermission(activity, path, description, progressBar, challengeId);
             return;
         }
@@ -148,9 +165,63 @@ public class FacebookService {
 
                 String videoId = result.get("id").getAsString();
 
-                ChallengeService.getService().updateChallengeVideo(activity, challengeId, videoId);
+                if (activity instanceof CreateChallengeActivity) {
+                    ChallengeService.getService().updateChallengeVideo(activity, challengeId, videoId);
+                } else {
+                    ChallengeService.getService().submitChallengeResponse(activity, challengeId, videoId);
+                }
             }
         });
+    }
+
+    public void getVideo(final Activity activity, String videoId, final VideoView videoView) {
+
+        if (videoId != null) {
+            Bundle bundle = new Bundle();
+            bundle.putString("fields", "source, picture");
+            new GraphRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    "/" + videoId,
+                    bundle,
+                    HttpMethod.GET,
+                    new GraphRequest.Callback() {
+                        public void onCompleted(GraphResponse response) {
+
+                            try {
+
+                                String videoSource = response.getJSONObject().getString("source");
+
+                                if (videoSource == null) {
+                                    return;
+                                }
+
+                                MediaController controller = new MediaController(activity);
+                                videoView.setVideoPath(videoSource);
+                                videoView.setMediaController(controller);
+                                videoView.start();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+            ).executeAsync();
+        } else {
+            activity.findViewById(R.id.challenge_details_video).setVisibility(View.GONE);
+        }
+    }
+
+    public void loadVideoThumbnail(ImageView view, String url) {
+        Ion.with(view)
+                .placeholder(R.drawable.player)
+                .error(R.drawable.player)
+                .load(url);
+    }
+
+    public void loadProfilePicture(ImageView view, String url) {
+        Ion.with(view)
+                .placeholder(R.drawable.avatar_small)
+                .error(R.drawable.avatar_small)
+                .load(url);
     }
 
 }

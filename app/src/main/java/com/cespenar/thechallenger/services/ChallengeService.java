@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.VideoView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -179,6 +181,7 @@ public class ChallengeService {
         Response.Listener<List<LinkedTreeMap<String, Object>>> listener = new Response.Listener<List<LinkedTreeMap<String, Object>>>() {
             @Override
             public void onResponse(List<LinkedTreeMap<String, Object>> response) {
+                Log.e("response", response.toString());
                 List<ChallengeResponse> responses = ChallengeResponse.castLinkedTreeMapToChallengeResponseList(response);
                 context.populateChallengeResponses(responses);
             }
@@ -270,26 +273,25 @@ public class ChallengeService {
         queue.add(request);
     }
 
-    public void getChallenge(final ChallengeActivity context, final long challengeId) {
+    public void getChallenge(final ChallengeActivity context, final long challengeId, final VideoView videoView) {
 
-        Log.e("id", String.valueOf(challengeId));
         RequestQueue queue = Volley.newRequestQueue(context);
 
         Response.Listener<HashMap> listener = new Response.Listener<HashMap>() {
             @Override
             public void onResponse(HashMap response) {
-                Log.e("response" , response.toString());
-                Log.e("challenge", response.get("challenge").toString());
-                LinkedTreeMap<String, Object> challenge = (LinkedTreeMap<String, Object>)response.get("challenge");
+                LinkedTreeMap<String, Object> challengeMap = (LinkedTreeMap<String, Object>)response.get("challenge");
                 int participationState = (int) ((double)response.get("participationState"));
-                context.populateChallenge(Challenge.castLinkedTreeMapToChallenge(challenge), participationState);
+
+                Challenge challenge = Challenge.castLinkedTreeMapToChallenge(challengeMap);
+                context.populateChallenge(challenge, participationState);
+                FacebookService.getService().getVideo(context, challenge.getVideoPath(), videoView);
             }
         };
 
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("error", "error");
                 Log.e("error", error.toString());
             }
         };
@@ -311,7 +313,7 @@ public class ChallengeService {
         Response.Listener<Integer> listener = new Response.Listener<Integer>() {
             @Override
             public void onResponse(Integer participationState) {
-                context.populateChallenge( challenge, participationState);
+                context.populateChallenge(challenge, participationState);
             }
         };
 
@@ -396,6 +398,69 @@ public class ChallengeService {
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.RANKINGS, params, listener, errorListener, HashMap.class);
+
+        queue.add(request);
+    }
+
+    public void submitChallengeResponse(final Context context, final long challengeId, String videoId) {
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        Response.Listener<CustomResponse> listener = new Response.Listener<CustomResponse>() {
+            @Override
+            public void onResponse(CustomResponse response) {
+                if(response.getStatus() == CustomResponse.ResponseStatus.success){
+                    ((ChallengeActivity) context).finalizeSubmitResponse();
+                }
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error", error.toString());
+            }
+        };
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("username", UserService.getCurrentUser().getUsername());
+        params.put("videoId", videoId);
+        params.put("challengeId", String.valueOf(challengeId));
+
+
+        CustomRequest request = Router.getRouter()
+                .createRequest(Router.ROUTE_NAME.SUBMIT_RESPONSE, params, listener, errorListener, CustomResponse.class);
+
+        queue.add(request);
+    }
+
+    public void rateChallengeResponse(final Context context, final long responseId, Character isAccepted) {
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        Response.Listener<CustomResponse> listener = new Response.Listener<CustomResponse>() {
+            @Override
+            public void onResponse(CustomResponse response) {
+                if(response.getStatus() == CustomResponse.ResponseStatus.success){
+                    ((ChallengeActivity) context).finalizeRateResponse();
+                }
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error", error.toString());
+            }
+        };
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("username", UserService.getCurrentUser().getUsername());
+        params.put("responseId", String.valueOf(responseId));
+        params.put("isAccepted", String.valueOf(isAccepted));
+
+        CustomRequest request = Router.getRouter()
+                .createRequest(Router.ROUTE_NAME.RATE_RESPONSE, params, listener, errorListener, CustomResponse.class);
 
         queue.add(request);
     }

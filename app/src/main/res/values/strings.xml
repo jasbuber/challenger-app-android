@@ -8,6 +8,7 @@
     <string name="action_settings">Settings</string>
 
     <string name="title_challenge_details">Challenge Details</string>
+    <string name="title_challenge_response">Challenge Response</string>
 
     <string name="challenge_name_hint">Name Your challenge&#8230;</string>
     <string name="difficulty_easy">easy</string>
@@ -41,7 +42,7 @@
     <string name="upload_action">Upload a video challenge&#8230;</string>
     <string name="next_action">next</string>
     <string name="join_action">Join</string>
-    <string name="show_respond_action">Respond</string>
+    <string name="show_respond_action">Upload a video</string>
     <string name="next_step">Next step</string>
 
     <string name="validation_challenge_name_empty">You forgot to type the challenge name, you know&#8230;</string>
@@ -68,5 +69,12 @@
     <string name="popular_challenges">MOST POPULAR</string>
     
     <string name="facebook_app_id">582814825153806</string>
+
+    <string name="ok">OK!</string>
+    <string name="response_for">Challenge response for: </string>
+    <string name="submitted">Submitted:</string>
+
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
 
 </resources>

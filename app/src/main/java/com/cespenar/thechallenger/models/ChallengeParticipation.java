@@ -2,6 +2,7 @@ package com.cespenar.thechallenger.models;
 
 import com.google.gson.internal.LinkedTreeMap;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.List;
 /**
  * Created by Jasbuber on 15/09/2015.
  */
-public class ChallengeParticipation {
+public class ChallengeParticipation implements Serializable{
 
     public static int CREATOR_STATE = 3;
     public static int NOT_PARTICIPATING_STATE = 0;
@@ -121,14 +122,25 @@ public class ChallengeParticipation {
 
         long id = (long)((double) participation.get("id"));
         Challenge challenge = Challenge.castLinkedTreeMapToChallenge((LinkedTreeMap) participation.get("challenge"));
-        User participant = User.castLinkedTreeMapToUser((LinkedTreeMap) participation.get("participant"));
-        Character isChallengeRated = (Character) participation.get("isChallengeRated");
-        Character isResponseSubmitted = (Character) participation.get("isResponseSubmitted");
+        User participant = User.castLinkedTreeMapToUser((LinkedTreeMap) participation.get("participator"));
+
+        String isChallengeRatedString = (String) participation.get("isChallengeRated");
+        Character isChallengeRated = null;
+        Character isResponseSubmitted = null;
+
+        if(isChallengeRatedString != null){
+            isChallengeRated = isChallengeRatedString.charAt(0);
+        }
+
+        String isResponseSubmittedString = (String) participation.get("isChallengeRated");
+        if(isResponseSubmittedString != null) {
+            isResponseSubmitted = ((String) participation.get("isResponseSubmitted")).charAt(0);
+        }
 
         Date joined = new Date();
 
         try {
-            joined = new SimpleDateFormat("MMM dd, yyyy h:mm:ss a").parse((String) participation.get("creationDate"));
+            joined = new SimpleDateFormat("MMM dd, yyyy h:mm:ss a").parse((String) participation.get("joined"));
         } catch (ParseException e) {
             e.printStackTrace();
         }

@@ -6,15 +6,64 @@
 
     <ImageView
         android:id="@+id/challenge_responses_thumbnail"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_width="120dp"
+        android:layout_height="80dp" />
 
     <TextView
         android:id="@+id/challenge_responses_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/challenge_responses_thumbnail"
+        android:layout_toRightOf="@+id/challenge_responses_thumbnail"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="20dp"/>
+
+    <TextView
+        android:id="@+id/challenge_responses_submitted_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/challenge_responses_thumbnail"
+        android:layout_below="@+id/challenge_responses_username"
         android:textSize="12sp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/submitted"
+        android:clickable="true"
+        android:onClick="onClickShowResponse"/>
+
+    <TextView
+        android:id="@+id/challenge_responses_submitted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/challenge_responses_submitted_label"
+        android:layout_below="@+id/challenge_responses_username"
+        android:textSize="12sp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"/>
+
+    <Button
+        android:id="@+id/challenge_response_reject"
+        style="@style/CommonButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/challenge_responses_submitted"
+        android:background="@drawable/button_reject"
+        android:text="@string/decline"
+        android:visibility="gone"
+        android:onClick="onClickReject"
+        android:layout_toRightOf="@id/challenge_responses_thumbnail"
+        android:layout_marginLeft="20dp"/>
+
+    <Button
+        android:id="@+id/challenge_response_accept"
+        style="@style/CommonButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/challenge_responses_submitted"
+        android:background="@drawable/button_accept"
+        android:text="@string/accept"
+        android:visibility="gone"
+        android:onClick="onClickAccept"
+        android:layout_toRightOf="@+id/challenge_response_reject"
+        android:layout_marginLeft="20dp"/>
 </RelativeLayout>

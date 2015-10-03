@@ -44,7 +44,7 @@ public class Challenge implements Serializable {
         this.difficulty = validateDifficulty(difficulty);
     }
 
-    public Challenge(long id, User creator, String name, CHALLENGE_CATEGORY category, float rating, Date creationDate, int difficulty) {
+    public Challenge(long id, User creator, String name, CHALLENGE_CATEGORY category, float rating, Date creationDate, int difficulty, String videoPath) {
         this.creator = creator;
         this.challengeName = name;
         this.difficulty = validateDifficulty(difficulty);
@@ -52,6 +52,7 @@ public class Challenge implements Serializable {
         this.id = id;
         this.creationDate = creationDate;
         this.category = category;
+        this.videoPath = videoPath;
     }
 
     public String getName() {
@@ -157,13 +158,14 @@ public class Challenge implements Serializable {
         Date creationDate = new Date();
         int difficulty = ((Double) challenge.get("difficulty")).intValue();
         Challenge.CHALLENGE_CATEGORY category = CHALLENGE_CATEGORY.valueOf((String) challenge.get("category"));
+        String videoId = String.valueOf(challenge.get("videoId"));
         try {
             creationDate = new SimpleDateFormat("MMM dd, yyyy h:mm:ss a").parse((String) challenge.get("creationDate"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        return new Challenge(id, User.castLinkedTreeMapToUser(creator), name, category, flRating, creationDate, difficulty);
+        return new Challenge(id, User.castLinkedTreeMapToUser(creator), name, category, flRating, creationDate, difficulty, videoId);
     }
 
     public static Integer getPopularityLevel(Long participantsNr){

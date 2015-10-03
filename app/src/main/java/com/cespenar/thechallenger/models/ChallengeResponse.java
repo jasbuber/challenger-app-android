@@ -1,7 +1,9 @@
 package com.cespenar.thechallenger.models;
 
+import com.cespenar.thechallenger.services.UserService;
 import com.google.gson.internal.LinkedTreeMap;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ import java.util.List;
 /**
  * Created by Jasbuber on 15/09/2015.
  */
-public class ChallengeResponse {
+public class ChallengeResponse implements Serializable{
 
     private Long id;
 
@@ -121,9 +123,13 @@ public class ChallengeResponse {
     public static ChallengeResponse castLinkedTreeMapToChallengeResponse(LinkedTreeMap<String, Object> response) {
 
         long id = (long)((double) response.get("id"));
-        ChallengeParticipation participation = ChallengeParticipation.castLinkedTreeMapToChallengeParticipation((LinkedTreeMap) response.get("challenge"));
+        ChallengeParticipation participation = ChallengeParticipation.castLinkedTreeMapToChallengeParticipation((LinkedTreeMap) response.get("challengeParticipation"));
 
-        Character isAccepted = (Character) response.get("isAccepted");
+        String isAcceptedString = (String) response.get("isAccepted");
+        Character isAccepted = null;
+        if(isAcceptedString != null){
+            isAccepted = isAcceptedString.charAt(0);
+        }
         String videoResponseUrl = String.valueOf(response.get("videoResponseUrl"));
         String message = String.valueOf(response.get("message"));
         String thumbnailUrl = String.valueOf(response.get("thumbnailUrl"));
@@ -137,6 +143,12 @@ public class ChallengeResponse {
         }
 
         return new ChallengeResponse(id, participation, isAccepted, videoResponseUrl, message, submitted, thumbnailUrl);
+    }
+
+    public boolean isCurrentUserCanRate(){
+        String creatorUsername = this.getChallengeParticipation().getChallenge().getCreator().getUsername();
+        return !isDecided() &&
+                UserService.getCurrentUsername().equals(creatorUsername);
     }
 
 }

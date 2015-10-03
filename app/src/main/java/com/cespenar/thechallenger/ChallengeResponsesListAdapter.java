@@ -2,16 +2,22 @@ package com.cespenar.thechallenger;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cespenar.thechallenger.models.Challenge;
 import com.cespenar.thechallenger.models.ChallengeResponse;
 import com.cespenar.thechallenger.models.ChallengeWithParticipantsNr;
+import com.cespenar.thechallenger.services.ChallengeService;
+import com.cespenar.thechallenger.services.FacebookService;
 
 import java.util.List;
 
@@ -60,6 +66,12 @@ public class ChallengeResponsesListAdapter extends BaseAdapter {
 
             holder.thumbnailView = (ImageView) convertView.findViewById(R.id.challenge_responses_thumbnail);
 
+            holder.submittedView = (TextView) convertView.findViewById(R.id.challenge_responses_submitted);
+
+            holder.acceptView = (Button) convertView.findViewById(R.id.challenge_response_accept);
+
+            holder.rejectView = (Button) convertView.findViewById(R.id.challenge_response_reject);
+
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -69,7 +81,20 @@ public class ChallengeResponsesListAdapter extends BaseAdapter {
 
         holder.id = response.getId();
         holder.usernameView.setText(response.getChallengeParticipation().getParticipator().getFormattedName());
-        holder.thumbnailView.setImageResource(R.drawable.player);
+        holder.submittedView.setText(response.getSubmitted());
+        holder.acceptView.setOnClickListener(getOnClickAcceptListener());
+        holder.acceptView.setTag(holder);
+        holder.rejectView.setOnClickListener(getOnClickRejectListener());
+        holder.rejectView.setTag(holder);
+        holder.response = response;
+        holder.thumbnailView.setOnClickListener(getOnClickPlayListener());
+        holder.thumbnailView.setTag(holder);
+
+        if(response.isCurrentUserCanRate()){
+            holder.acceptView.setVisibility(View.VISIBLE);
+            holder.rejectView.setVisibility(View.VISIBLE);
+        }
+        FacebookService.getService().loadVideoThumbnail(holder.thumbnailView, response.getThumbnailUrl());
 
         return convertView;
     }
@@ -77,6 +102,49 @@ public class ChallengeResponsesListAdapter extends BaseAdapter {
     public class ViewHolder {
         long id;
         TextView usernameView;
+        TextView submittedView;
         ImageView thumbnailView;
+        Button acceptView;
+        Button rejectView;
+        ChallengeResponse response;
+    }
+
+    private AdapterView.OnClickListener getOnClickAcceptListener(){
+        return  new AdapterView.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewHolder holder = (ViewHolder) v.getTag();
+
+                holder.acceptView.setVisibility(View.GONE);
+                holder.rejectView.setVisibility(View.GONE);
+                ChallengeService.getService().rateChallengeResponse(context, holder.id, 'Y');
+            }
+        };
+    }
+
+    private AdapterView.OnClickListener getOnClickRejectListener(){
+        return  new AdapterView.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewHolder holder = (ViewHolder) v.getTag();
+
+                holder.acceptView.setVisibility(View.GONE);
+                holder.rejectView.setVisibility(View.GONE);
+                ChallengeService.getService().rateChallengeResponse(context, holder.id, 'N');
+            }
+        };
+    }
+
+    private AdapterView.OnClickListener getOnClickPlayListener(){
+        return  new AdapterView.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewHolder holder = (ViewHolder) v.getTag();
+
+                Intent intent = new Intent(context, ChallengeResponseActivity.class);
+                intent.putExtra("response", holder.response);
+                context.startActivity(intent);
+            }
+        };
     }
 }
