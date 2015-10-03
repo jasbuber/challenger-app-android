@@ -123,7 +123,6 @@ public class BrowseChallengesActivity extends Activity {
                 Intent intent = new Intent(activity, ChallengeActivity.class);
                 intent.putExtra("challenge", holder.challenge);
 
-                Log.e("challenge", intent.getSerializableExtra("challenge").toString());
                 startActivity(intent);
             }
         };
