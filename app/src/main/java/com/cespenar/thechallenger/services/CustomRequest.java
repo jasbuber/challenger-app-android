@@ -2,6 +2,7 @@ package com.cespenar.thechallenger.services;
 
 import android.util.Log;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -26,12 +27,14 @@ public class CustomRequest<T> extends Request<T> {
     private Response.Listener<T> listener;
     private Map<String, String> params;
     Class<T> responseClass;
+    private static final int DEFAULT_MAX_RETRIES = 3;
 
     public CustomRequest(String url, Map<String, String> params,
                          Response.Listener<T> responseListener, Response.ErrorListener errorListener) {
         super(Method.GET, url, errorListener);
         this.listener = responseListener;
         this.params = params;
+        this.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
 
     public CustomRequest(int method, String url, Map<String, String> params,
