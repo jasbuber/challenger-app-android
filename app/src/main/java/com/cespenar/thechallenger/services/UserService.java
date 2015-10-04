@@ -11,9 +11,11 @@ import com.android.volley.toolbox.Volley;
 import com.cespenar.thechallenger.CreateChallengeActivity;
 import com.cespenar.thechallenger.MainActivity;
 import com.cespenar.thechallenger.R;
+import com.cespenar.thechallenger.UserActivity;
 import com.cespenar.thechallenger.models.Challenge;
 import com.cespenar.thechallenger.models.CustomResponse;
 import com.cespenar.thechallenger.models.User;
+import com.google.gson.internal.LinkedTreeMap;
 
 import java.util.HashMap;
 
@@ -83,6 +85,39 @@ public class UserService {
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.CREATE_USER, params, listener, errorListener, String.class);
+
+        queue.add(request);
+    }
+
+    public void getProfile(final UserActivity context, final String username) {
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        Response.Listener<HashMap> listener = new Response.Listener<HashMap>() {
+            @Override
+            public void onResponse(HashMap response) {
+                LinkedTreeMap<String, Object> userMap = (LinkedTreeMap<String, Object>)response.get("user");
+                User user = User.castLinkedTreeMapToUser(userMap);
+                long createdChallengesNr = (long) ((double)response.get("createdChallengesNr"));
+                long joinedChallengesNr = (long) ((double)response.get("joinedChallengesNr"));
+                long completedChallengesNr = (long) ((double)response.get("completedChallengesNr"));
+
+                context.populateUserData(user, completedChallengesNr, joinedChallengesNr, createdChallengesNr);
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error", error.toString());
+            }
+        };
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("username", username);
+
+        CustomRequest request = Router.getRouter()
+                .createRequest(Router.ROUTE_NAME.GET_PROFILE, params, listener, errorListener, HashMap.class);
 
         queue.add(request);
     }

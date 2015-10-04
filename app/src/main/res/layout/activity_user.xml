@@ -1,0 +1,140 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.cespenar.thechallenger.UserActivity"
+    style="@style/CommonScreen">
+
+    <ImageView
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        android:id="@+id/user_profile_picture"
+        android:clickable="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="32dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/user_profile_picture"
+        android:id="@+id/user_profile_name"
+        android:clickable="true"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
+        android:textSize="18sp"/>
+
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:id="@+id/user_profile_points_icon"
+        android:layout_toRightOf="@id/user_profile_picture"
+        android:layout_below="@+id/user_profile_name"
+        android:src="@drawable/trophy_small"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/user_profile_points_icon"
+        android:id="@+id/user_profile_points"
+        android:layout_below="@+id/user_profile_name"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/font_golden"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/user_profile_points"
+        android:id="@+id/user_profile_points_label"
+        android:layout_below="@+id/user_profile_name"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/font_golden"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:text="@string/points"/>
+
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:id="@+id/user_profile_created_icon"
+        android:layout_below="@+id/user_profile_picture"
+        android:src="@drawable/glyph_sandcastle"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="48dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_profile_created_icon"
+        android:id="@+id/user_profile_created_label"
+        android:text="@string/user_profile_created"
+        android:layout_marginLeft="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_profile_created_icon"
+        android:id="@+id/user_profile_created"
+        android:layout_toRightOf="@id/user_profile_created_label"
+        android:layout_marginLeft="5dp"/>
+
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:id="@+id/user_profile_joined_icon"
+        android:layout_below="@+id/user_profile_picture"
+        android:src="@drawable/glyph_sandals"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_profile_created_icon"
+        android:id="@+id/user_profile_joined_label"
+        android:text="@string/user_profile_joined"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_profile_joined_icon"
+        android:id="@+id/user_profile_joined"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/user_profile_joined_label"/>
+
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:id="@+id/user_profile_completed_icon"
+        android:layout_below="@+id/user_profile_picture"
+        android:src="@drawable/glyph_glasses"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="48dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_profile_created_icon"
+        android:id="@+id/user_profile_completed_label"
+        android:text="@string/user_profile_completed"
+        android:layout_toLeftOf="@+id/user_profile_completed"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_profile_completed_icon"
+        android:id="@+id/user_profile_completed"
+        android:layout_marginLeft="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"/>
+
+</RelativeLayout>

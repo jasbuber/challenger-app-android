@@ -64,6 +64,10 @@
             android:name=".ChallengeResponseActivity"
             android:label="@string/title_challenge_response" >
         </activity>
+        <activity
+            android:name=".UserActivity"
+            android:label="@string/title_user_profile" >
+        </activity>
     </application>
 
 </manifest>

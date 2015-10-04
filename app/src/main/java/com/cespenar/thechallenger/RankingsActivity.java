@@ -67,6 +67,7 @@ public class RankingsActivity extends Activity {
         ChallengesListAdapter popularChallengesAdapter = new ChallengesListAdapter(this, mostPopularChallenges, ChallengesListAdapter.TYPE.MOST_POPULAR_LIST);
 
         bestUsersListView.setAdapter(userAdapter);
+        bestUsersListView.setOnItemClickListener(getOnItemClickBestUsersListener(this));
 
         bestChallengesListView.setAdapter(bestChallengesAdapter);
         bestChallengesListView.setOnItemClickListener(getOnItemClickBestChallengesListener(this));
@@ -104,6 +105,22 @@ public class RankingsActivity extends Activity {
 
                 Intent intent = new Intent(activity, ChallengeActivity.class);
                 intent.putExtra("challengeId", holder.id);
+
+                startActivity(intent);
+            }
+        };
+    }
+
+    public AdapterView.OnItemClickListener getOnItemClickBestUsersListener(final RankingsActivity activity){
+
+        return new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                UserListAdapter.ViewHolder holder = (UserListAdapter.ViewHolder) view.getTag();
+
+                Intent intent = new Intent(activity, UserActivity.class);
+                intent.putExtra("username", holder.username);
 
                 startActivity(intent);
             }

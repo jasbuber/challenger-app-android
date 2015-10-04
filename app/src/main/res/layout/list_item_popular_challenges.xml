@@ -11,7 +11,8 @@
         android:textSize="14sp"
         android:layout_centerVertical="true"
         android:layout_marginRight="5dp"
-        android:maxLines="2"/>
+        android:maxLines="2"
+        style="@style/Link"/>
 
     <ImageView
         android:id="@+id/popular_challenges_popularity"

@@ -197,4 +197,11 @@ public class ChallengeActivity extends Activity {
     }
 
     public void finalizeRateResponse(){}
+
+    public void onClickShowProfile(View view){
+        Intent intent = new Intent(this, UserActivity.class);
+        intent.putExtra("username", challenge.getCreator().getUsername());
+
+        startActivity(intent);
+    }
 }

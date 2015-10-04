@@ -9,6 +9,7 @@
 
     <string name="title_challenge_details">Challenge Details</string>
     <string name="title_challenge_response">Challenge Response</string>
+    <string name="title_user_profile">User Profile</string>
 
     <string name="challenge_name_hint">Name Your challenge&#8230;</string>
     <string name="difficulty_easy">easy</string>
@@ -76,5 +77,11 @@
 
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
+
+    <string name="user_profile_created">Created:</string>
+    <string name="user_profile_joined">Joined:</string>
+    <string name="user_profile_completed">Completed:</string>
+
+    <string name="points">points</string>
 
 </resources>

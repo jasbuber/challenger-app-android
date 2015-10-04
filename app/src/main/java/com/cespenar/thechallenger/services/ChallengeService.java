@@ -19,6 +19,7 @@ import com.cespenar.thechallenger.CreateChallengeActivity;
 import com.cespenar.thechallenger.CreateChallengeFinalizeActivity;
 import com.cespenar.thechallenger.CreatedChallengesActivity;
 import com.cespenar.thechallenger.RankingsActivity;
+import com.cespenar.thechallenger.UserActivity;
 import com.cespenar.thechallenger.models.Challenge;
 import com.cespenar.thechallenger.models.ChallengeResponse;
 import com.cespenar.thechallenger.models.ChallengeWithParticipantsNr;
@@ -464,6 +465,5 @@ public class ChallengeService {
 
         queue.add(request);
     }
-
 
 }

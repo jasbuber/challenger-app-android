@@ -105,12 +105,14 @@
 
                 <ImageView
                     android:id="@+id/challenge_details_picture"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_below="@id/challenge_details_name"
                     android:layout_marginBottom="5dp"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/avatar_small" />
+                    android:src="@drawable/avatar_small"
+                    android:clickable="true"
+                    android:onClick="onClickShowProfile"/>
 
                 <TextView
                     android:id="@+id/challenge_details_creator"
@@ -118,7 +120,11 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/challenge_details_name"
                     android:layout_marginBottom="5dp"
-                    android:layout_toRightOf="@+id/challenge_details_picture" />
+                    android:layout_toRightOf="@+id/challenge_details_picture"
+                    android:clickable="true"
+                    android:onClick="onClickShowProfile"
+                    style="@style/Link"
+                    android:layout_marginTop="5dp"/>
 
                 <TextView
                     android:id="@+id/challenge_details_category_label"
