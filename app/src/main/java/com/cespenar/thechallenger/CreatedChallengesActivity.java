@@ -13,6 +13,7 @@ import android.widget.ListView;
 import com.cespenar.thechallenger.models.Challenge;
 import com.cespenar.thechallenger.models.ChallengeWithParticipantsNr;
 import com.cespenar.thechallenger.services.ChallengeService;
+import com.cespenar.thechallenger.services.FacebookService;
 
 import java.util.List;
 
@@ -24,6 +25,9 @@ public class CreatedChallengesActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FacebookService.getService().validateToken(this);
+
         setContentView(R.layout.activity_created_challenges);
         challengesListView = (ListView) findViewById(R.id.created_challenges_list);
         challengesListView.setOnItemClickListener(getOnItemClickListener(this));

@@ -48,6 +48,7 @@ public class ChallengeActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookService.getService().validateToken(this);
         setContentView(R.layout.activity_challenge);
         videoView = (VideoView) findViewById(R.id.challenge_details_video);
 

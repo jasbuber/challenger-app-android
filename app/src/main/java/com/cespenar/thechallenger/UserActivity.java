@@ -31,6 +31,7 @@ public class UserActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookService.getService().validateToken(this);
         setContentView(R.layout.activity_user);
 
         String username = getIntent().getStringExtra("username");

@@ -14,6 +14,7 @@ import android.widget.VideoView;
 import com.cespenar.thechallenger.ChallengeActivity;
 import com.cespenar.thechallenger.CreateChallengeActivity;
 import com.cespenar.thechallenger.CreateChallengeFinalizeActivity;
+import com.cespenar.thechallenger.MainActivity;
 import com.cespenar.thechallenger.R;
 import com.cespenar.thechallenger.models.User;
 import com.facebook.AccessToken;
@@ -21,6 +22,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookAuthorizationException;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
@@ -222,6 +224,17 @@ public class FacebookService {
                 .placeholder(R.drawable.avatar_small)
                 .error(R.drawable.avatar_small)
                 .load(url);
+    }
+
+    public void validateToken(Activity activity){
+
+        if(!FacebookSdk.isInitialized()){
+
+        }
+        if(!FacebookService.isAccessTokenValid()) {
+            Intent intent = new Intent(activity, MainActivity.class);
+            activity.startActivity(intent);
+        }
     }
 
 }

@@ -15,6 +15,7 @@ import android.widget.ListView;
 import com.cespenar.thechallenger.models.Challenge;
 import com.cespenar.thechallenger.models.User;
 import com.cespenar.thechallenger.services.ChallengeService;
+import com.cespenar.thechallenger.services.FacebookService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,9 @@ public class BrowseChallengesActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FacebookService.getService().validateToken(this);
+
         setContentView(R.layout.activity_browse_challenges);
 
         challengesListView = (ListView) findViewById(R.id.browse_challenges_list);
@@ -39,7 +43,6 @@ public class BrowseChallengesActivity extends Activity {
         ChallengeService.getService().getLatestChallenges(this);
         challengesListView.setOnScrollListener(getOnScrollListener(this));
         challengesListView.setOnItemClickListener(getOnItemClickListener(this));
-
     }
 
     @Override

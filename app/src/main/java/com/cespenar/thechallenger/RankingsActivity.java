@@ -13,6 +13,7 @@ import com.cespenar.thechallenger.models.Challenge;
 import com.cespenar.thechallenger.models.ChallengeWithParticipantsNr;
 import com.cespenar.thechallenger.models.User;
 import com.cespenar.thechallenger.services.ChallengeService;
+import com.cespenar.thechallenger.services.FacebookService;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class RankingsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookService.getService().validateToken(this);
         setContentView(R.layout.activity_rankings);
 
         bestUsersListView = (ListView) findViewById(R.id.rankings_best_users_list);

@@ -21,9 +21,11 @@ public class ChallengeResponseActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FacebookService.getService().validateToken(this);
+
         setContentView(R.layout.activity_challenge_response);
         videoView = (VideoView) findViewById(R.id.challenge_response_video);
-
         response = (ChallengeResponse) getIntent().getSerializableExtra("response");
         Log.e("response", response.getVideoResponseUrl());
         FacebookService.getService().getVideo(this, response.getVideoResponseUrl(), videoView);
