@@ -200,6 +200,7 @@ public class FacebookService {
                                 MediaController controller = new MediaController(activity);
                                 videoView.setVideoPath(videoSource);
                                 videoView.setMediaController(controller);
+                                videoView.setVisibility(View.VISIBLE);
                                 videoView.start();
                             } catch (JSONException e) {
                                 e.printStackTrace();
