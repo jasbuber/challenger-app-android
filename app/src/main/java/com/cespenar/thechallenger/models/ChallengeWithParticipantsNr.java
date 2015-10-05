@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.gson.internal.LinkedTreeMap;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * Created by Jasbuber on 19/09/2015.
  */
-public class ChallengeWithParticipantsNr {
+public class ChallengeWithParticipantsNr implements Serializable{
 
     private final String challengeName;
     private final Date challengeCreationDate;

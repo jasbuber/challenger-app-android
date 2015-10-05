@@ -26,9 +26,20 @@ public class ChallengeResponseActivity extends Activity {
 
         setContentView(R.layout.activity_challenge_response);
         videoView = (VideoView) findViewById(R.id.challenge_response_video);
-        response = (ChallengeResponse) getIntent().getSerializableExtra("response");
-        Log.e("response", response.getVideoResponseUrl());
+
+        if(savedInstanceState != null){
+             response = (ChallengeResponse) savedInstanceState.getSerializable("response");
+        }else{
+            response = (ChallengeResponse) getIntent().getSerializableExtra("response");
+        }
+
         FacebookService.getService().getVideo(this, response.getVideoResponseUrl(), videoView);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putSerializable("response", response);
+
     }
 
     @Override

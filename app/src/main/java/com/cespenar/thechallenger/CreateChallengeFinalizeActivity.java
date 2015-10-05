@@ -9,6 +9,8 @@ import android.view.View;
 
 import com.cespenar.thechallenger.models.Challenge;
 
+import java.util.ArrayList;
+
 
 public class CreateChallengeFinalizeActivity extends Activity {
 
@@ -19,7 +21,16 @@ public class CreateChallengeFinalizeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_challenge_finalize);
 
-        challengeId = getIntent().getLongExtra("challengeId", -1);
+        if(savedInstanceState != null){
+            challengeId = savedInstanceState.getLong("challengeId");
+        }else{
+            challengeId = getIntent().getLongExtra("challengeId", -1);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putLong("challengeId", challengeId);
     }
 
     @Override

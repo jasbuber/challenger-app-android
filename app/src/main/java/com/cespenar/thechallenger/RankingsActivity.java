@@ -15,6 +15,7 @@ import com.cespenar.thechallenger.models.User;
 import com.cespenar.thechallenger.services.ChallengeService;
 import com.cespenar.thechallenger.services.FacebookService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,7 +36,35 @@ public class RankingsActivity extends Activity {
         bestChallengesListView = (ListView) findViewById(R.id.best_challenges_list);
         trendingChallengesListView = (ListView) findViewById(R.id.rankings_trending_challenges_list);
         popularChallengesListView = (ListView) findViewById(R.id.rankings_popular_challenges_list);
-        ChallengeService.getService().getRankings(this);
+
+        if(savedInstanceState != null){
+            ArrayList<User> bestUsers = (ArrayList) savedInstanceState.getSerializable("bestUsers");
+            ArrayList<Challenge> bestChallenges = (ArrayList) savedInstanceState.getSerializable("bestChallenges");
+            ArrayList<Challenge> trendingChallenges = (ArrayList) savedInstanceState.getSerializable("trendingChallenges");
+            ArrayList<ChallengeWithParticipantsNr> popularChallenges = (ArrayList) savedInstanceState.getSerializable("popularChallenges");
+
+            populateRankings(bestChallenges, bestUsers, trendingChallenges, popularChallenges);
+        }else {
+            ChallengeService.getService().getRankings(this);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        UserListAdapter usersAdapter = (UserListAdapter) bestUsersListView.getAdapter();
+        RankingsChallengeListAdapter bestChallengesAdapter = (RankingsChallengeListAdapter) bestChallengesListView.getAdapter();
+        RankingsChallengeListAdapter trendingAdapter = (RankingsChallengeListAdapter) trendingChallengesListView.getAdapter();
+        ChallengesListAdapter popularAdapter = (ChallengesListAdapter) popularChallengesListView.getAdapter();
+        ArrayList<User> bestUsers = (ArrayList) usersAdapter.getUsers();
+        ArrayList<Challenge> bestChallenges = (ArrayList) bestChallengesAdapter.challenges;
+        ArrayList<Challenge> trendingChallenges = (ArrayList) trendingAdapter.challenges;
+        ArrayList<ChallengeWithParticipantsNr> popularChallenges = (ArrayList) popularAdapter.challenges;
+
+        savedInstanceState.putSerializable("bestUsers", bestUsers);
+        savedInstanceState.putSerializable("bestChallenges", bestChallenges);
+        savedInstanceState.putSerializable("trendingChallenges", trendingChallenges);
+        savedInstanceState.putSerializable("popularChallenges", popularChallenges);
     }
 
     @Override

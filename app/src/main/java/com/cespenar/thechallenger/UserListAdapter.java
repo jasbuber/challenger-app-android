@@ -84,4 +84,8 @@ public class UserListAdapter extends BaseAdapter {
         TextView ratingView;
         ImageView pictureView;
     }
+
+    public List<User> getUsers() {
+        return users;
+    }
 }

@@ -15,6 +15,7 @@ import com.cespenar.thechallenger.models.ChallengeWithParticipantsNr;
 import com.cespenar.thechallenger.services.ChallengeService;
 import com.cespenar.thechallenger.services.FacebookService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,7 +32,22 @@ public class CreatedChallengesActivity extends Activity {
         setContentView(R.layout.activity_created_challenges);
         challengesListView = (ListView) findViewById(R.id.created_challenges_list);
         challengesListView.setOnItemClickListener(getOnItemClickListener(this));
+
+        if(savedInstanceState != null){
+            populateChallengesList((List) savedInstanceState.getSerializable("challenges"));
+            return;
+        }
+
         ChallengeService.getService().getMyChallenges(this, 0);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        ChallengesListAdapter adapter = (ChallengesListAdapter) challengesListView.getAdapter();
+        ArrayList<ChallengeWithParticipantsNr> challenges = (ArrayList) adapter.challenges;
+
+        savedInstanceState.putSerializable("challenges", challenges);
     }
 
     @Override

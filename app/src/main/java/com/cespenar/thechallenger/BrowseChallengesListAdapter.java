@@ -86,4 +86,8 @@ public class BrowseChallengesListAdapter extends BaseAdapter {
         ImageView pictureView;
         RatingBar ratingView;
     }
+
+    public List<Challenge> getChallenges(){
+        return this.challenges;
+    }
 }

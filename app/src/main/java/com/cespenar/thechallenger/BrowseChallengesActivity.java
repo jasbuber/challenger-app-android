@@ -39,10 +39,33 @@ public class BrowseChallengesActivity extends Activity {
         setContentView(R.layout.activity_browse_challenges);
 
         challengesListView = (ListView) findViewById(R.id.browse_challenges_list);
-
-        ChallengeService.getService().getLatestChallenges(this);
         challengesListView.setOnScrollListener(getOnScrollListener(this));
         challengesListView.setOnItemClickListener(getOnItemClickListener(this));
+
+        if (savedInstanceState != null) {
+            List<Challenge> challenges = (List<Challenge>) savedInstanceState.getSerializable("challenges");
+            populateChallengesList(challenges);
+
+            preLast = savedInstanceState.getInt("preLast");
+            hasMore = savedInstanceState.getBoolean("hasMore");
+            PAGE = savedInstanceState.getInt("page");
+            lastSearchedName = savedInstanceState.getString("lastSearchedName");
+        } else {
+            ChallengeService.getService().getLatestChallenges(this);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        BrowseChallengesListAdapter adapter = (BrowseChallengesListAdapter) challengesListView.getAdapter();
+        ArrayList<Challenge> challenges = (ArrayList) adapter.getChallenges();
+
+        savedInstanceState.putSerializable("challenges", challenges);
+        savedInstanceState.putInt("preLast", preLast);
+        savedInstanceState.putBoolean("hasMore", hasMore);
+        savedInstanceState.putInt("page", PAGE);
+        savedInstanceState.putString("lastSearchedName", lastSearchedName);
     }
 
     @Override
@@ -67,18 +90,18 @@ public class BrowseChallengesActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void populateChallengesList(List<Challenge> challenges){
+    public void populateChallengesList(List<Challenge> challenges) {
         BrowseChallengesListAdapter adapter = new BrowseChallengesListAdapter(this, challenges);
         challengesListView.setAdapter(adapter);
     }
 
-    public void appendChallengesList(List<Challenge> challenges){
+    public void appendChallengesList(List<Challenge> challenges) {
         BrowseChallengesListAdapter adapter = (BrowseChallengesListAdapter) challengesListView.getAdapter();
         adapter.challenges.addAll(challenges);
         adapter.notifyDataSetChanged();
     }
 
-    public void onClickGetChallengesByPhrase(View view){
+    public void onClickGetChallengesByPhrase(View view) {
         EditText nameInput = (EditText) findViewById(R.id.browse_challenges_search_input);
         String phrase = nameInput.getText().toString();
         resetPage();
@@ -86,22 +109,23 @@ public class BrowseChallengesActivity extends Activity {
         lastSearchedName = phrase;
     }
 
-    private void resetPage(){
+    private void resetPage() {
         PAGE = 0;
         preLast = 0;
     }
 
-    private AbsListView.OnScrollListener getOnScrollListener(final BrowseChallengesActivity activity){
+    private AbsListView.OnScrollListener getOnScrollListener(final BrowseChallengesActivity activity) {
         return new AbsListView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {}
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
                 final int lastItem = firstVisibleItem + visibleItemCount;
-                if(lastItem == totalItemCount && hasMore) {
-                    if(preLast!=lastItem){
+                if (lastItem == totalItemCount && hasMore) {
+                    if (preLast != lastItem) {
                         preLast = lastItem;
                         PAGE++;
                         ChallengeService.getService().getChallengesByCriteria(activity, lastSearchedName, PAGE);
@@ -111,11 +135,11 @@ public class BrowseChallengesActivity extends Activity {
         };
     }
 
-    public void setHasMore(boolean hasMore){
+    public void setHasMore(boolean hasMore) {
         this.hasMore = hasMore;
     }
 
-    public AdapterView.OnItemClickListener getOnItemClickListener(final BrowseChallengesActivity activity){
+    public AdapterView.OnItemClickListener getOnItemClickListener(final BrowseChallengesActivity activity) {
 
         return new AdapterView.OnItemClickListener() {
             @Override

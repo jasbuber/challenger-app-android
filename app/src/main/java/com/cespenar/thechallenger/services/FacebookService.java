@@ -229,7 +229,7 @@ public class FacebookService {
     public void validateToken(Activity activity){
 
         if(!FacebookSdk.isInitialized()){
-
+            FacebookSdk.sdkInitialize(activity.getApplicationContext());
         }
         if(!FacebookService.isAccessTokenValid()) {
             Intent intent = new Intent(activity, MainActivity.class);

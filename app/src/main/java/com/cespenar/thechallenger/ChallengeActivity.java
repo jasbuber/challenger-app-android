@@ -35,8 +35,6 @@ public class ChallengeActivity extends Activity {
 
     private static final int SELECT_VIDEO = 1;
 
-    private List<ChallengeResponse> challengeResponses = new ArrayList<>();
-
     private static LinearLayout challengeResponsesList;
 
     private Challenge challenge;
@@ -45,12 +43,30 @@ public class ChallengeActivity extends Activity {
 
     private static VideoView videoView;
 
+    private int participationState;
+
+    private List<ChallengeResponse> responses;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookService.getService().validateToken(this);
         setContentView(R.layout.activity_challenge);
         videoView = (VideoView) findViewById(R.id.challenge_details_video);
+
+        if(savedInstanceState != null){
+            challenge = (Challenge) savedInstanceState.getSerializable("challenge");
+            participationState = savedInstanceState.getInt("participationState");
+            responseVideo = savedInstanceState.getString("responseVideo");
+            responses = (List<ChallengeResponse>) savedInstanceState.getSerializable("responses");
+
+            fillChallengeDetails(challenge);
+            checkIfUserParticipatesInChallenge(participationState);
+            populateChallengeResponses(responses);
+            FacebookService.getService().getVideo(this, challenge.getVideoPath(), videoView);
+
+            return;
+        }
 
         challenge = (Challenge) getIntent().getSerializableExtra("challenge");
 
@@ -63,6 +79,14 @@ public class ChallengeActivity extends Activity {
             ChallengeService.getService().getChallengeParticipationState(this, challenge);
             FacebookService.getService().getVideo(this, challenge.getVideoPath(), videoView);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putSerializable("challenge", challenge);
+        savedInstanceState.putString("responseVideo", responseVideo);
+        savedInstanceState.putInt("participationState", participationState);
+        savedInstanceState.putSerializable("responses", (ArrayList) responses);
     }
 
     @Override
@@ -105,12 +129,9 @@ public class ChallengeActivity extends Activity {
         FacebookService.getService().loadProfilePicture(creatorPicture, challenge.getCreator().getProfilePictureUrl());
     }
 
-    public void setChallengeResponses(List<ChallengeResponse> responses) {
-        this.challengeResponses = responses;
-    }
-
     public void populateChallenge(Challenge challenge, int participationState) {
         this.challenge = challenge;
+        this.participationState = participationState;
 
         fillChallengeDetails(challenge);
 
@@ -120,6 +141,8 @@ public class ChallengeActivity extends Activity {
     }
 
     public void populateChallengeResponses(List<ChallengeResponse> responses){
+
+        this.responses = responses;
         challengeResponsesList = (LinearLayout) findViewById(R.id.challenge_details_responses);
 
         ChallengeResponsesListAdapter adapter = new ChallengeResponsesListAdapter(this, responses);
@@ -131,12 +154,21 @@ public class ChallengeActivity extends Activity {
     }
 
     private void checkIfUserParticipatesInChallenge(int participationState) {
+
         if (participationState == ChallengeParticipation.NOT_PARTICIPATING_STATE) {
             findViewById(R.id.challenge_details_join).setVisibility(View.VISIBLE);
             findViewById(R.id.challenge_details_action_bar).setVisibility(View.VISIBLE);
         } else if (participationState == ChallengeParticipation.NOT_RESPONDED_STATE) {
             findViewById(R.id.challenge_details_action_bar).setVisibility(View.VISIBLE);
             findViewById(R.id.challenge_details_show_respond).setVisibility(View.VISIBLE);
+        }else if (participationState == ChallengeParticipation.VIDEO_CHOSEN) {
+            findViewById(R.id.challenge_details_action_bar).setVisibility(View.VISIBLE);
+            TextView videoView = (TextView) findViewById(R.id.challenge_details_response_video);
+            File videoName = new File(responseVideo);
+            videoView.setText(videoName.getName());
+            videoView.setVisibility(View.VISIBLE);
+            findViewById(R.id.challenge_details_submit_response).setVisibility(View.VISIBLE);
+            findViewById(R.id.challenge_details_show_respond).setVisibility(View.GONE);
         }
     }
 
@@ -147,6 +179,7 @@ public class ChallengeActivity extends Activity {
     public void finalizeJoinChallenge(CustomResponse response) {
         findViewById(R.id.challenge_details_join).setVisibility(View.GONE);
         findViewById(R.id.challenge_details_show_respond).setVisibility(View.VISIBLE);
+        this.participationState = ChallengeParticipation.NOT_RESPONDED_STATE;
         openVideoChooser();
     }
 
@@ -175,6 +208,7 @@ public class ChallengeActivity extends Activity {
                 videoView.setVisibility(View.VISIBLE);
                 findViewById(R.id.challenge_details_submit_response).setVisibility(View.VISIBLE);
                 findViewById(R.id.challenge_details_show_respond).setVisibility(View.GONE);
+                this.participationState = ChallengeParticipation.VIDEO_CHOSEN;
             }
         }
     }
@@ -188,13 +222,14 @@ public class ChallengeActivity extends Activity {
         ProgressBar progress = (ProgressBar) findViewById(R.id.challenge_details_progress);
         progress.setVisibility(View.VISIBLE);
         FacebookService.getService().publishVideo(this, responseVideo,
-                getString(R.string.response_for) + "" + challenge.getName(), progress, challenge.getId());
+                getString(R.string.response_for) + " " + challenge.getName(), progress, challenge.getId());
     }
 
     public void finalizeSubmitResponse(){
         findViewById(R.id.challenge_details_submit_response).setVisibility(View.GONE);
         findViewById(R.id.challenge_details_progress).setVisibility(View.GONE);
         findViewById(R.id.challenge_details_response_video).setVisibility(View.GONE);
+        participationState = ChallengeParticipation.RESPONDED;
     }
 
     public void finalizeRateResponse(){}

@@ -9,10 +9,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.cespenar.thechallenger.models.Challenge;
 import com.cespenar.thechallenger.models.ChallengeWithParticipantsNr;
 import com.cespenar.thechallenger.services.ChallengeService;
 import com.cespenar.thechallenger.services.FacebookService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,7 +31,22 @@ public class ChallengeParticipationsActivity extends Activity {
         setContentView(R.layout.activity_challenge_participations);
         challengesListView = (ListView) findViewById(R.id.challenge_participations_list);
         challengesListView.setOnItemClickListener(getOnItemClickListener(this));
+
+        if(savedInstanceState != null){
+            populateChallengesList((List) savedInstanceState.getSerializable("challenges"));
+            return;
+        }
+
         ChallengeService.getService().getMyParticipations(this, 0);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        ChallengesListAdapter adapter = (ChallengesListAdapter) challengesListView.getAdapter();
+        ArrayList<ChallengeWithParticipantsNr> challenges = (ArrayList) adapter.challenges;
+
+        savedInstanceState.putSerializable("challenges", challenges);
     }
 
     @Override

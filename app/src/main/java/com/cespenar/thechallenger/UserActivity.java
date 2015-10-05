@@ -34,8 +34,6 @@ public class UserActivity extends Activity {
         FacebookService.getService().validateToken(this);
         setContentView(R.layout.activity_user);
 
-        String username = getIntent().getStringExtra("username");
-
         usernameView = (TextView) findViewById(R.id.user_profile_name);
         profilePictureView = (ImageView) findViewById(R.id.user_profile_picture);
         createdChallengesView = (TextView) findViewById(R.id.user_profile_created);
@@ -43,8 +41,28 @@ public class UserActivity extends Activity {
         joinedChallengesView = (TextView) findViewById(R.id.user_profile_joined);
         pointsView = (TextView) findViewById(R.id.user_profile_points);
 
-        UserService.getService().getProfile(this, username);
+        if (savedInstanceState != null) {
 
+            User user = (User) savedInstanceState.getSerializable("user");
+            long completedNr = savedInstanceState.getLong("completedNr");
+            long joinedNr = savedInstanceState.getLong("joinedNr");
+            long createdNr = savedInstanceState.getLong("createdNr");
+
+            populateUserData(user, completedNr, joinedNr, createdNr);
+
+        }else{
+            String username = getIntent().getStringExtra("username");
+
+            UserService.getService().getProfile(this, username);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putSerializable("user", user);
+        savedInstanceState.putLong("completedNr", Long.parseLong(completedChallengesView.getText().toString()));
+        savedInstanceState.putLong("createdNr", Long.parseLong(createdChallengesView.getText().toString()));
+        savedInstanceState.putLong("joinedNr", Long.parseLong(joinedChallengesView.getText().toString()));
     }
 
     @Override
