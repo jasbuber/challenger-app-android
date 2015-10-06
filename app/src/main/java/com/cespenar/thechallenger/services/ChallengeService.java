@@ -182,7 +182,6 @@ public class ChallengeService {
         Response.Listener<List<LinkedTreeMap<String, Object>>> listener = new Response.Listener<List<LinkedTreeMap<String, Object>>>() {
             @Override
             public void onResponse(List<LinkedTreeMap<String, Object>> response) {
-                Log.e("response", response.toString());
                 List<ChallengeResponse> responses = ChallengeResponse.castLinkedTreeMapToChallengeResponseList(response);
                 context.populateChallengeResponses(responses);
             }
@@ -321,7 +320,6 @@ public class ChallengeService {
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("error", "error");
                 Log.e("error", error.toString());
             }
         };
