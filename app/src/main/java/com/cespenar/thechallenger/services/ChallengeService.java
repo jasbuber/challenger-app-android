@@ -232,8 +232,7 @@ public class ChallengeService {
         params.put("challengeId", String.valueOf(challenge.getId()));
         params.put("username", currentUser.getUsername());
         params.put("fullName", currentUser.getFormattedName());
-
-        //params.put("token", UserService.getCurrentToken());
+        params.put("token", FacebookService.getService().getAccessToken().getToken());
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.JOIN_CHALLENGE, params, listener, errorListener, CustomResponse.class);
@@ -425,7 +424,7 @@ public class ChallengeService {
         params.put("username", UserService.getCurrentUser().getUsername());
         params.put("videoId", videoId);
         params.put("challengeId", String.valueOf(challengeId));
-
+        params.put("token", FacebookService.getService().getAccessToken().getToken());
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.SUBMIT_RESPONSE, params, listener, errorListener, CustomResponse.class);
@@ -457,6 +456,7 @@ public class ChallengeService {
         params.put("username", UserService.getCurrentUser().getUsername());
         params.put("responseId", String.valueOf(responseId));
         params.put("isAccepted", String.valueOf(isAccepted));
+        params.put("token", FacebookService.getService().getAccessToken().getToken());
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.RATE_RESPONSE, params, listener, errorListener, CustomResponse.class);

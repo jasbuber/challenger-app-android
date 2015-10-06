@@ -61,8 +61,6 @@ public class UserService {
         Response.Listener<String> listener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
-                Log.e("response", response);
                 if(response.equals("success")){
                     ((MainActivity) context).setContentView(R.layout.activity_main);
                 }
@@ -82,6 +80,7 @@ public class UserService {
         params.put("firstName", user.getFirstName());
         params.put("lastName", user.getLastName());
         params.put("profilePictureUrl", user.getProfilePictureUrl());
+        params.put("token", FacebookService.getService().getAccessToken().getToken());
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.CREATE_USER, params, listener, errorListener, String.class);
