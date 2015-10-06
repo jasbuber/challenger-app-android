@@ -160,7 +160,7 @@ public class Challenge implements Serializable {
         Challenge.CHALLENGE_CATEGORY category = CHALLENGE_CATEGORY.valueOf((String) challenge.get("category"));
         String videoId = String.valueOf(challenge.get("videoId"));
         try {
-            creationDate = new SimpleDateFormat("MMM dd, yyyy h:mm:ss a").parse((String) challenge.get("creationDate"));
+            creationDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse((String) challenge.get("creationDate"));
         } catch (ParseException e) {
             e.printStackTrace();
         }

@@ -141,7 +141,7 @@ public class ChallengeParticipation implements Serializable{
         Date joined = new Date();
 
         try {
-            joined = new SimpleDateFormat("MMM dd, yyyy h:mm:ss a").parse((String) participation.get("joined"));
+            joined = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse((String) participation.get("joined"));
         } catch (ParseException e) {
             e.printStackTrace();
         }

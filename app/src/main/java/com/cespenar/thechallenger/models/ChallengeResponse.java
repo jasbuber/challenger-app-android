@@ -137,7 +137,7 @@ public class ChallengeResponse implements Serializable{
         Date submitted = new Date();
 
         try {
-            submitted = new SimpleDateFormat("MMM dd, yyyy h:mm:ss a").parse((String) response.get("submitted"));
+            submitted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse((String) response.get("submitted"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
