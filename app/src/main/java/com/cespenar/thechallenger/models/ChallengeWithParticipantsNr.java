@@ -17,28 +17,17 @@ import java.util.List;
 public class ChallengeWithParticipantsNr implements Serializable{
 
     private final String challengeName;
-    private final Date challengeCreationDate;
     private final Long challengeId;
     private final Long participantsNr;
 
-
     public ChallengeWithParticipantsNr(String challengeName, Long participantsNr, Long challengeId) {
-        this(challengeName, null, participantsNr, challengeId);
-    }
-
-    public ChallengeWithParticipantsNr(String challengeName, Date challengeCreationDate, Long participantsNr, Long challengeId) {
         this.challengeName = challengeName;
-        this.challengeCreationDate = challengeCreationDate;
         this.challengeId = challengeId;
         this.participantsNr = participantsNr;
     }
 
     public String getChallengeName() {
         return challengeName;
-    }
-
-    public Date getChallengeCreationDate() {
-        return challengeCreationDate;
     }
 
     public Long getParticipantsNr() {
@@ -66,17 +55,8 @@ public class ChallengeWithParticipantsNr implements Serializable{
         String challengeName = String.valueOf(challenge.get("challengeName"));
         long id = (long)((double) challenge.get("challengeId"));
         long participantsNr = (long)((double) challenge.get("participantsNr"));
-        Date creationDate = new Date();
 
-        try {
-            if(challenge.get("challengeCreationDate") != null) {
-                creationDate = new SimpleDateFormat("MMM dd, yyyy h:mm:ss a").parse((String) challenge.get("challengeCreationDate"));
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return new ChallengeWithParticipantsNr(challengeName, creationDate, participantsNr, id);
+        return new ChallengeWithParticipantsNr(challengeName, participantsNr, id);
     }
 
     public static List<ChallengeWithParticipantsNr> castToChallengeList(List<ArrayList> map){
@@ -97,14 +77,7 @@ public class ChallengeWithParticipantsNr implements Serializable{
         String challengeName = String.valueOf(challenge.get(0));
         long id = (long)((double) challenge.get(3));
         long participantsNr = (long)((double) challenge.get(2));
-        Date creationDate = new Date();
 
-        try {
-            creationDate = new SimpleDateFormat("MMM dd, yyyy h:mm:ss a").parse((String) challenge.get(1));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return new ChallengeWithParticipantsNr(challengeName, creationDate, participantsNr, id);
+        return new ChallengeWithParticipantsNr(challengeName, participantsNr, id);
     }
 }
