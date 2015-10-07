@@ -21,6 +21,7 @@ import com.cespenar.thechallenger.models.Challenge;
 import com.cespenar.thechallenger.models.CustomResponse;
 import com.cespenar.thechallenger.services.ChallengeService;
 import com.cespenar.thechallenger.services.FacebookService;
+import com.cespenar.thechallenger.services.UserService;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -100,9 +101,26 @@ public class CreateChallengeActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        Intent intent;
+
+        switch(id){
+            case R.id.action_profile :
+                intent = new Intent(this, UserActivity.class);
+                intent.putExtra("username", UserService.getCurrentUsername());
+                startActivity(intent);
+                break;
+            case R.id.action_my_challenges :
+                intent = new Intent(this, CreatedChallengesActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.action_my_participations :
+                intent = new Intent(this, ChallengeParticipationsActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.action_search :
+                intent = new Intent(this, BrowseChallengesActivity.class);
+                startActivity(intent);
+                break;
         }
 
         return super.onOptionsItemSelected(item);

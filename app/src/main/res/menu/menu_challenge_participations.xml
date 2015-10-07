@@ -1,6 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.cespenar.thechallenger.ChallengeParticipationsActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" android:showAsAction="never" />
+    <item android:id="@+id/action_profile" android:title="@string/action_profile"
+        android:orderInCategory="1" android:showAsAction="never" />
+    <item android:id="@+id/action_my_challenges" android:title="@string/action_my_challenges"
+        android:orderInCategory="2" android:showAsAction="never" />
+    <item android:id="@+id/action_create_challenge" android:title="@string/action_create_challenge"
+        android:orderInCategory="4" android:showAsAction="ifRoom" android:icon="@drawable/add_challenge"/>
+    <item android:id="@+id/action_search" android:title="@string/action_search"
+        android:orderInCategory="5" android:showAsAction="ifRoom" android:icon="@drawable/search_small"/>
 </menu>
