@@ -76,15 +76,20 @@ public class FacebookService {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         Log.d("Success", "Login");
-                        mProfileTracker = new ProfileTracker() {
-                            @Override
-                            protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
-                                setCurrentUser(profile2);
-                                UserService.getService().createUser(activity, UserService.getCurrentUser());
-                                mProfileTracker.stopTracking();
-                            }
-                        };
-                        mProfileTracker.startTracking();
+                        if(Profile.getCurrentProfile() == null) {
+                            mProfileTracker = new ProfileTracker() {
+                                @Override
+                                protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
+                                    setCurrentUser(profile2);
+                                    UserService.getService().createUser(activity, UserService.getCurrentUser());
+                                    mProfileTracker.stopTracking();
+                                }
+                            };
+                            mProfileTracker.startTracking();
+                        }else{
+                            setCurrentUser(Profile.getCurrentProfile());
+                            UserService.getService().createUser(activity, UserService.getCurrentUser());
+                        }
                     }
 
                     @Override
