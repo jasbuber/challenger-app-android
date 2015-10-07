@@ -27,6 +27,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.gson.Gson;
@@ -69,11 +70,21 @@ public class FacebookService {
 
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
+
+                    ProfileTracker mProfileTracker;
+
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         Log.d("Success", "Login");
-                        setCurrentUser(Profile.getCurrentProfile());
-                        UserService.getService().createUser(activity, UserService.getCurrentUser());
+                        mProfileTracker = new ProfileTracker() {
+                            @Override
+                            protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
+                                setCurrentUser(profile2);
+                                UserService.getService().createUser(activity, UserService.getCurrentUser());
+                                mProfileTracker.stopTracking();
+                            }
+                        };
+                        mProfileTracker.startTracking();
                     }
 
                     @Override
@@ -227,12 +238,12 @@ public class FacebookService {
                 .load(url);
     }
 
-    public void validateToken(Activity activity){
+    public void validateToken(Activity activity) {
 
-        if(!FacebookSdk.isInitialized()){
+        if (!FacebookSdk.isInitialized()) {
             FacebookSdk.sdkInitialize(activity.getApplicationContext());
         }
-        if(!FacebookService.isAccessTokenValid()) {
+        if (!FacebookService.isAccessTokenValid()) {
             Intent intent = new Intent(activity, MainActivity.class);
             activity.startActivity(intent);
         }
