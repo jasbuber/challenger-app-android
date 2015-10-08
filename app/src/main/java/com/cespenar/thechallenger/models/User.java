@@ -51,7 +51,12 @@ public class User implements Serializable{
     }
 
     public String getFormattedName(){
-        return firstName + " " + lastName.substring(0,3);
+        if(this.firstName == null || this.lastName == null || this.firstName.isEmpty() ||
+                this.lastName.isEmpty()) {
+            return this.username;
+        }else {
+            return this.firstName + " " + lastName.substring(0, 3);
+        }
     }
 
     public String getProfilePictureUrl() {
