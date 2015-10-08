@@ -13,10 +13,11 @@
 
     <TextView
         android:id="@+id/browse_challenges_name"
-        android:layout_width="210dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/browse_challenges_picture"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:maxLines="2"/>
 
     <TextView
         android:id="@+id/browse_challenges_username"
