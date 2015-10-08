@@ -15,6 +15,7 @@ import com.cespenar.thechallenger.UserActivity;
 import com.cespenar.thechallenger.models.Challenge;
 import com.cespenar.thechallenger.models.CustomResponse;
 import com.cespenar.thechallenger.models.User;
+import com.facebook.Profile;
 import com.google.gson.internal.LinkedTreeMap;
 
 import java.util.HashMap;
@@ -29,10 +30,12 @@ public class UserService {
     private static UserService service;
 
     public static String getCurrentUsername(){
+        validateCurrentUser();
         return currentUser.getUsername();
     }
 
     public static User getCurrentUser(){
+        validateCurrentUser();
         return currentUser;
     }
 
@@ -119,6 +122,15 @@ public class UserService {
                 .createRequest(Router.ROUTE_NAME.GET_PROFILE, params, listener, errorListener, HashMap.class);
 
         queue.add(request);
+    }
+
+    private static void validateCurrentUser(){
+        if(currentUser == null){
+            Profile profile = Profile.getCurrentProfile();
+            User user = new User(profile.getId(), profile.getProfilePictureUri(150, 150).toString(),
+                    profile.getFirstName(), profile.getLastName());
+            currentUser = user;
+        }
     }
 
 
