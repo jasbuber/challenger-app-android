@@ -10,6 +10,7 @@ import android.widget.VideoView;
 
 import com.cespenar.thechallenger.models.Challenge;
 import com.cespenar.thechallenger.models.ChallengeResponse;
+import com.cespenar.thechallenger.services.ChallengeService;
 import com.cespenar.thechallenger.services.FacebookService;
 import com.cespenar.thechallenger.services.UserService;
 
@@ -35,7 +36,7 @@ public class ChallengeResponseActivity extends Activity {
             response = (ChallengeResponse) getIntent().getSerializableExtra("response");
         }
 
-        FacebookService.getService().getVideo(this, response.getVideoResponseUrl(), videoView);
+        ChallengeService.getService().getVideo(this, response.getVideoResponseUrl(), videoView);
     }
 
     @Override

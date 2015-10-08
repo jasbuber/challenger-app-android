@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.MediaController;
 import android.widget.VideoView;
 
 import com.android.volley.RequestQueue;
@@ -284,7 +285,7 @@ public class ChallengeService {
 
                 Challenge challenge = Challenge.castLinkedTreeMapToChallenge(challengeMap);
                 context.populateChallenge(challenge, participationState);
-                FacebookService.getService().getVideo(context, challenge.getVideoPath(), videoView);
+                getVideo(context, challenge.getVideoPath(), videoView);
             }
         };
 
@@ -460,6 +461,41 @@ public class ChallengeService {
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.RATE_RESPONSE, params, listener, errorListener, CustomResponse.class);
+
+        queue.add(request);
+    }
+
+    public void getVideo(final Activity activity, String videoId, final VideoView videoView) {
+
+        RequestQueue queue = Volley.newRequestQueue(activity);
+
+        Response.Listener<String> listener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                MediaController controller = new MediaController(activity);
+                videoView.setVideoPath(response);
+                videoView.setMediaController(controller);
+                videoView.setVisibility(View.VISIBLE);
+                videoView.start();
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error", error.toString());
+            }
+        };
+
+        User currentUser = UserService.getCurrentUser();
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("token", FacebookService.getService().getAccessToken().getToken());
+        params.put("videoId", videoId);
+
+        CustomRequest request = Router.getRouter()
+                .createRequest(Router.ROUTE_NAME.GET_VIDEO, params, listener, errorListener, String.class);
 
         queue.add(request);
     }

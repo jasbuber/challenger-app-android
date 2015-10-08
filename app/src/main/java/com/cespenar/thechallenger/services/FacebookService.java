@@ -192,43 +192,6 @@ public class FacebookService {
         });
     }
 
-    public void getVideo(final Activity activity, String videoId, final VideoView videoView) {
-
-        if (videoId != null) {
-            Bundle bundle = new Bundle();
-            bundle.putString("fields", "source, picture");
-            new GraphRequest(
-                    AccessToken.getCurrentAccessToken(),
-                    "/" + videoId,
-                    bundle,
-                    HttpMethod.GET,
-                    new GraphRequest.Callback() {
-                        public void onCompleted(GraphResponse response) {
-                            try {
-
-                                if (response.getJSONObject() == null) {
-                                    videoView.setVisibility(View.GONE);
-                                    return;
-                                }
-
-                                String videoSource = response.getJSONObject().getString("source");
-
-                                MediaController controller = new MediaController(activity);
-                                videoView.setVideoPath(videoSource);
-                                videoView.setMediaController(controller);
-                                videoView.setVisibility(View.VISIBLE);
-                                videoView.start();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-            ).executeAsync();
-        } else {
-            activity.findViewById(R.id.challenge_details_video).setVisibility(View.GONE);
-        }
-    }
-
     public void loadVideoThumbnail(ImageView view, String url) {
         Ion.with(view)
                 .placeholder(R.drawable.player)

@@ -20,9 +20,9 @@ public class Router {
     Map<ROUTE_NAME, Route> routes = new HashMap<>();
 
     public enum ROUTE_NAME { CREATE_CHALLENGE, LATEST_CHALLENGES, FIND_CHALLENGES, CHALLENGE_RESPONSES, JOIN_CHALLENGE, MY_CHALLENGES,
-        GET_CHALLENGE, GET_PARTICIPATION_STATE, MY_PARTICIPATIONS, RANKINGS, CREATE_USER, UPDATE_CHALLENGE_VIDEO, SUBMIT_RESPONSE, RATE_RESPONSE, GET_PROFILE }
+        GET_CHALLENGE, GET_PARTICIPATION_STATE, MY_PARTICIPATIONS, RANKINGS, CREATE_USER, UPDATE_CHALLENGE_VIDEO, SUBMIT_RESPONSE, RATE_RESPONSE, GET_PROFILE, GET_VIDEO }
 
-    private static final String server = "http://192.168.100.189:9000/";// "http://10.0.2.2:9000/";//"https://nameless-badlands-7043.herokuapp.com/";
+    private static final String server = "https://nameless-badlands-7043.herokuapp.com/";//"http://192.168.100.189:9000/";// "http://10.0.2.2:9000/";//
 
     private Router(){
         initializeRoutes();
@@ -52,6 +52,7 @@ public class Router {
         routes.put(ROUTE_NAME.SUBMIT_RESPONSE, new Route(Request.Method.POST, "services/challenge/respond"));
         routes.put(ROUTE_NAME.RATE_RESPONSE, new Route(Request.Method.POST, "services/response/decide"));
         routes.put(ROUTE_NAME.GET_PROFILE, new Route(Request.Method.GET, "services/user/profile"));
+        routes.put(ROUTE_NAME.GET_VIDEO, new Route(Request.Method.GET, "services/challenge/video"));
     }
 
     public Route getRoute(ROUTE_NAME name){

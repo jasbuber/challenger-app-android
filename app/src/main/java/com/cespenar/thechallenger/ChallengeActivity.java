@@ -63,7 +63,7 @@ public class ChallengeActivity extends Activity {
             fillChallengeDetails(challenge);
             checkIfUserParticipatesInChallenge(participationState);
             populateChallengeResponses(responses);
-            FacebookService.getService().getVideo(this, challenge.getVideoPath(), videoView);
+            ChallengeService.getService().getVideo(this, challenge.getVideoPath(), videoView);
 
             return;
         }
@@ -74,10 +74,10 @@ public class ChallengeActivity extends Activity {
             ChallengeService.getService().getChallenge(this, getIntent().getLongExtra("challengeId", -1), videoView);
         } else if (challenge.getCreator().equals(UserService.getCurrentUser())) {
             populateChallenge(challenge, ChallengeParticipation.CREATOR_STATE);
-            FacebookService.getService().getVideo(this, challenge.getVideoPath(), videoView);
+            ChallengeService.getService().getVideo(this, challenge.getVideoPath(), videoView);
         } else {
             ChallengeService.getService().getChallengeParticipationState(this, challenge);
-            FacebookService.getService().getVideo(this, challenge.getVideoPath(), videoView);
+            ChallengeService.getService().getVideo(this, challenge.getVideoPath(), videoView);
         }
     }
 
