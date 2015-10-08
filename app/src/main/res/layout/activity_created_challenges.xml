@@ -7,6 +7,16 @@
     tools:context="com.cespenar.thechallenger.CreatedChallengesActivity"
     style="@style/CommonScreen">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create_challenge"
+        style="@style/CommonButton"
+        android:background="@drawable/button_submit"
+        android:visibility="gone"
+        android:id="@+id/create_first_challenge_action"
+        android:onClick="onClickCreateFirstChallenge"/>
+
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

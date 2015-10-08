@@ -34,7 +34,7 @@ public class CreatedChallengesActivity extends Activity {
         challengesListView = (ListView) findViewById(R.id.created_challenges_list);
         challengesListView.setOnItemClickListener(getOnItemClickListener(this));
 
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             populateChallengesList((List) savedInstanceState.getSerializable("challenges"));
             return;
         }
@@ -67,13 +67,13 @@ public class CreatedChallengesActivity extends Activity {
 
         Intent intent;
 
-        switch(id){
-            case R.id.action_profile :
+        switch (id) {
+            case R.id.action_profile:
                 intent = new Intent(this, UserActivity.class);
                 intent.putExtra("username", UserService.getCurrentUsername());
                 startActivity(intent);
                 break;
-            case R.id.action_my_participations :
+            case R.id.action_my_participations:
                 intent = new Intent(this, ChallengeParticipationsActivity.class);
                 startActivity(intent);
                 break;
@@ -81,7 +81,7 @@ public class CreatedChallengesActivity extends Activity {
                 intent = new Intent(this, CreateChallengeActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.action_search :
+            case R.id.action_search:
                 intent = new Intent(this, BrowseChallengesActivity.class);
                 startActivity(intent);
                 break;
@@ -90,12 +90,16 @@ public class CreatedChallengesActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void populateChallengesList(List<ChallengeWithParticipantsNr> challenges){
+    public void populateChallengesList(List<ChallengeWithParticipantsNr> challenges) {
         ChallengesListAdapter adapter = new ChallengesListAdapter(this, challenges, ChallengesListAdapter.TYPE.CHALLENGES_LIST);
         challengesListView.setAdapter(adapter);
+
+        if (challenges.isEmpty()) {
+            findViewById(R.id.create_first_challenge_action).setVisibility(View.VISIBLE);
+        }
     }
 
-    public AdapterView.OnItemClickListener getOnItemClickListener(final CreatedChallengesActivity activity){
+    public AdapterView.OnItemClickListener getOnItemClickListener(final CreatedChallengesActivity activity) {
 
         return new AdapterView.OnItemClickListener() {
             @Override
@@ -109,5 +113,10 @@ public class CreatedChallengesActivity extends Activity {
                 startActivity(intent);
             }
         };
+    }
+
+    public void onClickCreateFirstChallenge(View view) {
+        Intent intent = new Intent(this, CreateChallengeActivity.class);
+        startActivity(intent);
     }
 }

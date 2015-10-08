@@ -90,8 +90,13 @@ public class ChallengeParticipationsActivity extends Activity {
     }
 
     public void populateChallengesList(List<ChallengeWithParticipantsNr> challenges){
-        ChallengesListAdapter adapter = new ChallengesListAdapter(this, challenges, ChallengesListAdapter.TYPE.CHALLENGES_LIST);
-        challengesListView.setAdapter(adapter);
+            ChallengesListAdapter adapter = new ChallengesListAdapter(this, challenges, ChallengesListAdapter.TYPE.CHALLENGES_LIST);
+            challengesListView.setAdapter(adapter);
+
+        if(challenges.isEmpty()) {
+            findViewById(R.id.join_first_challenge_action).setVisibility(View.VISIBLE);
+        }
+
     }
 
     public AdapterView.OnItemClickListener getOnItemClickListener(final ChallengeParticipationsActivity activity){
@@ -108,5 +113,10 @@ public class ChallengeParticipationsActivity extends Activity {
                 startActivity(intent);
             }
         };
+    }
+
+    public void onClickJoinFirstChallenge(View view){
+        Intent intent = new Intent(this, BrowseChallengesActivity.class);
+        startActivity(intent);
     }
 }
