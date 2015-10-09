@@ -90,7 +90,7 @@ public class ChallengeService {
         Response.Listener<String> listener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                if(response.equals("success")){
+                if (response.equals("success")) {
 
                     Intent intent = new Intent(context, CreateChallengeFinalizeActivity.class);
                     intent.putExtra("challengeId", challengeId);
@@ -134,7 +134,7 @@ public class ChallengeService {
         prepareChallengesByCriteria(context, params, Router.ROUTE_NAME.FIND_CHALLENGES, page > 0);
     }
 
-    private void prepareChallengesByCriteria(final BrowseChallengesActivity context, HashMap<String, String> params, Router.ROUTE_NAME route_name, final boolean isNextPage){
+    private void prepareChallengesByCriteria(final BrowseChallengesActivity context, HashMap<String, String> params, Router.ROUTE_NAME route_name, final boolean isNextPage) {
         RequestQueue queue = Volley.newRequestQueue(context);
 
         Response.Listener<List<LinkedTreeMap<String, Object>>> listener = new Response.Listener<List<LinkedTreeMap<String, Object>>>() {
@@ -143,16 +143,16 @@ public class ChallengeService {
 
                 List<Challenge> challenges = Challenge.castLinkedTreeMapToChallengeList(response);
 
-                if(challenges.size() < PAGING_ROW_NUMBER){
+                if (challenges.size() < PAGING_ROW_NUMBER) {
                     context.setHasMore(false);
-                }else{
+                } else {
                     context.setHasMore(true);
-                    challenges.remove(challenges.size()-1);
+                    challenges.remove(challenges.size() - 1);
                 }
 
-                if(isNextPage){
+                if (isNextPage) {
                     context.appendChallengesList(challenges);
-                }else {
+                } else {
                     context.populateChallengesList(challenges);
                 }
             }
@@ -165,7 +165,7 @@ public class ChallengeService {
             }
         };
 
-        if(params == null){
+        if (params == null) {
             params = new HashMap<>();
         }
         params.put("username", UserService.getCurrentUsername());
@@ -280,8 +280,8 @@ public class ChallengeService {
         Response.Listener<HashMap> listener = new Response.Listener<HashMap>() {
             @Override
             public void onResponse(HashMap response) {
-                LinkedTreeMap<String, Object> challengeMap = (LinkedTreeMap<String, Object>)response.get("challenge");
-                int participationState = (int) ((double)response.get("participationState"));
+                LinkedTreeMap<String, Object> challengeMap = (LinkedTreeMap<String, Object>) response.get("challenge");
+                int participationState = (int) ((double) response.get("participationState"));
 
                 Challenge challenge = Challenge.castLinkedTreeMapToChallenge(challengeMap);
                 context.populateChallenge(challenge, participationState);
@@ -408,7 +408,7 @@ public class ChallengeService {
         Response.Listener<CustomResponse> listener = new Response.Listener<CustomResponse>() {
             @Override
             public void onResponse(CustomResponse response) {
-                if(response.getStatus() == CustomResponse.ResponseStatus.success){
+                if (response.getStatus() == CustomResponse.ResponseStatus.success) {
                     ((ChallengeActivity) context).finalizeSubmitResponse();
                 }
             }
@@ -440,7 +440,7 @@ public class ChallengeService {
         Response.Listener<CustomResponse> listener = new Response.Listener<CustomResponse>() {
             @Override
             public void onResponse(CustomResponse response) {
-                if(response.getStatus() == CustomResponse.ResponseStatus.success){
+                if (response.getStatus() == CustomResponse.ResponseStatus.success) {
                     ((ChallengeActivity) context).finalizeRateResponse();
                 }
             }
@@ -472,6 +472,11 @@ public class ChallengeService {
         Response.Listener<String> listener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
+                if (response == null || response.isEmpty()) {
+                    videoView.setVisibility(View.GONE);
+                    return;
+                }
 
                 MediaController controller = new MediaController(activity);
                 videoView.setVideoPath(response);
