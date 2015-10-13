@@ -34,7 +34,7 @@ public class RouterTest extends TestCase {
         Route route = router.getRoute(ROUTE);
         assertNotNull(route);
     }
-
+/*
     public void testCreatePostRequestWithParams() {
         HashMap<String, String> params = new HashMap<>();
         params.put("param1", "param1Value");
@@ -105,7 +105,7 @@ public class RouterTest extends TestCase {
     public void testCreateGetRequestValidMethod() {
         CustomRequest request = router.createGetRequest(ROUTE, null, null, null, Object.class);
         assertEquals(request.getMethod(), Request.Method.GET);
-    }
+    }*/
 
     public void testROUTE_NAMEValue(){
         assertEquals(Router.ROUTE_NAME.valueOf(ROUTE_NAME), ROUTE);

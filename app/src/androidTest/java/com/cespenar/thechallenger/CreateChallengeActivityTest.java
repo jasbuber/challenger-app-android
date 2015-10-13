@@ -83,12 +83,12 @@ public class CreateChallengeActivityTest extends ActivityUnitTestCase<CreateChal
         ((CreateChallengeActivity)activity).onSaveInstanceState(testBundle);
         assertEquals(testBundle.getInt("challengeDifficulty"), TEST_PROGRESS);
     }
-
+/*
     public void testSavingStateVisibility(){
         ((Spinner)activity.findViewById(R.id.create_challenge_visibility)).setSelection(TEST_VISIBILITY_POSITION);
         ((CreateChallengeActivity)activity).onSaveInstanceState(testBundle);
         assertEquals(testBundle.getInt("challengeVisibility"), TEST_VISIBILITY_POSITION);
-    }
+    }*/
 
     public void testSavingStateStepTwo(){
         activity.findViewById(R.id.show_second_step_action).performClick();
@@ -119,12 +119,12 @@ public class CreateChallengeActivityTest extends ActivityUnitTestCase<CreateChal
         onCreate.invoke(activity, testBundle);
         assertEquals(((SeekBar)activity.findViewById(R.id.create_challenge_difficulty)).getProgress(), TEST_PROGRESS);
     }
-
+/*
     public void testRestoreStateVisibility() throws Exception{
         testBundle.putInt("challengeVisibility", TEST_VISIBILITY_POSITION);
         onCreate.invoke(activity, testBundle);
         assertEquals(((Spinner)activity.findViewById(R.id.create_challenge_visibility)).getSelectedItemPosition(), TEST_VISIBILITY_POSITION);
-    }
+    }*/
 
     public void testRestoreStateStepTwo() throws Exception{
         testBundle.putBoolean("isStep2Visible", true);
