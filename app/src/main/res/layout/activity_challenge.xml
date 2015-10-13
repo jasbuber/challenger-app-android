@@ -176,7 +176,8 @@
                     style="@style/RatingBarSmall"
                     android:layout_width="wrap_content"
                     android:layout_below="@+id/challenge_details_difficulty_label"
-                    android:layout_marginTop="4dp" />
+                    android:layout_marginTop="4dp"
+                    android:isIndicator="true"/>
             </RelativeLayout>
 
             <LinearLayout

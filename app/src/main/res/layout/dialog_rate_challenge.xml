@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    style="@style/CommonDialog"
+    android:background="@drawable/dialog">
+
+    <TextView
+        android:id="@+id/rate_challenge_dialog_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Did You enjoy this challenge ?"
+        android:layout_centerHorizontal="true"
+        style="@style/Header"/>
+
+    <RatingBar
+        android:id="@+id/rate_challenge_dialog_rating"
+        style="@style/RatingBar"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/rate_challenge_dialog_label"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/rate_challenge_dialog_rating"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rate_challenge_dialog_cancel_action"
+            android:text="@string/not_now"
+            android:layout_marginRight="30dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/default_grey"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rate_challenge_dialog_rate_action"
+            style="@style/CommonButton"
+            android:background="@drawable/button_submit"
+            android:text="@string/rate"
+            android:layout_toRightOf="@+id/rate_challenge_dialog_cancel_action"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+</RelativeLayout>

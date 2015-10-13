@@ -81,6 +81,8 @@
 
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
+    <string name="rate">Rate</string>
+    <string name="not_now">Not now</string>
 
     <string name="user_profile_created">Created:</string>
     <string name="user_profile_joined">Joined:</string>

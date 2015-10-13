@@ -63,6 +63,13 @@
         <item name="android:stepSize">0.5</item>
         <item name="android:layout_height">20dp</item>
     </style>
+    <style name="RatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/rating_bar</item>
+        <item name="android:numStars">5</item>
+        <item name="android:stepSize">1</item>
+        <item name="android:rating">3</item>
+        <item name="android:layout_height">38dp</item>
+    </style>
     <style name="Divider">
         <item name="android:layout_height">2dp</item>
         <item name="android:background">@color/border_grey</item>
@@ -75,6 +82,13 @@
         <item name="android:textColor">@color/link_green</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">16sp</item>
+    </style>
+    <style name="CommonDialog">
+        <item name="android:background">@color/background_dark_blue</item>
+        <item name="android:textColor">@color/font_dark</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
     </style>
 
 </resources>

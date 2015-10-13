@@ -19,6 +19,7 @@ public class ChallengeParticipation implements Serializable{
     public static int NOT_RESPONDED_STATE = 1;
     public static int VIDEO_CHOSEN = 4;
     public static int RESPONDED = 2;
+    public static int RATED = 5;
 
     private Long id;
 

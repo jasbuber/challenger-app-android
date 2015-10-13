@@ -505,4 +505,32 @@ public class ChallengeService {
         queue.add(request);
     }
 
+    public void rateChallenge(final Context context, long challengeId, final int rating) {
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        Response.Listener<String> listener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {}
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error", error.toString());
+            }
+        };
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("username", UserService.getCurrentUser().getUsername());
+        params.put("challengeId", String.valueOf(challengeId));
+        params.put("rating", String.valueOf(rating));
+        params.put("token", FacebookService.getService().getAccessToken().getToken());
+
+        CustomRequest request = Router.getRouter()
+                .createRequest(Router.ROUTE_NAME.RATE_CHALLENGE, params, listener, errorListener, String.class);
+
+        queue.add(request);
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.cespenar.thechallenger;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -190,6 +192,19 @@ public class ChallengeActivity extends Activity {
             videoView.setVisibility(View.VISIBLE);
             findViewById(R.id.challenge_details_submit_response).setVisibility(View.VISIBLE);
             findViewById(R.id.challenge_details_show_respond).setVisibility(View.GONE);
+        }else if(participationState == ChallengeParticipation.RESPONDED){
+
+            final Activity activity = this;
+            RatingBar rating = (RatingBar) findViewById(R.id.challenge_details_rating);
+
+            rating.setIsIndicator(false);
+            rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    openRateChallengeDialog(activity);
+                }
+            });
         }
     }
 
@@ -251,6 +266,8 @@ public class ChallengeActivity extends Activity {
         findViewById(R.id.challenge_details_progress).setVisibility(View.GONE);
         findViewById(R.id.challenge_details_response_video).setVisibility(View.GONE);
         participationState = ChallengeParticipation.RESPONDED;
+
+        openRateChallengeDialog(this);
     }
 
     public void finalizeRateResponse(){}
@@ -261,4 +278,55 @@ public class ChallengeActivity extends Activity {
 
         startActivity(intent);
     }
+
+    public void openRateChallengeDialog(final Activity activity){
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setContentView(R.layout.dialog_rate_challenge);
+        dialog.show();
+
+        TextView cancelAction = (TextView) dialog.findViewById(R.id.rate_challenge_dialog_cancel_action);
+        Button rateAction = (Button) dialog.findViewById(R.id.rate_challenge_dialog_rate_action);
+        final RatingBar rating = (RatingBar) dialog.findViewById(R.id.rate_challenge_dialog_rating);
+
+        rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+            @Override public void onRatingChanged(RatingBar ratingBar, float rating,
+                                                  boolean fromUser) {
+                if(rating < 1.0f){
+                    ratingBar.setRating(1.0f);
+                }
+            }
+        });
+
+        cancelAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                RatingBar rating = (RatingBar) findViewById(R.id.challenge_details_rating);
+
+                rating.setIsIndicator(false);
+                rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+                    @Override
+                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                        openRateChallengeDialog(activity);
+                    }
+                });
+            }
+        });
+
+        rateAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChallengeService.getService().rateChallenge(activity, challenge.getId(), (int) rating.getRating());
+                dialog.dismiss();
+                RatingBar rating = (RatingBar) activity.findViewById(R.id.challenge_details_rating);
+                rating.setIsIndicator(true);
+                rating.setRating(challenge.getRating());
+            }
+        });
+    }
+
 }
