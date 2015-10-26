@@ -166,7 +166,7 @@ public class BrowseChallengesActivity extends Activity {
                 BrowseChallengesListAdapter.ViewHolder holder = (BrowseChallengesListAdapter.ViewHolder) view.getTag();
 
                 Intent intent = new Intent(activity, ChallengeActivity.class);
-                intent.putExtra("challenge", holder.challenge);
+                intent.putExtra("challengeId", holder.id);
 
                 startActivity(intent);
             }

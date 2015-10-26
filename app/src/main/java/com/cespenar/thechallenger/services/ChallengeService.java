@@ -24,6 +24,7 @@ import com.cespenar.thechallenger.UserActivity;
 import com.cespenar.thechallenger.models.Challenge;
 import com.cespenar.thechallenger.models.ChallengeResponse;
 import com.cespenar.thechallenger.models.ChallengeWithParticipantsNr;
+import com.cespenar.thechallenger.models.Comment;
 import com.cespenar.thechallenger.models.CustomResponse;
 import com.cespenar.thechallenger.models.User;
 import com.google.gson.internal.LinkedTreeMap;
@@ -130,7 +131,6 @@ public class ChallengeService {
         params.put("page", String.valueOf(page));
         params.put("scope", "1");
 
-        //params.put("token", UserService.getCurrentToken());
         prepareChallengesByCriteria(context, params, Router.ROUTE_NAME.FIND_CHALLENGES, page > 0);
     }
 
@@ -265,8 +265,6 @@ public class ChallengeService {
         params.put("username", currentUser.getUsername());
         params.put("page", String.valueOf(page));
 
-        //params.put("token", UserService.getCurrentToken());
-
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.MY_CHALLENGES, params, listener, errorListener, List.class);
 
@@ -282,9 +280,12 @@ public class ChallengeService {
             public void onResponse(HashMap response) {
                 LinkedTreeMap<String, Object> challengeMap = (LinkedTreeMap<String, Object>) response.get("challenge");
                 int participationState = (int) ((double) response.get("participationState"));
+                List<LinkedTreeMap<String, Object>> commentMap = (List<LinkedTreeMap<String, Object>>) response.get("comments");
 
                 Challenge challenge = Challenge.castLinkedTreeMapToChallenge(challengeMap);
-                context.populateChallenge(challenge, participationState);
+                List<Comment> comments = Comment.castLinkedTreeMapToChallengeList(commentMap);
+
+                context.populateChallenge(challenge, participationState, comments);
                 getVideo(context, challenge.getVideoPath(), videoView);
             }
         };
@@ -302,34 +303,6 @@ public class ChallengeService {
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.GET_CHALLENGE, params, listener, errorListener, HashMap.class);
-
-        queue.add(request);
-    }
-
-    public void getChallengeParticipationState(final ChallengeActivity context, final Challenge challenge) {
-
-        RequestQueue queue = Volley.newRequestQueue(context);
-
-        Response.Listener<Integer> listener = new Response.Listener<Integer>() {
-            @Override
-            public void onResponse(Integer participationState) {
-                context.populateChallenge(challenge, participationState);
-            }
-        };
-
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("error", error.toString());
-            }
-        };
-
-        HashMap<String, String> params = new HashMap<>();
-        params.put("id", String.valueOf(challenge.getId()));
-        params.put("username", UserService.getCurrentUser().getUsername());
-
-        CustomRequest request = Router.getRouter()
-                .createRequest(Router.ROUTE_NAME.GET_PARTICIPATION_STATE, params, listener, errorListener, Integer.class);
 
         queue.add(request);
     }
@@ -357,8 +330,6 @@ public class ChallengeService {
         HashMap<String, String> params = new HashMap<>();
         params.put("username", currentUser.getUsername());
         params.put("page", String.valueOf(page));
-
-        //params.put("token", UserService.getCurrentToken());
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.MY_PARTICIPATIONS, params, listener, errorListener, List.class);
@@ -529,6 +500,62 @@ public class ChallengeService {
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.RATE_CHALLENGE, params, listener, errorListener, String.class);
+
+        queue.add(request);
+    }
+
+    public void createComment(final Context context, long challengeId, final String message) {
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        Response.Listener<String> listener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {}
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error", error.toString());
+            }
+        };
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("username", UserService.getCurrentUser().getUsername());
+        params.put("challengeId", String.valueOf(challengeId));
+        params.put("message", message);
+        params.put("token", FacebookService.getService().getAccessToken().getToken());
+
+        CustomRequest request = Router.getRouter()
+                .createRequest(Router.ROUTE_NAME.CREATE_COMMENT, params, listener, errorListener, String.class);
+
+        queue.add(request);
+    }
+
+    public void getComments(final Context context, long challengeId, int offset) {
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        Response.Listener<List<LinkedTreeMap<String, Object>>> listener = new Response.Listener<List<LinkedTreeMap<String, Object>>>() {
+            @Override
+            public void onResponse(List<LinkedTreeMap<String, Object>> response) {
+                ((ChallengeActivity) context).populateChallengeComments(Comment.castLinkedTreeMapToChallengeList(response));
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error", error.toString());
+            }
+        };
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("challengeId", String.valueOf(challengeId));
+        params.put("offset", String.valueOf(offset));
+
+        CustomRequest request = Router.getRouter()
+                .createRequest(Router.ROUTE_NAME.GET_COMMENTS, params, listener, errorListener, List.class);
 
         queue.add(request);
     }

@@ -7,7 +7,9 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.cespenar.thechallenger.ChallengeActivity">
+    tools:context="com.cespenar.thechallenger.ChallengeActivity"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
 
     <VideoView
         android:id="@+id/challenge_details_video"
@@ -189,6 +191,47 @@
                 android:divider="@color/background_dark_blue"
                 android:dividerHeight="10sp"
                 android:orientation="vertical"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/challenge_details_responses">
+                <TextView
+                    android:id="@+id/challenge_details_comments_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Header"
+                    android:text="@string/comments"/>
+                <EditText
+                    android:id="@+id/challenge_details_comment_message"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/comments_leave"
+                    style="@style/CommonInput"
+                    android:layout_below="@id/challenge_details_comments_header" />
+                <LinearLayout
+                    android:id="@+id/challenge_details_comments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/challenge_details_comment_message"
+                    android:layout_marginTop="15dp"
+                    android:divider="@color/background_dark_blue"
+                    android:dividerHeight="10sp"
+                    android:orientation="vertical"/>
+                <Button
+                    android:id="@+id/show_more_comments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/more"
+                    style="@style/CommonButton"
+                    android:background="@drawable/button_default"
+                    android:textColor="@color/white"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/challenge_details_comments"
+                    android:visibility="gone"
+                    android:onClick="onClickShowMoreComments"/>
+            </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
 

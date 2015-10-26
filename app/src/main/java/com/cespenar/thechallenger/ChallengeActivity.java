@@ -2,15 +2,18 @@ package com.cespenar.thechallenger;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -22,6 +25,7 @@ import android.widget.VideoView;
 import com.cespenar.thechallenger.models.Challenge;
 import com.cespenar.thechallenger.models.ChallengeParticipation;
 import com.cespenar.thechallenger.models.ChallengeResponse;
+import com.cespenar.thechallenger.models.Comment;
 import com.cespenar.thechallenger.models.CustomResponse;
 import com.cespenar.thechallenger.models.User;
 import com.cespenar.thechallenger.services.ChallengeService;
@@ -30,6 +34,7 @@ import com.cespenar.thechallenger.services.UserService;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -38,6 +43,8 @@ public class ChallengeActivity extends Activity {
     private static final int SELECT_VIDEO = 1;
 
     private static LinearLayout challengeResponsesList;
+
+    private static LinearLayout challengeCommentsList;
 
     private Challenge challenge;
 
@@ -49,38 +56,37 @@ public class ChallengeActivity extends Activity {
 
     private List<ChallengeResponse> responses;
 
+    private List<Comment> comments;
+
+    private int page = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookService.getService().validateToken(this);
         setContentView(R.layout.activity_challenge);
         videoView = (VideoView) findViewById(R.id.challenge_details_video);
+        findViewById(R.id.challenge_details_comment_message)
+                .setOnFocusChangeListener(getOnFocusChangeListener(this));
 
         if(savedInstanceState != null){
             challenge = (Challenge) savedInstanceState.getSerializable("challenge");
             participationState = savedInstanceState.getInt("participationState");
             responseVideo = savedInstanceState.getString("responseVideo");
             responses = (List<ChallengeResponse>) savedInstanceState.getSerializable("responses");
+            page = savedInstanceState.getInt("page");
 
             fillChallengeDetails(challenge);
             checkIfUserParticipatesInChallenge(participationState);
             populateChallengeResponses(responses);
+            populateChallengeComments((List<Comment>) savedInstanceState.getSerializable("comments"));
             ChallengeService.getService().getVideo(this, challenge.getVideoPath(), videoView);
 
             return;
         }
 
-        challenge = (Challenge) getIntent().getSerializableExtra("challenge");
+        ChallengeService.getService().getChallenge(this, getIntent().getLongExtra("challengeId", -1), videoView);
 
-        if (challenge == null) {
-            ChallengeService.getService().getChallenge(this, getIntent().getLongExtra("challengeId", -1), videoView);
-        } else if (challenge.getCreator().equals(UserService.getCurrentUser())) {
-            populateChallenge(challenge, ChallengeParticipation.CREATOR_STATE);
-            ChallengeService.getService().getVideo(this, challenge.getVideoPath(), videoView);
-        } else {
-            ChallengeService.getService().getChallengeParticipationState(this, challenge);
-            ChallengeService.getService().getVideo(this, challenge.getVideoPath(), videoView);
-        }
     }
 
     @Override
@@ -89,6 +95,8 @@ public class ChallengeActivity extends Activity {
         savedInstanceState.putString("responseVideo", responseVideo);
         savedInstanceState.putInt("participationState", participationState);
         savedInstanceState.putSerializable("responses", (ArrayList) responses);
+        savedInstanceState.putSerializable("comments", (ArrayList) comments);
+        savedInstanceState.putInt("page", page);
     }
 
     @Override
@@ -152,7 +160,7 @@ public class ChallengeActivity extends Activity {
         FacebookService.getService().loadProfilePicture(creatorPicture, challenge.getCreator().getProfilePictureUrl());
     }
 
-    public void populateChallenge(Challenge challenge, int participationState) {
+    public void populateChallenge(Challenge challenge, int participationState, List<Comment> comments) {
         this.challenge = challenge;
         this.participationState = participationState;
 
@@ -161,6 +169,8 @@ public class ChallengeActivity extends Activity {
         checkIfUserParticipatesInChallenge(participationState);
 
         ChallengeService.getService().getChallengeResponses(this, challenge);
+
+        populateChallengeComments(comments);
     }
 
     public void populateChallengeResponses(List<ChallengeResponse> responses){
@@ -173,7 +183,48 @@ public class ChallengeActivity extends Activity {
         for(int i = 0; i < adapter.getCount(); i++){
             challengeResponsesList.addView(adapter.getView(i, null, null));
         }
+    }
 
+    public void populateChallengeComments(List<Comment> comments){
+
+        if(this.comments == null){
+            this.comments = new ArrayList<>();
+        }
+
+        this.comments.addAll(comments);
+        challengeCommentsList = (LinearLayout) findViewById(R.id.challenge_details_comments);
+
+        for(Comment comment : comments){
+            View view = getLayoutInflater().inflate(R.layout.list_item_comments, null);
+
+            TextView author = (TextView) view.findViewById(R.id.comment_author_name);
+            author.setText(comment.getAuthor().getFormattedName());
+            String date = String.valueOf(DateUtils.getRelativeTimeSpanString(
+                    comment.getCreationTimestamp().getTime(), new Date().getTime(), DateUtils.SECOND_IN_MILLIS));
+            ((TextView) view.findViewById(R.id.comment_creation_date)).setText(date);
+            ((TextView) view.findViewById(R.id.comment_message)).setText(comment.getMessage());
+
+            author.setOnClickListener(getOnClickAuthorListener(this, comment.getAuthor().getUsername()));
+            challengeCommentsList.addView(view);
+        }
+
+        if (comments.size() % 10 == 0 && !comments.isEmpty()) {
+            findViewById(R.id.show_more_comments).setVisibility(View.VISIBLE);
+        }else{
+            findViewById(R.id.show_more_comments).setVisibility(View.GONE);
+        }
+    }
+
+    private View.OnClickListener getOnClickAuthorListener(final Activity activity, final String username){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, UserActivity.class);
+                intent.putExtra("username", username);
+
+                startActivity(intent);
+            }
+        };
     }
 
     private void checkIfUserParticipatesInChallenge(int participationState) {
@@ -292,9 +343,10 @@ public class ChallengeActivity extends Activity {
 
         rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
 
-            @Override public void onRatingChanged(RatingBar ratingBar, float rating,
-                                                  boolean fromUser) {
-                if(rating < 1.0f){
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating,
+                                        boolean fromUser) {
+                if (rating < 1.0f) {
                     ratingBar.setRating(1.0f);
                 }
             }
@@ -327,6 +379,87 @@ public class ChallengeActivity extends Activity {
                 rating.setRating(challenge.getRating());
             }
         });
+    }
+
+    private boolean validateCommentMessage(EditText commentMessageElement) {
+
+        String commentMessage = commentMessageElement.getText().toString();
+
+        if (commentMessage.trim().isEmpty()) {
+            commentMessageElement.setError(getString(R.string.validation_comment_empty));
+            return false;
+        } else if (commentMessage.trim().length() > 250) {
+            commentMessageElement.setError(getString(R.string.validation_comment_too_long));
+            return false;
+        }
+
+        commentMessageElement.setError(null);
+        return true;
+    }
+
+    public void openCommentDialog(final Activity activity){
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setContentView(R.layout.dialog_comment_challenge);
+        dialog.show();
+
+        TextView cancelAction = (TextView) dialog.findViewById(R.id.comment_dialog_cancel_action);
+        Button commentAction = (Button) dialog.findViewById(R.id.comment_dialog_submit_action);
+
+        cancelAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        commentAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                EditText messageElement = (EditText) dialog.findViewById(R.id.comment_dialog_message);
+
+                if (!validateCommentMessage(messageElement)) {
+                    return;
+                }
+
+                String message = messageElement.getText().toString();
+
+                ChallengeService.getService().createComment(activity, challenge.getId(), message);
+
+                View view = getLayoutInflater().inflate(R.layout.list_item_comments, null);
+
+                ((TextView) view.findViewById(R.id.comment_author_name)).setText(UserService.getCurrentUser().getFormattedName());
+                ((TextView) view.findViewById(R.id.comment_message)).setText(message);
+
+                comments.add(0, new Comment(UserService.getCurrentUser(), message, challenge.getId(),
+                        new Date()));
+                challengeCommentsList.addView(view, 0);
+
+                messageElement.setText("");
+                dialog.dismiss();
+            }
+        });
+
+    }
+
+    private View.OnFocusChangeListener getOnFocusChangeListener(final Activity activity){
+        return new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    openCommentDialog(activity);
+                    v.clearFocus();
+                }
+            }
+        };
+    }
+
+    public void onClickShowMoreComments(View v){
+        page++;
+
+        ChallengeService.getService().getComments(this, challenge.getId(), page);
     }
 
 }

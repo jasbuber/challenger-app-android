@@ -141,7 +141,7 @@ public class RankingsActivity extends Activity {
                 RankingsChallengeListAdapter.ViewHolder holder = (RankingsChallengeListAdapter.ViewHolder) view.getTag();
 
                 Intent intent = new Intent(activity, ChallengeActivity.class);
-                intent.putExtra("challenge", holder.challenge);
+                intent.putExtra("challengeId", holder.id);
 
                 startActivity(intent);
             }

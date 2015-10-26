@@ -49,11 +49,14 @@
     <string name="join_action">Join</string>
     <string name="show_respond_action">Upload a video</string>
     <string name="next_step">Next step</string>
+    <string name="submit">Submit</string>
 
     <string name="validation_challenge_name_empty">You forgot to type the challenge name, you know&#8230;</string>
     <string name="validation_challenge_name_too_short">Challenge name should be at least 5 characters long. Just because :P</string>
     <string name="validation_challenge_name_too_long">Name longer than 250 characters ? Seriously ? ;]</string>
     <string name="validation_challenge_video_empty">Upload a video description&#8230;</string>
+    <string name="validation_comment_empty">If you want to post a comment, write it first -_-</string>
+    <string name="validation_comment_too_long">Only 250 characters allowed. It\'s just a comment, not a poem ;]</string>
 
     <string name="success">Success</string>
 
@@ -64,6 +67,7 @@
     <string name="search_action">Search</string>
 
     <string name="show_more">show more</string>
+    <string name="more">more</string>
 
     <string name="challenge_details_created_at">Created:</string>
     <string name="challenge_details_difficulty">Difficulty:</string>
@@ -89,5 +93,10 @@
     <string name="user_profile_completed">Completed:</string>
 
     <string name="points">points</string>
+
+    <string name="comments">Comments</string>
+    <string name="comment_dialog_header">Publish a comment</string>
+    <string name="comments_hint">Write your comment here&#8230;</string>
+    <string name="comments_leave">Leave a comment&#8230;</string>
 
 </resources>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/CommonDialog"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+    <TextView
+        android:id="@+id/comment_dialog_header"
+        style="@style/Header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/comment_dialog_header"
+        android:textSize="18sp"/>
+
+    <EditText
+        android:id="@+id/comment_dialog_message"
+        style="@style/CommonInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/comment_dialog_header"
+        android:lines="4"
+        android:inputType="textMultiLine"
+        android:gravity="top|start"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/comment_dialog_message"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/comment_dialog_cancel_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="30dp"
+            android:text="@string/not_now"
+            android:textColor="@color/default_grey"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/comment_dialog_submit_action"
+            style="@style/CommonButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/comment_dialog_cancel_action"
+            android:background="@drawable/button_submit"
+            android:onClick="onClickCreateComment"
+            android:text="@string/submit"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+</RelativeLayout>
