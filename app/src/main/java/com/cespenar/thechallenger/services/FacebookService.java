@@ -95,7 +95,7 @@ public class FacebookService {
                     @Override
                     public void onCancel() {
                         Log.e("cancel", "cancel");
-                        activity.setContentView(R.layout.activity_main);
+                        logIn(activity);
                     }
 
                     @Override
