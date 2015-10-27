@@ -132,7 +132,7 @@ public class FacebookService {
         String username = profile.getId();
         String firstName = profile.getFirstName();
         String lastName = profile.getLastName();
-        String profilePicUrl = profile.getProfilePictureUri(32, 32).toString();
+        String profilePicUrl = profile.getProfilePictureUri(150, 150).toString();
 
         User user = new User(username, profilePicUrl, firstName, lastName);
         UserService.setCurrentUser(user);
