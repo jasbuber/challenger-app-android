@@ -26,7 +26,7 @@ public class BrowseChallengesActivity extends Activity {
 
     private int preLast = 0;
     private boolean hasMore = true;
-    private static int PAGE = 0;
+    private int PAGE = 0;
     private static String lastSearchedName = "";
 
     private static ListView challengesListView;
