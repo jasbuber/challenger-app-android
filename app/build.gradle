@@ -8,8 +8,8 @@ android {
         applicationId "com.cespenar.thechallenger"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 7
-        versionName "1.13"
+        versionCode 8
+        versionName "1.14"
     }
     buildTypes {
         release {
