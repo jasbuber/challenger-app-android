@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/CommonScreen"
     android:layout_width="match_parent"
@@ -9,19 +9,19 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.cespenar.thechallenger.ChallengeActivity"
     android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
 
     <VideoView
         android:id="@+id/challenge_details_video"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_height="250dp"
+        android:layout_gravity="center_horizontal"
         android:visibility="gone"/>
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/challenge_details_video">
+        android:layout_height="fill_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -50,7 +50,6 @@
                     style="@style/CommonButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/challenge_details_name"
                     android:background="@drawable/button_submit"
                     android:onClick="onClickJoinChallenge"
                     android:text="@string/join_action"
@@ -61,7 +60,6 @@
                     style="@style/CommonButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/challenge_details_name"
                     android:background="@drawable/button_upload"
                     android:onClick="onClickRespond"
                     android:text="@string/show_respond_action"
@@ -71,7 +69,6 @@
                     android:id="@+id/challenge_details_response_video"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/challenge_details_name"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="10dp"
                     android:clickable="true"
@@ -86,7 +83,6 @@
                     style="@style/CommonButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/challenge_details_name"
                     android:layout_marginTop="0dp"
                     android:background="@drawable/button_submit"
                     android:onClick="onClickSubmit"
@@ -235,4 +231,4 @@
         </RelativeLayout>
     </ScrollView>
 
-</RelativeLayout>
+</LinearLayout>
