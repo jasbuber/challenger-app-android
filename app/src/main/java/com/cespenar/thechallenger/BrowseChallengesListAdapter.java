@@ -73,7 +73,7 @@ public class BrowseChallengesListAdapter extends BaseAdapter {
         holder.nameView.setText(challenge.getName());
         holder.usernameView.setText(challenge.getCreator().getFormattedName());
         holder.ratingView.setRating(challenge.getRating());
-        FacebookService.getService().loadProfilePicture(holder.pictureView, holder.challenge.getCreator().getProfilePictureUrl());
+        FacebookService.getService().loadProfilePicture(context, holder.pictureView, holder.challenge.getCreator().getUsername());
 
         return convertView;
     }

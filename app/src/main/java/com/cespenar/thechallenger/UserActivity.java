@@ -119,7 +119,7 @@ public class UserActivity extends Activity {
         usernameView.setText(user.getFormattedName());
         pointsView.setText(String.valueOf(user.getAllPoints()));
 
-        FacebookService.getService().loadProfilePicture(profilePictureView, user.getProfilePictureUrl());
+        FacebookService.getService().loadProfilePicture(this, profilePictureView, user.getUsername());
 
 
     }

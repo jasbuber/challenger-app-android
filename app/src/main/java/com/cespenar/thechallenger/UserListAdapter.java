@@ -72,7 +72,7 @@ public class UserListAdapter extends BaseAdapter {
         holder.username = user.getUsername();
         holder.nameView.setText(user.getFormattedName());
         holder.ratingView.setText(String.valueOf(user.getAllPoints()));
-        FacebookService.getService().loadProfilePicture(holder.pictureView, user.getProfilePictureUrl());
+        FacebookService.getService().loadProfilePicture(context, holder.pictureView, user.getUsername());
 
         return convertView;
     }

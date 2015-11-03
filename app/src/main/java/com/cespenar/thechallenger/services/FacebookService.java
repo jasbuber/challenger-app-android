@@ -34,6 +34,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 
@@ -192,18 +193,21 @@ public class FacebookService {
         });
     }
 
-    public void loadVideoThumbnail(ImageView view, String url) {
-        Ion.with(view)
+    public void loadVideoThumbnail(Activity context, ImageView view, String url) {
+        Picasso.with(context)
+                .load(url)
                 .placeholder(R.drawable.player)
                 .error(R.drawable.player)
-                .load(url);
+                .into(view);
     }
 
-    public void loadProfilePicture(ImageView view, String url) {
-        Ion.with(view)
+    public void loadProfilePicture(Activity context, ImageView view, String username) {
+        Picasso.with(context)
+                .load(prepareProfilePictureUrl(username))
                 .placeholder(R.drawable.avatar_small)
                 .error(R.drawable.avatar_small)
-                .load(url);
+                .into(view);
+
     }
 
     public void validateToken(Activity activity) {
@@ -215,6 +219,10 @@ public class FacebookService {
             Intent intent = new Intent(activity, MainActivity.class);
             activity.startActivity(intent);
         }
+    }
+
+    private String prepareProfilePictureUrl(String username){
+        return "https://graph.facebook.com/" + username + "/picture?width=150&height=150";
     }
 
 }

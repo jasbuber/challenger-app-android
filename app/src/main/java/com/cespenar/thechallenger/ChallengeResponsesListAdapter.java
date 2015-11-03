@@ -94,7 +94,7 @@ public class ChallengeResponsesListAdapter extends BaseAdapter {
             holder.acceptView.setVisibility(View.VISIBLE);
             holder.rejectView.setVisibility(View.VISIBLE);
         }
-        FacebookService.getService().loadVideoThumbnail(holder.thumbnailView, response.getThumbnailUrl());
+        FacebookService.getService().loadVideoThumbnail(context, holder.thumbnailView, response.getThumbnailUrl());
 
         return convertView;
     }

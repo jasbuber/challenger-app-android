@@ -157,7 +157,7 @@ public class ChallengeActivity extends Activity {
         challengeDifficulty.setText(challenge.getFormattedDifficulty());
         challengeRating.setRating(challenge.getRating());
 
-        FacebookService.getService().loadProfilePicture(creatorPicture, challenge.getCreator().getProfilePictureUrl());
+        FacebookService.getService().loadProfilePicture(this, creatorPicture, challenge.getCreator().getUsername());
     }
 
     public void populateChallenge(Challenge challenge, int participationState, List<Comment> comments) {
