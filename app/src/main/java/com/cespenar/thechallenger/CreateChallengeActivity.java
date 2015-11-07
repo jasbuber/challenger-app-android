@@ -21,6 +21,7 @@ import com.cespenar.thechallenger.models.Challenge;
 import com.cespenar.thechallenger.models.CustomResponse;
 import com.cespenar.thechallenger.services.ChallengeService;
 import com.cespenar.thechallenger.services.FacebookService;
+import com.cespenar.thechallenger.services.TutorialService;
 import com.cespenar.thechallenger.services.UserService;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -71,6 +72,8 @@ public class CreateChallengeActivity extends Activity {
             getChallengeDifficultyElement().setProgress(savedInstanceState.getInt("challengeDifficulty"));
             //getChallengeVisibilityElement().setSelection(savedInstanceState.getInt("challengeVisibility"));
         }
+
+        TutorialService.handleTutorial(this);
     }
 
     @Override

@@ -13,4 +13,18 @@
     <Button android:id="@+id/my_challenges_block" android:text="@string/my_challenges" android:layout_toRightOf="@id/rankings_block" android:layout_toEndOf="@id/rankings_block"
         android:layout_below="@id/browse_challenges_block" android:background="@color/background_main_dark"
         style="@style/MainBlock" android:onClick="onClickMyChallenges"/>
+
+    <Button
+        android:id="@+id/tutorial_complete_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/finish_tutorial"
+        android:layout_below="@+id/my_challenges_block"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_alignLeft="@+id/my_challenges_block"
+        style="@style/CommonButton"
+        android:background="@drawable/button_search"
+        android:visibility="gone"
+        />
 </RelativeLayout>

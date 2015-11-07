@@ -201,6 +201,18 @@
                 android:text="@string/create_action"
                 android:onClick="onClickSubmit"
                 android:layout_marginBottom="0dp"/>
+
+            <Button
+                android:id="@+id/create_challenge_continue_tutorial"
+                style="@style/CommonButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/create_challenge_upload"
+                android:background="@drawable/button_search"
+                android:text="@string/continue_tutorial"
+                android:layout_marginBottom="0dp"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"/>
         </RelativeLayout>
     </LinearLayout>
 </ScrollView>

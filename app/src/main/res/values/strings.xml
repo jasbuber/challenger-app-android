@@ -76,7 +76,7 @@
     <string name="best_challenges">BEST CHALLENGES</string>
     <string name="trending_challenges">TRENDING</string>
     <string name="popular_challenges">MOST POPULAR</string>
-    
+
     <string name="facebook_app_id">471463259622297</string>
 
     <string name="ok">OK!</string>
@@ -98,5 +98,25 @@
     <string name="comment_dialog_header">Publish a comment</string>
     <string name="comments_hint">Write your comment here&#8230;</string>
     <string name="comments_leave">Leave a comment&#8230;</string>
+
+    <string name="tutorial_welcome_message">Welcome to TheChallenger\r\n tutorial!</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="get_started">Get Started</string>
+    <string name="continue_tutorial">continue tutorial</string>
+    <string name="finish_tutorial">Finish Tutorial</string>
+    <string name="tutorial_title1">Creating a challenge</string>
+    <string name="tutorial_title2">Discover challenges</string>
+    <string name="tutorial_title3">Rankings</string>
+    <string name="tutorial_title4">My Challenges</string>
+    <string name="tutorial_title5">All done</string>
+    <string name="tutorial_message1">Here You can create challenges that other people may want to join. \n\r Click!</string>
+    <string name="tutorial_message2">Add a description and select a category that describes your challenge the best. \n\r Click next.</string>
+    <string name="tutorial_message3">Set a difficulty level for Your challenge. \n\r Click next.</string>
+    <string name="tutorial_message4">Choose a video so that people will know what is it all about. That\'s it!
+        You are ready to create your first video challenge. \n\r Click "continue tutorial" button.</string>
+    <string name="tutorial_message5">Discover Challenges lets you join challenges of other people. \n\r Click!</string>
+    <string name="tutorial_message6">That\'s a hall of fame. Check out the most popular challenges and best users. \n\r Click!</string>
+    <string name="tutorial_message7">A headquarters for Your challenges. They are all here. \n\r Click!</string>
+    <string name="tutorial_message8">Thanks for keeping up with this tutorial. Always push Your limits and get out of the safety zone. Have fun!</string>
 
 </resources>

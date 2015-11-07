@@ -27,6 +27,8 @@ public class User implements Serializable{
 
     private Integer otherPoints = 0;
 
+    private Integer tutorialCompleted = 1;
+
     public User(String username) {
         this.username = username;
     }
@@ -124,5 +126,17 @@ public class User implements Serializable{
 
     public String getLastName() {
         return lastName;
+    }
+
+    public boolean isTutorialCompleted(){
+        return this.tutorialCompleted != 0;
+    }
+
+    public void completeTutorial(){
+        this.tutorialCompleted = 1;
+    }
+
+    public void startTutorial(){
+        this.tutorialCompleted = 0;
     }
 }

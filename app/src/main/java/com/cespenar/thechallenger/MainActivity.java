@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.cespenar.thechallenger.services.FacebookService;
+import com.cespenar.thechallenger.services.TutorialService;
 import com.cespenar.thechallenger.services.UserService;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
@@ -27,6 +28,8 @@ public class MainActivity extends Activity {
         }else{
             setContentView(R.layout.activity_main);
         }
+
+        TutorialService.handleTutorial(this);
     }
 
     @Override
@@ -107,4 +110,5 @@ public class MainActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         FacebookService.callbackManager.onActivityResult(requestCode, resultCode, data);
     }
+
 }

@@ -21,7 +21,7 @@ public class Router {
 
     public enum ROUTE_NAME { CREATE_CHALLENGE, LATEST_CHALLENGES, FIND_CHALLENGES, CHALLENGE_RESPONSES, JOIN_CHALLENGE, MY_CHALLENGES,
         GET_CHALLENGE, GET_PARTICIPATION_STATE, MY_PARTICIPATIONS, RANKINGS, CREATE_USER, UPDATE_CHALLENGE_VIDEO, SUBMIT_RESPONSE,
-        RATE_RESPONSE, GET_PROFILE, GET_VIDEO, RATE_CHALLENGE, CREATE_COMMENT, GET_COMMENTS }
+        RATE_RESPONSE, GET_PROFILE, GET_VIDEO, RATE_CHALLENGE, CREATE_COMMENT, GET_COMMENTS, COMPLETE_TUTORIAL }
 
     private static final String server = "https://nameless-badlands-7043.herokuapp.com/";//"http://192.168.100.189:9000/";// "http://10.0.2.2:9000/";//
 
@@ -57,6 +57,7 @@ public class Router {
         routes.put(ROUTE_NAME.RATE_CHALLENGE, new Route(Request.Method.POST, "services/challenge/rate"));
         routes.put(ROUTE_NAME.CREATE_COMMENT, new Route(Request.Method.POST, "services/comment/create"));
         routes.put(ROUTE_NAME.GET_COMMENTS, new Route(Request.Method.GET, "services/comments/get"));
+        routes.put(ROUTE_NAME.COMPLETE_TUTORIAL, new Route(Request.Method.POST, "services/user/completetutorial"));
     }
 
     public Route getRoute(ROUTE_NAME name){

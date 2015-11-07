@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    style="@style/CommonDialog"
+    android:background="@drawable/dialog">
+
+    <TextView
+        android:id="@+id/tutorial_dialog_welcome_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tutorial_welcome_message"
+        android:layout_centerHorizontal="true"
+        style="@style/Header"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:gravity="center_horizontal"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tutorial_dialog_welcome_message">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tutorial_dialog_cancel_action"
+            style="@style/CommonButton"
+            android:background="@drawable/button_default"
+            android:text="@string/dismiss"
+            android:layout_centerVertical="true"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tutorial_dialog_start_action"
+            style="@style/CommonButton"
+            android:background="@drawable/button_search"
+            android:text="@string/get_started"
+            android:layout_toRightOf="@+id/tutorial_dialog_cancel_action"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"/>
+    </RelativeLayout>
+</RelativeLayout>

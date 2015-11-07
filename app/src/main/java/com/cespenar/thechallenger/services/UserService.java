@@ -1,6 +1,5 @@
 package com.cespenar.thechallenger.services;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
@@ -8,12 +7,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
-import com.cespenar.thechallenger.CreateChallengeActivity;
 import com.cespenar.thechallenger.MainActivity;
 import com.cespenar.thechallenger.R;
 import com.cespenar.thechallenger.UserActivity;
-import com.cespenar.thechallenger.models.Challenge;
-import com.cespenar.thechallenger.models.CustomResponse;
 import com.cespenar.thechallenger.models.User;
 import com.facebook.Profile;
 import com.google.gson.internal.LinkedTreeMap;
@@ -64,8 +60,11 @@ public class UserService {
         Response.Listener<String> listener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                if(response.equals("success")){
-                    ((MainActivity) context).setContentView(R.layout.activity_main);
+                ((MainActivity) context).setContentView(R.layout.activity_main);
+
+                if(Integer.parseInt(response) == 0){
+                    TutorialService.startTutorial((MainActivity) context);
+                    UserService.getCurrentUser().startTutorial();
                 }
             }
         };
@@ -131,6 +130,33 @@ public class UserService {
                     profile.getFirstName(), profile.getLastName());
             currentUser = user;
         }
+    }
+
+    public void completeTutorial(final Context context) {
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        Response.Listener<String> listener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {}
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error", error.toString());
+            }
+        };
+
+        HashMap<String, String> params = new HashMap<>();
+
+        params.put("username", getCurrentUser().getUsername());
+        params.put("token", FacebookService.getService().getAccessToken().getToken());
+
+        CustomRequest request = Router.getRouter()
+                .createRequest(Router.ROUTE_NAME.COMPLETE_TUTORIAL, params, listener, errorListener, String.class);
+
+        queue.add(request);
     }
 
 
