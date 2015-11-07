@@ -37,6 +37,10 @@ public class ChallengeResponseActivity extends Activity {
         }
 
         ChallengeService.getService().getVideo(this, response.getVideoResponseUrl(), videoView);
+
+        if(getActionBar() != null){
+            getActionBar().setHomeButtonEnabled(true);
+        }
     }
 
     @Override
@@ -81,6 +85,11 @@ public class ChallengeResponseActivity extends Activity {
                 break;
             case R.id.action_search :
                 intent = new Intent(this, BrowseChallengesActivity.class);
+                startActivity(intent);
+                break;
+            case android.R.id.home:
+                intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
         }

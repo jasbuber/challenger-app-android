@@ -27,6 +27,10 @@ public class CreateChallengeFinalizeActivity extends Activity {
         }else{
             challengeId = getIntent().getLongExtra("challengeId", -1);
         }
+
+        if(getActionBar() != null){
+            getActionBar().setHomeButtonEnabled(true);
+        }
     }
 
     @Override
@@ -70,6 +74,11 @@ public class CreateChallengeFinalizeActivity extends Activity {
                 break;
             case R.id.action_search :
                 intent = new Intent(this, BrowseChallengesActivity.class);
+                startActivity(intent);
+                break;
+            case android.R.id.home:
+                intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
         }

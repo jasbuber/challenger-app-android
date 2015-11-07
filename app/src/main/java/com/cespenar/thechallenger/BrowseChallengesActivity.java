@@ -54,6 +54,10 @@ public class BrowseChallengesActivity extends Activity {
         } else {
             ChallengeService.getService().getLatestChallenges(this);
         }
+
+        if(getActionBar() != null){
+            getActionBar().setHomeButtonEnabled(true);
+        }
     }
 
     @Override
@@ -101,6 +105,11 @@ public class BrowseChallengesActivity extends Activity {
                 break;
             case R.id.action_create_challenge:
                 intent = new Intent(this, CreateChallengeActivity.class);
+                startActivity(intent);
+                break;
+            case android.R.id.home:
+                intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
         }

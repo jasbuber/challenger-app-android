@@ -18,6 +18,10 @@ public class MyChallengesActivity extends Activity {
         super.onCreate(savedInstanceState);
         FacebookService.getService().validateToken(this);
         setContentView(R.layout.activity_my_challenges);
+
+        if(getActionBar() != null){
+            getActionBar().setHomeButtonEnabled(true);
+        }
     }
 
     @Override
@@ -56,6 +60,11 @@ public class MyChallengesActivity extends Activity {
                 break;
             case R.id.action_search :
                 intent = new Intent(this, BrowseChallengesActivity.class);
+                startActivity(intent);
+                break;
+            case android.R.id.home:
+                intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
         }
