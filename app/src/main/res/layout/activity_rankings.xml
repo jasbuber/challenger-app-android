@@ -53,6 +53,14 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/best_users_divider"
                 android:layout_centerHorizontal="true" />
+
+            <ProgressBar
+                android:id="@+id/best_users_loader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:layout_centerInParent="true"
+                android:visibility="gone"/>
         </RelativeLayout>
 
 
@@ -94,6 +102,14 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/best_challenges_divider"
                 android:layout_centerHorizontal="true" />
+
+            <ProgressBar
+                android:id="@+id/best_challenges_loader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:layout_centerInParent="true"
+                android:visibility="gone"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -134,6 +150,14 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/trending_challenges_divider"
                 android:layout_centerHorizontal="true" />
+
+            <ProgressBar
+                android:id="@+id/trending_challenges_loader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:layout_centerInParent="true"
+                android:visibility="gone"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -174,6 +198,14 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/most_popular_divider"
                 android:layout_centerHorizontal="true" />
+
+            <ProgressBar
+                android:id="@+id/popular_challenges_loader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:layout_centerInParent="true"
+                android:visibility="gone"/>
         </RelativeLayout>
 
 

@@ -33,6 +33,8 @@ public class RankingsActivity extends Activity {
         FacebookService.getService().validateToken(this);
         setContentView(R.layout.activity_rankings);
 
+        showLoaders();
+
         bestUsersListView = (ListView) findViewById(R.id.rankings_best_users_list);
         bestChallengesListView = (ListView) findViewById(R.id.best_challenges_list);
         trendingChallengesListView = (ListView) findViewById(R.id.rankings_trending_challenges_list);
@@ -123,6 +125,8 @@ public class RankingsActivity extends Activity {
     public void populateRankings(List<Challenge> topRatedChallenges, List<User> topRatedUsers, List<Challenge> trendingChallenges,
                                  List<ChallengeWithParticipantsNr> mostPopularChallenges){
 
+        hideLoaders();
+
         UserListAdapter userAdapter = new UserListAdapter(this, topRatedUsers);
         RankingsChallengeListAdapter bestChallengesAdapter = new RankingsChallengeListAdapter(this, topRatedChallenges);
         RankingsChallengeListAdapter trendingChallengesAdapter = new RankingsChallengeListAdapter(this, trendingChallenges);
@@ -187,5 +191,19 @@ public class RankingsActivity extends Activity {
                 startActivity(intent);
             }
         };
+    }
+
+    public void showLoaders(){
+        findViewById(R.id.best_challenges_loader).setVisibility(View.VISIBLE);
+        findViewById(R.id.best_users_loader).setVisibility(View.VISIBLE);
+        findViewById(R.id.trending_challenges_loader).setVisibility(View.VISIBLE);
+        findViewById(R.id.popular_challenges_loader).setVisibility(View.VISIBLE);
+    }
+
+    public void hideLoaders(){
+        findViewById(R.id.best_challenges_loader).setVisibility(View.GONE);
+        findViewById(R.id.best_users_loader).setVisibility(View.GONE);
+        findViewById(R.id.trending_challenges_loader).setVisibility(View.GONE);
+        findViewById(R.id.popular_challenges_loader).setVisibility(View.GONE);
     }
 }

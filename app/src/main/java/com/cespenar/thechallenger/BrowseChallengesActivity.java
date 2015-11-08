@@ -39,6 +39,8 @@ public class BrowseChallengesActivity extends Activity {
 
         setContentView(R.layout.activity_browse_challenges);
 
+        showLoader();
+
         challengesListView = (ListView) findViewById(R.id.browse_challenges_list);
         challengesListView.setOnScrollListener(getOnScrollListener(this));
         challengesListView.setOnItemClickListener(getOnItemClickListener(this));
@@ -118,11 +120,13 @@ public class BrowseChallengesActivity extends Activity {
     }
 
     public void populateChallengesList(List<Challenge> challenges) {
+        hideLoader();
         BrowseChallengesListAdapter adapter = new BrowseChallengesListAdapter(this, challenges);
         challengesListView.setAdapter(adapter);
     }
 
     public void appendChallengesList(List<Challenge> challenges) {
+        hideLoader();
         BrowseChallengesListAdapter adapter = (BrowseChallengesListAdapter) challengesListView.getAdapter();
         adapter.challenges.addAll(challenges);
         adapter.notifyDataSetChanged();
@@ -132,6 +136,7 @@ public class BrowseChallengesActivity extends Activity {
         EditText nameInput = (EditText) findViewById(R.id.browse_challenges_search_input);
         String phrase = nameInput.getText().toString();
         resetPage();
+        showLoader();
         ChallengeService.getService().getChallengesByCriteria(this, phrase, PAGE);
         lastSearchedName = phrase;
     }
@@ -155,6 +160,7 @@ public class BrowseChallengesActivity extends Activity {
                     if (preLast != lastItem) {
                         preLast = lastItem;
                         PAGE++;
+                        showLoader();
                         ChallengeService.getService().getChallengesByCriteria(activity, lastSearchedName, PAGE);
                     }
                 }
@@ -180,5 +186,13 @@ public class BrowseChallengesActivity extends Activity {
                 startActivity(intent);
             }
         };
+    }
+
+    public void showLoader(){
+        findViewById(R.id.browse_challenges_loader).setVisibility(View.VISIBLE);
+    }
+
+    public void hideLoader(){
+        findViewById(R.id.browse_challenges_loader).setVisibility(View.GONE);
     }
 }
