@@ -41,9 +41,6 @@ public class CreateChallengeActivity extends Activity {
     private boolean isStep2Visible = false;
     private boolean isStep3Visible = false;
 
-    //private static final int VISIBILITY_PRIVATE = 1;
-    //private static final int VISIBILITY_PUBLIC = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +48,6 @@ public class CreateChallengeActivity extends Activity {
         FacebookService.getService().validateToken(this);
 
         setContentView(R.layout.activity_create_challenge);
-        //getChallengeVisibilityElement().setOnItemSelectedListener(getVisibilityListener(this));
 
         if (savedInstanceState != null) {
             if (savedInstanceState.getBoolean("isStep2Visible")) {
@@ -70,7 +66,6 @@ public class CreateChallengeActivity extends Activity {
             }
             getChallengeCategoryElement().setSelection(savedInstanceState.getInt("challengeCategory"));
             getChallengeDifficultyElement().setProgress(savedInstanceState.getInt("challengeDifficulty"));
-            //getChallengeVisibilityElement().setSelection(savedInstanceState.getInt("challengeVisibility"));
         }
 
         TutorialService.handleTutorial(this);
@@ -87,8 +82,6 @@ public class CreateChallengeActivity extends Activity {
         savedInstanceState.putInt("challengeCategory", getChallengeCategoryElement().getSelectedItemPosition());
         savedInstanceState.putString("challengeVideo", challengeVideo);
         savedInstanceState.putInt("challengeDifficulty", getChallengeDifficultyElement().getProgress());
-        //savedInstanceState.putInt("challengeVisibility", getChallengeVisibilityElement().getSelectedItemPosition());
-
         savedInstanceState.putBoolean("isStep2Visible", isStep2Visible);
         savedInstanceState.putBoolean("isStep3Visible", isStep3Visible);
 
@@ -198,16 +191,13 @@ public class CreateChallengeActivity extends Activity {
 
             view.setEnabled(false);
 
-            String challengeCategory = (String) getChallengeCategoryElement().getSelectedItem();
-            boolean challengeVisibility = true;
-            /*
-            if (getChallengeVisibilityElement().getSelectedItemPosition() == 0) {
-                challengeVisibility = true;
-            }*/
+            int categoryIndex = getChallengeCategoryElement().getSelectedItemPosition();
+            String challengeCategory = Challenge.CHALLENGE_CATEGORY.values()[categoryIndex].toString();
+
             int challengeDifficulty = getChallengeDifficultyElement().getProgress();
 
             Challenge challenge = new Challenge(challengeName, challengeVideo, challengeCategory,
-                    challengeVisibility, challengeDifficulty);
+                    true, challengeDifficulty);
 
             ChallengeService.getService().createChallenge(this, challenge);
         }
@@ -246,7 +236,6 @@ public class CreateChallengeActivity extends Activity {
                     case "no_participants":
                         break;
                 }
-
             }
 
             findViewById(R.id.create_challenge_submit).setEnabled(true);
@@ -268,10 +257,6 @@ public class CreateChallengeActivity extends Activity {
         return (Spinner) findViewById(R.id.create_challenge_category);
     }
 
-    /*private Spinner getChallengeVisibilityElement() {
-        return (Spinner) findViewById(R.id.create_challenge_visibility);
-    }*/
-
     private SeekBar getChallengeDifficultyElement() {
         return (SeekBar) findViewById(R.id.create_challenge_difficulty);
     }
@@ -279,64 +264,5 @@ public class CreateChallengeActivity extends Activity {
     private Button getChallengeVideoElement() {
         return (Button) findViewById(R.id.create_challenge_upload);
     }
-    /*
-
-    private AdapterView.OnItemSelectedListener getVisibilityListener(final Activity activity) {
-        return new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                if (id == VISIBILITY_PRIVATE) {
-
-                    String appLinkUrl = "https://fb.me/681646071937347";
-                    String previewImageUrl = "https://nameless-badlands-7043.herokuapp.com/assets/images/glyph_glasses.png";
-                    final String TAG = "fbv4";
-
-                    if (AccessToken.getCurrentAccessToken() == null) {
-                        // start login...
-                    } else {
-                        FacebookService.callbackManager = CallbackManager.Factory.create();
-
-                        FacebookCallback<AppInviteDialog.Result> facebookCallback = new FacebookCallback<AppInviteDialog.Result>() {
-                            @Override
-                            public void onSuccess(AppInviteDialog.Result result) {
-                                Log.i(TAG, "MainACtivity, InviteCallback - SUCCESS!" + result.getData());
-                                Log.e("success", result.getData().toString());
-                            }
-
-                            @Override
-                            public void onCancel() {
-                                Log.i(TAG, "MainACtivity, InviteCallback - CANCEL!");
-                                Log.e("success", "cancel");
-                            }
-
-                            @Override
-                            public void onError(FacebookException e) {
-                                Log.e(TAG, "MainACtivity, InviteCallback - ERROR! " + e.getMessage());
-                                Log.e("error", e.getMessage());
-                            }
-                        };
-
-                        AppInviteDialog appInviteDialog = new AppInviteDialog(activity);
-                        if (AppInviteDialog.canShow()) {
-                            AppInviteContent.Builder content = new AppInviteContent.Builder();
-                            content.setApplinkUrl(appLinkUrl);
-                            content.setPreviewImageUrl(previewImageUrl);
-                            AppInviteContent appInviteContent = content.build();
-                            appInviteDialog.registerCallback(FacebookService.callbackManager, facebookCallback);
-                            AppInviteDialog.show(activity, appInviteContent);
-                        }
-
-                    }
-                } else {
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
-            }
-        };
-    }*/
 
 }
