@@ -57,6 +57,7 @@
     <string name="validation_challenge_video_empty">Upload a video description&#8230;</string>
     <string name="validation_comment_empty">If you want to post a comment, write it first -_-</string>
     <string name="validation_comment_too_long">Only 250 characters allowed. It\'s just a comment, not a poem ;]</string>
+    <string name="validation_search_phrase_empty">Can You give us at least 3 characters, please ? :)</string>
 
     <string name="success">Success</string>
 
@@ -118,5 +119,12 @@
     <string name="tutorial_message6">That\'s a hall of fame. Check out the most popular challenges and best users. \n\r Click!</string>
     <string name="tutorial_message7">A headquarters for Your challenges. They are all here. \n\r Click!</string>
     <string name="tutorial_message8">Thanks for keeping up with this tutorial. Always push Your limits and get out of the safety zone. Have fun!</string>
+
+    <string name="top">Top</string>
+    <string name="recent">Recent</string>
+    <string name="categories">Categories</string>
+    <string name="popular">Popular</string>
+
+    <string name="no_challenges_found">No challenges found&#8230;</string>
 
 </resources>

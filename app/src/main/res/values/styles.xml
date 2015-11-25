@@ -90,5 +90,14 @@
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">10dp</item>
     </style>
+    <style name="ToolbarInactiveButton" parent="@android:style/Holo.Light.ButtonBar">
+        <item name="android:textColor">@color/font_dark</item>
+        <item name="android:minHeight">0dp</item>m>
+    </style>
+    <style name="ToolbarActiveButton" parent="@android:style/Holo.Light.ButtonBar">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:background">@drawable/toolbar_selected_background</item>
+    </style>
 
 </resources>

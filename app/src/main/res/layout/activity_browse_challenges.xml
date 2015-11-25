@@ -7,7 +7,9 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.cespenar.thechallenger.BrowseChallengesActivity">
+    tools:context="com.cespenar.thechallenger.BrowseChallengesActivity"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
 
     <EditText
         android:id="@+id/browse_challenges_search_input"
@@ -15,33 +17,95 @@
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:hint="@string/search_hint"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="20dp"/>
+        android:layout_marginBottom="10dp"
+        android:layout_alignLeft="@+id/browse_challenges_toolbar"
+        android:layout_alignRight="@+id/browse_challenges_toolbar"
+        android:drawableRight="@drawable/search_small"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        />
 
-    <Button
-        style="@style/CommonButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/browse_challenges_search_input"
-        android:background="@drawable/button_search"
-        android:text="@string/search_action"
-        android:layout_alignBaseline="@+id/browse_challenges_search_input"
-        android:onClick="onClickGetChallengesByPhrase"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:orientation="horizontal"
+        android:layout_below="@id/browse_challenges_search_input"
+        android:id="@+id/browse_challenges_toolbar"
+        android:layout_marginBottom="10dp"
+        android:weightSum="100"
+        android:background="@drawable/toolbar_background"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp">
+
+        <Button
+            android:id="@+id/browse_challenges_toolbar_recent"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:text="@string/recent"
+            android:layout_weight="25"
+            style="@style/ToolbarActiveButton"
+            android:onClick="onClickToolbarButton"/>
+
+        <Button
+            android:id="@+id/browse_challenges_toolbar_top"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:text="@string/top"
+            android:layout_weight="20"
+            style="@style/ToolbarInactiveButton"
+            android:onClick="onClickToolbarButton"/>
+
+        <Button
+            android:id="@+id/browse_challenges_toolbar_popular"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:text="@string/popular"
+            android:layout_weight="25"
+            style="@style/ToolbarInactiveButton"
+            android:onClick="onClickToolbarButton"/>
+
+        <Button
+            android:id="@+id/browse_challenges_toolbar_categories"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:text="@string/categories"
+            android:layout_weight="30"
+            style="@style/ToolbarInactiveButton"
+            android:onClick="onClickToolbarButton"/>
+    </LinearLayout>
 
     <ListView
         android:id="@+id/browse_challenges_list"
         style="@style/CommonButton"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/browse_challenges_search_input" />
+        android:layout_below="@+id/browse_challenges_toolbar" />
+
+    <ListView
+        android:id="@+id/browse_challenges_categories_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/browse_challenges_toolbar"
+        android:entries="@array/challenge_categories"
+        android:visibility="gone"
+        android:divider="@color/background_dark_blue"/>
+
+    <TextView
+        android:id="@+id/browse_challenges_no_challenges"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/browse_challenges_toolbar"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"
+        android:text="@string/no_challenges_found"
+        android:layout_marginTop="30dp"/>
 
     <ProgressBar
         android:id="@+id/browse_challenges_loader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:visibility="gone"/>
 
 </RelativeLayout>

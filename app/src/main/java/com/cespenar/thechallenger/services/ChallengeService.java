@@ -44,6 +44,8 @@ public class ChallengeService {
 
     private static FacebookService fbService;
 
+    public enum SORTING_ORDER { RECENT, TOP, POPULAR, CATEGORIES }
+
     private ChallengeService() {
         fbService = FacebookService.getService();
     }
@@ -124,12 +126,13 @@ public class ChallengeService {
         prepareChallengesByCriteria(context, null, Router.ROUTE_NAME.LATEST_CHALLENGES, false);
     }
 
-    public void getChallengesByCriteria(final BrowseChallengesActivity context, String phrase, int page) {
+    public void getChallengesByCriteria(final BrowseChallengesActivity context, String phrase, Challenge.CHALLENGE_CATEGORY category,
+                                        int page, ChallengeService.SORTING_ORDER order) {
         HashMap<String, String> params = new HashMap<>();
         params.put("phrase", phrase);
-        params.put("category", Challenge.CHALLENGE_CATEGORY.ALL.toString());
+        params.put("category", category.toString());
         params.put("page", String.valueOf(page));
-        params.put("scope", "1");
+        params.put("order", order.toString());
 
         prepareChallengesByCriteria(context, params, Router.ROUTE_NAME.FIND_CHALLENGES, page > 0);
     }
