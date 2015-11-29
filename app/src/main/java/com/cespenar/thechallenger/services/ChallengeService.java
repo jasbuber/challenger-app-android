@@ -467,6 +467,11 @@ public class ChallengeService {
 
     public void getVideo(final Activity activity, String videoId, final VideoView videoView) {
 
+        if(videoId == null || videoId.equals("null") || videoId.isEmpty()){
+            videoView.setVisibility(View.GONE);
+            return;
+        }
+
         RequestQueue queue = Volley.newRequestQueue(activity);
 
         Response.Listener<String> listener = new Response.Listener<String>() {
