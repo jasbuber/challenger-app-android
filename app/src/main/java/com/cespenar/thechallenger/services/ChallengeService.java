@@ -244,14 +244,28 @@ public class ChallengeService {
         queue.add(request);
     }
 
-    public void getMyChallenges(final CreatedChallengesActivity context, int page) {
+    public void getMyChallenges(final CreatedChallengesActivity context, final int page) {
 
         RequestQueue queue = Volley.newRequestQueue(context);
 
         Response.Listener<List<LinkedTreeMap<String, Object>>> listener = new Response.Listener<List<LinkedTreeMap<String, Object>>>() {
             @Override
             public void onResponse(List<LinkedTreeMap<String, Object>> response) {
-                context.populateChallengesList(ChallengeWithParticipantsNr.castLinkedTreeMapToChallengeList(response));
+
+                List<ChallengeWithParticipantsNr> challenges = ChallengeWithParticipantsNr.castLinkedTreeMapToChallengeList(response);
+
+                if (challenges.size() < PAGING_ROW_NUMBER - 1) {
+                    context.setHasMore(false);
+                } else {
+                    context.setHasMore(true);
+                }
+
+                if (page > 0) {
+                    context.appendChallengesList(challenges);
+                } else {
+                    context.populateChallengesList(challenges);
+                }
+
             }
         };
 
@@ -310,14 +324,26 @@ public class ChallengeService {
         queue.add(request);
     }
 
-    public void getMyParticipations(final ChallengeParticipationsActivity context, int page) {
+    public void getMyParticipations(final ChallengeParticipationsActivity context, final int page) {
 
         RequestQueue queue = Volley.newRequestQueue(context);
 
         Response.Listener<List<ArrayList>> listener = new Response.Listener<List<ArrayList>>() {
             @Override
             public void onResponse(List<ArrayList> response) {
-                context.populateChallengesList(ChallengeWithParticipantsNr.castToChallengeList(response));
+                List<ChallengeWithParticipantsNr> challenges = ChallengeWithParticipantsNr.castToChallengeList(response);
+
+                if (challenges.size() < PAGING_ROW_NUMBER - 1) {
+                    context.setHasMore(false);
+                } else {
+                    context.setHasMore(true);
+                }
+
+                if (page > 0) {
+                    context.appendChallengesList(challenges);
+                } else {
+                    context.populateChallengesList(challenges);
+                }
             }
         };
 

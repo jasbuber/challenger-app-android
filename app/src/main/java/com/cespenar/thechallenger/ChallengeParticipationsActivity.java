@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -23,6 +24,10 @@ public class ChallengeParticipationsActivity extends Activity {
 
     private static ListView challengesListView;
 
+    private int page = 0;
+    private int preLast = 0;
+    private boolean hasMore = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,8 +37,12 @@ public class ChallengeParticipationsActivity extends Activity {
         setContentView(R.layout.activity_challenge_participations);
         challengesListView = (ListView) findViewById(R.id.challenge_participations_list);
         challengesListView.setOnItemClickListener(getOnItemClickListener(this));
+        challengesListView.setOnScrollListener(getOnScrollListener(this));
 
         if(savedInstanceState != null){
+            preLast = savedInstanceState.getInt("preLast");
+            hasMore = savedInstanceState.getBoolean("hasMore");
+            page = savedInstanceState.getInt("page");
             populateChallengesList((List) savedInstanceState.getSerializable("challenges"));
             return;
         }
@@ -51,6 +60,9 @@ public class ChallengeParticipationsActivity extends Activity {
         ChallengesListAdapter adapter = (ChallengesListAdapter) challengesListView.getAdapter();
         ArrayList<ChallengeWithParticipantsNr> challenges = (ArrayList) adapter.challenges;
 
+        savedInstanceState.putInt("preLast", preLast);
+        savedInstanceState.putBoolean("hasMore", hasMore);
+        savedInstanceState.putInt("page", page);
         savedInstanceState.putSerializable("challenges", challenges);
     }
 
@@ -108,6 +120,13 @@ public class ChallengeParticipationsActivity extends Activity {
 
     }
 
+    public void appendChallengesList(List<ChallengeWithParticipantsNr> challenges) {
+        hideLoader();
+        ChallengesListAdapter adapter = (ChallengesListAdapter) challengesListView.getAdapter();
+        adapter.challenges.addAll(challenges);
+        adapter.notifyDataSetChanged();
+    }
+
     public AdapterView.OnItemClickListener getOnItemClickListener(final ChallengeParticipationsActivity activity){
 
         return new AdapterView.OnItemClickListener() {
@@ -127,5 +146,39 @@ public class ChallengeParticipationsActivity extends Activity {
     public void onClickJoinFirstChallenge(View view){
         Intent intent = new Intent(this, BrowseChallengesActivity.class);
         startActivity(intent);
+    }
+
+    private AbsListView.OnScrollListener getOnScrollListener(final ChallengeParticipationsActivity activity) {
+        return new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                final int lastItem = firstVisibleItem + visibleItemCount;
+                if (lastItem == totalItemCount && hasMore) {
+                    if (preLast != lastItem) {
+                        preLast = lastItem;
+                        page++;
+                        showLoader();
+                        ChallengeService.getService().getMyParticipations(activity, page);
+                    }
+                }
+            }
+        };
+    }
+
+    public void showLoader(){
+        findViewById(R.id.my_participations_loader).setVisibility(View.VISIBLE);
+    }
+
+    public void hideLoader(){
+        findViewById(R.id.my_participations_loader).setVisibility(View.GONE);
+    }
+
+    public void setHasMore(boolean hasMore) {
+        this.hasMore = hasMore;
     }
 }
