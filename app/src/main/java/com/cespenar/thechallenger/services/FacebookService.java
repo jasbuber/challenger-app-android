@@ -1,7 +1,10 @@
 package com.cespenar.thechallenger.services;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +18,7 @@ import com.cespenar.thechallenger.ChallengeActivity;
 import com.cespenar.thechallenger.CreateChallengeActivity;
 import com.cespenar.thechallenger.CreateChallengeFinalizeActivity;
 import com.cespenar.thechallenger.MainActivity;
+import com.cespenar.thechallenger.NoConnectionActivity;
 import com.cespenar.thechallenger.R;
 import com.cespenar.thechallenger.models.User;
 import com.facebook.AccessToken;
@@ -96,7 +100,14 @@ public class FacebookService {
                     @Override
                     public void onCancel() {
                         Log.e("cancel", "cancel");
-                        logIn(activity);
+
+                        if(isNetworkAvailable(activity)) {
+                            logIn(activity);
+                        }else{
+                            Log.e("no_connection", "no_connection");
+                            AccessToken.setCurrentAccessToken(null);
+                            activity.startActivity(new Intent(activity, NoConnectionActivity.class));
+                        }
                     }
 
                     @Override
@@ -223,6 +234,13 @@ public class FacebookService {
 
     private String prepareProfilePictureUrl(String username){
         return "https://graph.facebook.com/" + username + "/picture?width=150&height=150";
+    }
+
+    private boolean isNetworkAvailable(Activity activity) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
 }

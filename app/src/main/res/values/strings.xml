@@ -126,5 +126,8 @@
     <string name="popular">Popular</string>
 
     <string name="no_challenges_found">No challenges found&#8230;</string>
+    <string name="try_again">Try again&#8230;</string>
+    <string name="no_connection_message">Couldn\'t connect to the internet. Check your connection and try again.</string>
+    <string name="no_connection">No Internet Connection</string>
 
 </resources>
