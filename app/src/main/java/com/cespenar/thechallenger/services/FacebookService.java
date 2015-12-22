@@ -71,6 +71,11 @@ public class FacebookService {
 
     public void logIn(final Activity activity) {
 
+        if(!isNetworkAvailable(activity)) {
+            Log.e("no_connection", "no_connection");
+            activity.startActivity(new Intent(activity, NoConnectionActivity.class));
+            return;
+        }
         callbackManager = CallbackManager.Factory.create();
 
         LoginManager.getInstance().registerCallback(callbackManager,
@@ -100,14 +105,7 @@ public class FacebookService {
                     @Override
                     public void onCancel() {
                         Log.e("cancel", "cancel");
-
-                        if(isNetworkAvailable(activity)) {
-                            logIn(activity);
-                        }else{
-                            Log.e("no_connection", "no_connection");
-                            AccessToken.setCurrentAccessToken(null);
-                            activity.startActivity(new Intent(activity, NoConnectionActivity.class));
-                        }
+                        logIn(activity);
                     }
 
                     @Override
