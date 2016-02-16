@@ -1,15 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "com.cespenar.thechallenger"
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 21
         versionCode 13
         versionName "1.19"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -20,6 +21,23 @@ android {
         debug {
             testCoverageEnabled = true
         }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'de.mobilej.unmock:UnMockPlugin:0.3.6'
     }
 }
 
@@ -33,4 +51,20 @@ dependencies {
     compile ('com.github.worker8:tourguide:1.0.16-SNAPSHOT@aar'){
         transitive=true
     }
+    testCompile 'junit:junit:4.12'
+    testCompile "org.mockito:mockito-core:1.9.5"
+    testCompile "org.robolectric:robolectric:3.0"
+}
+
+apply plugin: 'de.mobilej.unmock'
+
+unMock {
+    // URI to download the android-all.jar from. e.g. https://oss.sonatype.org/content/groups/public/org/robolectric/android-all/
+    downloadFrom 'https://oss.sonatype.org/content/groups/public/org/robolectric/android-all/4.3_r2-robolectric-0/android-all-4.3_r2-robolectric-0.jar'
+    keep "android.net.Uri"
+    keepStartingWith "android.util.Log"
+    keepAndRename "java.nio.charset.Charsets" to "xjava.nio.charset.Charsets"
+    keepStartingWith "libcore."
+    keep "android.text.TextUtils"
+    keep "android.net.http.AndroidHttpClient"
 }
