@@ -23,13 +23,13 @@ public class MainActivity extends Activity {
 
         FacebookSdk.sdkInitialize(getApplicationContext());
 
-        if(!FacebookService.isAccessTokenValid()) {
+        if(!getFacebookService().isAccessTokenValid()) {
             FacebookService.getService().logIn(this);
         }else{
             setContentView(R.layout.activity_main);
         }
 
-        TutorialService.handleTutorial(this);
+        getTutorialService().handleTutorial(this);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
         switch(id){
             case R.id.action_profile :
                 intent = new Intent(this, UserActivity.class);
-                intent.putExtra("username", UserService.getCurrentUsername());
+                intent.putExtra("username", getCurrentUsername());
                 startActivity(intent);
                 break;
             case R.id.action_my_challenges :
@@ -109,6 +109,18 @@ public class MainActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         FacebookService.callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    protected FacebookService getFacebookService(){
+        return FacebookService.getService();
+    }
+
+    protected TutorialService getTutorialService(){
+        return TutorialService.getService();
+    }
+
+    protected String getCurrentUsername(){
+        return UserService.getCurrentUsername();
     }
 
 }

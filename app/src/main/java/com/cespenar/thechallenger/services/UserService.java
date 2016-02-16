@@ -35,15 +35,23 @@ public class UserService {
         return currentUser;
     }
 
-    private static FacebookService fbService;
+    private FacebookService fbService;
 
-    private UserService() {
-        fbService = FacebookService.getService();
-    }
+    private UserService() {}
 
     public static UserService getService() {
         if (service == null) {
             service = new UserService();
+            service.fbService = FacebookService.getService();
+        }
+
+        return service;
+    }
+
+    public static UserService getService(FacebookService fbService) {
+        if (service == null) {
+            service = new UserService();
+            service.fbService = fbService;
         }
 
         return service;
@@ -55,7 +63,7 @@ public class UserService {
 
     public void createUser(final Context context, User user) {
 
-        RequestQueue queue = Volley.newRequestQueue(context);
+        RequestQueue queue = getRequestQueue(context);
 
         Response.Listener<String> listener = new Response.Listener<String>() {
             @Override
@@ -63,7 +71,7 @@ public class UserService {
                 ((MainActivity) context).setContentView(R.layout.activity_main);
 
                 if(Integer.parseInt(response) == 0){
-                    TutorialService.startTutorial((MainActivity) context);
+                    getTutorialService().startTutorial((MainActivity) context);
                     UserService.getCurrentUser().startTutorial();
                 }
             }
@@ -82,7 +90,7 @@ public class UserService {
         params.put("firstName", user.getFirstName());
         params.put("lastName", user.getLastName());
         params.put("profilePictureUrl", user.getProfilePictureUrl());
-        params.put("token", FacebookService.getService().getAccessToken().getToken());
+        params.put("token", fbService.getAccessToken().getToken());
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.CREATE_USER, params, listener, errorListener, String.class);
@@ -92,7 +100,7 @@ public class UserService {
 
     public void getProfile(final UserActivity context, final String username) {
 
-        RequestQueue queue = Volley.newRequestQueue(context);
+        RequestQueue queue = getRequestQueue(context);
 
         Response.Listener<HashMap> listener = new Response.Listener<HashMap>() {
             @Override
@@ -134,7 +142,7 @@ public class UserService {
 
     public void completeTutorial(final Context context) {
 
-        RequestQueue queue = Volley.newRequestQueue(context);
+        RequestQueue queue = getRequestQueue(context);
 
         Response.Listener<String> listener = new Response.Listener<String>() {
             @Override
@@ -151,12 +159,20 @@ public class UserService {
         HashMap<String, String> params = new HashMap<>();
 
         params.put("username", getCurrentUser().getUsername());
-        params.put("token", FacebookService.getService().getAccessToken().getToken());
+        params.put("token", fbService.getAccessToken().getToken());
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.COMPLETE_TUTORIAL, params, listener, errorListener, String.class);
 
         queue.add(request);
+    }
+
+    protected RequestQueue getRequestQueue(Context context){
+        return Volley.newRequestQueue(context);
+    }
+
+    protected TutorialService getTutorialService(){
+        return TutorialService.getService();
     }
 
 

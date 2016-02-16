@@ -68,7 +68,7 @@ public class CreateChallengeActivity extends Activity {
             getChallengeDifficultyElement().setProgress(savedInstanceState.getInt("challengeDifficulty"));
         }
 
-        TutorialService.handleTutorial(this);
+        getTutorialService().handleTutorial(this);
 
         if(getActionBar() != null){
             getActionBar().setHomeButtonEnabled(true);
@@ -263,6 +263,10 @@ public class CreateChallengeActivity extends Activity {
 
     private Button getChallengeVideoElement() {
         return (Button) findViewById(R.id.create_challenge_upload);
+    }
+
+    protected TutorialService getTutorialService(){
+        return TutorialService.getService();
     }
 
 }

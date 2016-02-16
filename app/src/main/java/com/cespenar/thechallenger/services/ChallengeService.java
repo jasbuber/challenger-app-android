@@ -42,17 +42,26 @@ public class ChallengeService {
 
     private static ChallengeService service;
 
-    private static FacebookService fbService;
+    private FacebookService fbService;
 
     public enum SORTING_ORDER { RECENT, TOP, POPULAR, CATEGORIES }
 
     private ChallengeService() {
-        fbService = FacebookService.getService();
     }
 
     public static ChallengeService getService() {
         if (service == null) {
             service = new ChallengeService();
+            service.fbService = FacebookService.getService();
+        }
+
+        return service;
+    }
+
+    public static ChallengeService getService(FacebookService fbService) {
+        if (service == null) {
+            service = new ChallengeService();
+            service.fbService = fbService;
         }
 
         return service;
@@ -60,7 +69,7 @@ public class ChallengeService {
 
     public void createChallenge(final Context context, Challenge challenge) {
 
-        RequestQueue queue = Volley.newRequestQueue(context);
+        RequestQueue queue = getRequestQueue(context);
 
         Response.Listener<CustomResponse> listener = new Response.Listener<CustomResponse>() {
             @Override
@@ -78,7 +87,7 @@ public class ChallengeService {
 
         HashMap<String, String> params = challenge.getPropertyHashmap();
         params.put("username", UserService.getCurrentUsername());
-        params.put("token", FacebookService.getService().getAccessToken().getToken());
+        params.put("token", fbService.getAccessToken().getToken());
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.CREATE_CHALLENGE, params, listener, errorListener, CustomResponse.class);
@@ -88,7 +97,7 @@ public class ChallengeService {
 
     public void updateChallengeVideo(final Context context, final long challengeId, String videoId) {
 
-        RequestQueue queue = Volley.newRequestQueue(context);
+        RequestQueue queue = getRequestQueue(context);
 
         Response.Listener<String> listener = new Response.Listener<String>() {
             @Override
@@ -114,6 +123,7 @@ public class ChallengeService {
         params.put("username", UserService.getCurrentUser().getUsername());
         params.put("videoId", videoId);
         params.put("challengeId", String.valueOf(challengeId));
+        params.put("token", fbService.getAccessToken().getToken());
 
 
         CustomRequest request = Router.getRouter()
@@ -138,7 +148,7 @@ public class ChallengeService {
     }
 
     private void prepareChallengesByCriteria(final BrowseChallengesActivity context, HashMap<String, String> params, Router.ROUTE_NAME route_name, final boolean isNextPage) {
-        RequestQueue queue = Volley.newRequestQueue(context);
+        RequestQueue queue = getRequestQueue(context);
 
         Response.Listener<List<LinkedTreeMap<String, Object>>> listener = new Response.Listener<List<LinkedTreeMap<String, Object>>>() {
             @Override
@@ -181,7 +191,7 @@ public class ChallengeService {
 
     public void getChallengeResponses(final ChallengeActivity context, Challenge challenge) {
 
-        RequestQueue queue = Volley.newRequestQueue(context);
+        RequestQueue queue = getRequestQueue(context);
 
         Response.Listener<List<LinkedTreeMap<String, Object>>> listener = new Response.Listener<List<LinkedTreeMap<String, Object>>>() {
             @Override
@@ -203,7 +213,7 @@ public class ChallengeService {
         HashMap<String, String> params = challenge.getPropertyHashmap();
         params.put("challengeId", String.valueOf(challenge.getId()));
         params.put("username", currentUser.getUsername());
-        params.put("token", FacebookService.getService().getAccessToken().getToken());
+        params.put("token", fbService.getAccessToken().getToken());
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.CHALLENGE_RESPONSES, params, listener, errorListener, List.class);
@@ -213,7 +223,7 @@ public class ChallengeService {
 
     public void joinChallenge(final ChallengeActivity context, Challenge challenge) {
 
-        RequestQueue queue = Volley.newRequestQueue(context);
+        RequestQueue queue = getRequestQueue(context);
 
         Response.Listener<CustomResponse> listener = new Response.Listener<CustomResponse>() {
             @Override
@@ -236,7 +246,7 @@ public class ChallengeService {
         params.put("challengeId", String.valueOf(challenge.getId()));
         params.put("username", currentUser.getUsername());
         params.put("fullName", currentUser.getFormattedName());
-        params.put("token", FacebookService.getService().getAccessToken().getToken());
+        params.put("token", fbService.getAccessToken().getToken());
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.JOIN_CHALLENGE, params, listener, errorListener, CustomResponse.class);
@@ -246,7 +256,7 @@ public class ChallengeService {
 
     public void getMyChallenges(final CreatedChallengesActivity context, final int page) {
 
-        RequestQueue queue = Volley.newRequestQueue(context);
+        RequestQueue queue = getRequestQueue(context);
 
         Response.Listener<List<LinkedTreeMap<String, Object>>> listener = new Response.Listener<List<LinkedTreeMap<String, Object>>>() {
             @Override
@@ -290,7 +300,7 @@ public class ChallengeService {
 
     public void getChallenge(final ChallengeActivity context, final long challengeId, final VideoView videoView) {
 
-        RequestQueue queue = Volley.newRequestQueue(context);
+        RequestQueue queue = getRequestQueue(context);
 
         Response.Listener<HashMap> listener = new Response.Listener<HashMap>() {
             @Override
@@ -326,7 +336,7 @@ public class ChallengeService {
 
     public void getMyParticipations(final ChallengeParticipationsActivity context, final int page) {
 
-        RequestQueue queue = Volley.newRequestQueue(context);
+        RequestQueue queue = getRequestQueue(context);
 
         Response.Listener<List<ArrayList>> listener = new Response.Listener<List<ArrayList>>() {
             @Override
@@ -368,7 +378,7 @@ public class ChallengeService {
 
     public void getRankings(final RankingsActivity context) {
 
-        RequestQueue queue = Volley.newRequestQueue(context);
+        RequestQueue queue = getRequestQueue(context);
 
         Response.Listener<HashMap> listener = new Response.Listener<HashMap>() {
             @Override
@@ -393,7 +403,6 @@ public class ChallengeService {
         };
 
         HashMap<String, String> params = new HashMap<>();
-        //params.put("username", UserService.getCurrentUser().getUsername());
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.RANKINGS, params, listener, errorListener, HashMap.class);
@@ -403,7 +412,7 @@ public class ChallengeService {
 
     public void submitChallengeResponse(final Context context, final long challengeId, String videoId) {
 
-        RequestQueue queue = Volley.newRequestQueue(context);
+        RequestQueue queue = getRequestQueue(context);
 
         Response.Listener<CustomResponse> listener = new Response.Listener<CustomResponse>() {
             @Override
@@ -425,7 +434,7 @@ public class ChallengeService {
         params.put("username", UserService.getCurrentUser().getUsername());
         params.put("videoId", videoId);
         params.put("challengeId", String.valueOf(challengeId));
-        params.put("token", FacebookService.getService().getAccessToken().getToken());
+        params.put("token", fbService.getAccessToken().getToken());
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.SUBMIT_RESPONSE, params, listener, errorListener, CustomResponse.class);
@@ -435,7 +444,7 @@ public class ChallengeService {
 
     public void rateChallengeResponse(final Context context, final long responseId, Character isAccepted) {
 
-        RequestQueue queue = Volley.newRequestQueue(context);
+        RequestQueue queue = getRequestQueue(context);
 
         Response.Listener<CustomResponse> listener = new Response.Listener<CustomResponse>() {
             @Override
@@ -457,7 +466,7 @@ public class ChallengeService {
         params.put("username", UserService.getCurrentUser().getUsername());
         params.put("responseId", String.valueOf(responseId));
         params.put("isAccepted", String.valueOf(isAccepted));
-        params.put("token", FacebookService.getService().getAccessToken().getToken());
+        params.put("token", fbService.getAccessToken().getToken());
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.RATE_RESPONSE, params, listener, errorListener, CustomResponse.class);
@@ -472,7 +481,7 @@ public class ChallengeService {
             return;
         }
 
-        RequestQueue queue = Volley.newRequestQueue(activity);
+        RequestQueue queue = getRequestQueue(activity);
 
         Response.Listener<String> listener = new Response.Listener<String>() {
             @Override
@@ -501,7 +510,7 @@ public class ChallengeService {
         User currentUser = UserService.getCurrentUser();
 
         HashMap<String, String> params = new HashMap<>();
-        params.put("token", FacebookService.getService().getAccessToken().getToken());
+        params.put("token", fbService.getAccessToken().getToken());
         params.put("videoId", videoId);
 
         CustomRequest request = Router.getRouter()
@@ -512,7 +521,7 @@ public class ChallengeService {
 
     public void rateChallenge(final Context context, long challengeId, final int rating) {
 
-        RequestQueue queue = Volley.newRequestQueue(context);
+        RequestQueue queue = getRequestQueue(context);
 
         Response.Listener<String> listener = new Response.Listener<String>() {
             @Override
@@ -530,7 +539,7 @@ public class ChallengeService {
         params.put("username", UserService.getCurrentUser().getUsername());
         params.put("challengeId", String.valueOf(challengeId));
         params.put("rating", String.valueOf(rating));
-        params.put("token", FacebookService.getService().getAccessToken().getToken());
+        params.put("token", fbService.getAccessToken().getToken());
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.RATE_CHALLENGE, params, listener, errorListener, String.class);
@@ -540,7 +549,7 @@ public class ChallengeService {
 
     public void createComment(final Context context, long challengeId, final String message) {
 
-        RequestQueue queue = Volley.newRequestQueue(context);
+        RequestQueue queue = getRequestQueue(context);
 
         Response.Listener<String> listener = new Response.Listener<String>() {
             @Override
@@ -558,7 +567,7 @@ public class ChallengeService {
         params.put("username", UserService.getCurrentUser().getUsername());
         params.put("challengeId", String.valueOf(challengeId));
         params.put("message", message);
-        params.put("token", FacebookService.getService().getAccessToken().getToken());
+        params.put("token", fbService.getAccessToken().getToken());
 
         CustomRequest request = Router.getRouter()
                 .createRequest(Router.ROUTE_NAME.CREATE_COMMENT, params, listener, errorListener, String.class);
@@ -568,7 +577,7 @@ public class ChallengeService {
 
     public void getComments(final Context context, long challengeId, int offset) {
 
-        RequestQueue queue = Volley.newRequestQueue(context);
+        RequestQueue queue = getRequestQueue(context);
 
         Response.Listener<List<LinkedTreeMap<String, Object>>> listener = new Response.Listener<List<LinkedTreeMap<String, Object>>>() {
             @Override
@@ -592,6 +601,10 @@ public class ChallengeService {
                 .createRequest(Router.ROUTE_NAME.GET_COMMENTS, params, listener, errorListener, List.class);
 
         queue.add(request);
+    }
+
+    protected RequestQueue getRequestQueue(Context context){
+        return Volley.newRequestQueue(context);
     }
 
 }

@@ -24,13 +24,26 @@ import tourguide.tourguide.TourGuide;
  */
 public class TutorialService {
 
+    private static TutorialService service;
+
     private static TourGuide tourGuide;
+
+    private TutorialService() {
+    }
+
+    public static TutorialService getService() {
+        if (service == null) {
+            service = new TutorialService();
+        }
+
+        return service;
+    }
 
     public static boolean isTutorialActive() {
         return !UserService.getCurrentUser().isTutorialCompleted();
     }
 
-    public static void startTutorial(final MainActivity activity) {
+    public void startTutorial(final MainActivity activity) {
 
         activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -115,7 +128,7 @@ public class TutorialService {
         return tourGuide;
     }
 
-    public static void handleTutorial(Activity activity) {
+    public void handleTutorial(Activity activity) {
 
         if(activity instanceof MainActivity){
             handleMainActivity((MainActivity) activity);

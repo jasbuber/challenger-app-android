@@ -63,7 +63,7 @@ public class ChallengeActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookService.getService().validateToken(this);
+        getFacebookService().validateToken(this);
         setContentView(R.layout.activity_challenge);
         videoView = (VideoView) findViewById(R.id.challenge_details_video);
         findViewById(R.id.challenge_details_comment_message)
@@ -80,12 +80,12 @@ public class ChallengeActivity extends Activity {
             checkIfUserParticipatesInChallenge(participationState);
             populateChallengeResponses(responses);
             populateChallengeComments((List<Comment>) savedInstanceState.getSerializable("comments"));
-            ChallengeService.getService().getVideo(this, challenge.getVideoPath(), videoView);
+            getChallengeService().getVideo(this, challenge.getVideoPath(), videoView);
 
             return;
         }
 
-        ChallengeService.getService().getChallenge(this, getIntent().getLongExtra("challengeId", -1), videoView);
+        getChallengeService().getChallenge(this, getIntent().getLongExtra("challengeId", -1), videoView);
 
         if(getActionBar() != null){
             getActionBar().setHomeButtonEnabled(true);
@@ -166,7 +166,7 @@ public class ChallengeActivity extends Activity {
         challengeDifficulty.setText(challenge.getFormattedDifficulty());
         challengeRating.setRating(challenge.getRating());
 
-        FacebookService.getService().loadProfilePicture(this, creatorPicture, challenge.getCreator().getUsername());
+        getFacebookService().loadProfilePicture(this, creatorPicture, challenge.getCreator().getUsername());
     }
 
     public void populateChallenge(Challenge challenge, int participationState, List<Comment> comments) {
@@ -177,7 +177,7 @@ public class ChallengeActivity extends Activity {
 
         checkIfUserParticipatesInChallenge(participationState);
 
-        ChallengeService.getService().getChallengeResponses(this, challenge);
+        getChallengeService().getChallengeResponses(this, challenge);
 
         populateChallengeComments(comments);
     }
@@ -236,7 +236,7 @@ public class ChallengeActivity extends Activity {
         };
     }
 
-    private void checkIfUserParticipatesInChallenge(int participationState) {
+    protected void checkIfUserParticipatesInChallenge(int participationState) {
 
         if (participationState == ChallengeParticipation.NOT_PARTICIPATING_STATE) {
             findViewById(R.id.challenge_details_join).setVisibility(View.VISIBLE);
@@ -469,6 +469,14 @@ public class ChallengeActivity extends Activity {
         page++;
 
         ChallengeService.getService().getComments(this, challenge.getId(), page);
+    }
+
+    protected ChallengeService getChallengeService(){
+        return ChallengeService.getService();
+    }
+
+    protected FacebookService getFacebookService(){
+        return FacebookService.getService();
     }
 
 }

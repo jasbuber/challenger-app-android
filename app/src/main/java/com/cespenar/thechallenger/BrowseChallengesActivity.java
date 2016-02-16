@@ -47,7 +47,7 @@ public class BrowseChallengesActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FacebookService.getService().validateToken(this);
+        getFacebookService().validateToken(this);
 
         setContentView(R.layout.activity_browse_challenges);
 
@@ -110,7 +110,7 @@ public class BrowseChallengesActivity extends Activity {
                     break;
             }
         } else {
-            ChallengeService.getService().getLatestChallenges(this);
+            getChallengeService().getLatestChallenges(this);
             selectedToolbarButton = (Button) findViewById(R.id.browse_challenges_toolbar_recent);
         }
 
@@ -207,7 +207,7 @@ public class BrowseChallengesActivity extends Activity {
         showLoader();
         findViewById(R.id.browse_challenges_list).setVisibility(View.VISIBLE);
         findViewById(R.id.browse_challenges_categories_list).setVisibility(View.GONE);
-        ChallengeService.getService().getChallengesByCriteria(this, phrase, category, PAGE, order);
+        getChallengeService().getChallengesByCriteria(this, phrase, category, PAGE, order);
         lastSearchedName = phrase;
     }
 
@@ -231,7 +231,7 @@ public class BrowseChallengesActivity extends Activity {
                         preLast = lastItem;
                         PAGE++;
                         showLoader();
-                        ChallengeService.getService().getChallengesByCriteria(activity,
+                        getChallengeService().getChallengesByCriteria(activity,
                                 lastSearchedName, Challenge.CHALLENGE_CATEGORY.ALL, PAGE, currentOrder);
                     }
                 }
@@ -383,5 +383,13 @@ public class BrowseChallengesActivity extends Activity {
                 getChallengesByPhrase(holder.category, currentOrder);
             }
         };
+    }
+
+    protected ChallengeService getChallengeService(){
+        return ChallengeService.getService();
+    }
+
+    protected FacebookService getFacebookService(){
+        return FacebookService.getService();
     }
 }
