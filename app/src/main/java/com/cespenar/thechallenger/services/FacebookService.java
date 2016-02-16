@@ -32,6 +32,7 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
+import com.facebook.login.DefaultAudience;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.gson.Gson;
@@ -123,12 +124,12 @@ public class FacebookService {
         LoginManager.getInstance().logInWithReadPermissions(activity, Arrays.asList("user_videos"));
     }
 
-    public static boolean isAccessTokenValid() {
+    public boolean isAccessTokenValid() {
         AccessToken token = AccessToken.getCurrentAccessToken();
         return (token != null && !token.isExpired() && token.getPermissions().contains("user_videos"));
     }
 
-    public static boolean isAccessTokenValidForPublishing() {
+    public boolean isAccessTokenValidForPublishing() {
         AccessToken token = AccessToken.getCurrentAccessToken();
         return (token != null && !token.isExpired() && token.getPermissions().contains("publish_actions"));
     }
@@ -172,6 +173,7 @@ public class FacebookService {
                     }
                 });
 
+        LoginManager.getInstance().setDefaultAudience(DefaultAudience.EVERYONE);
         LoginManager.getInstance().logInWithPublishPermissions(activity, Arrays.asList("publish_actions"));
     }
 
@@ -224,7 +226,7 @@ public class FacebookService {
         if (!FacebookSdk.isInitialized()) {
             FacebookSdk.sdkInitialize(activity.getApplicationContext());
         }
-        if (!FacebookService.isAccessTokenValid()) {
+        if (!isAccessTokenValid()) {
             Intent intent = new Intent(activity, MainActivity.class);
             activity.startActivity(intent);
         }
