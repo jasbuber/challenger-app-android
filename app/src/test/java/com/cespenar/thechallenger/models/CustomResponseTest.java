@@ -2,13 +2,18 @@ package com.cespenar.thechallenger.models;
 
 import junit.framework.TestCase;
 
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Jasbuber on 22/08/2015.
  */
-public class CustomResponseTest extends TestCase {
+public class CustomResponseTest{
 
     private static final String TEST_MESSAGE = "Test message";
     private static final String TEST_MESSAGE_2 = "Test message_2";
@@ -17,6 +22,7 @@ public class CustomResponseTest extends TestCase {
     private static final int TEST_POINTS_2 = 5;
     private static final int TEST_POINTS_3 = 10;
 
+    @Test
     public void testCustomResponseConstructor_1() {
         CustomResponse response = new CustomResponse();
         assertEquals(response.getRewardedPoints(), 0);
@@ -24,6 +30,7 @@ public class CustomResponseTest extends TestCase {
         assertTrue(response.getPoints().size() == 0);
     }
 
+    @Test
     public void testCustomResponseConstructor_2() {
         CustomResponse response = new CustomResponse(TEST_POINTS, TEST_MESSAGE);
         assertEquals(response.getRewardedPoints(), TEST_POINTS);
@@ -32,6 +39,7 @@ public class CustomResponseTest extends TestCase {
         assertTrue(response.getPoints().size() == 0);
     }
 
+    @Test
     public void testCustomResponseConstructor_3() {
         List<String> messages = new ArrayList<>();
         messages.add(TEST_MESSAGE);
@@ -43,6 +51,7 @@ public class CustomResponseTest extends TestCase {
         assertTrue(response.getPoints().size() == 0);
     }
 
+    @Test
     public void testPoints() {
         CustomResponse response = new CustomResponse();
 
@@ -58,6 +67,7 @@ public class CustomResponseTest extends TestCase {
         assertEquals(response.getRewardedPoints(), TEST_POINTS_3);
     }
 
+    @Test
     public void testChallengeId() {
         int challengeId = 555;
         CustomResponse response = new CustomResponse();
@@ -65,6 +75,7 @@ public class CustomResponseTest extends TestCase {
         assertEquals(response.getChallengeId(), challengeId);
     }
 
+    @Test
     public void testMessages() {
         CustomResponse response = new CustomResponse();
 
@@ -79,17 +90,20 @@ public class CustomResponseTest extends TestCase {
         assertTrue(TEST_MESSAGE_3.equals(response.getMessages().get(2)));
     }
 
+    @Test
     public void testRESPONSE_STATUSValues() {
         CustomResponse.ResponseStatus[] statuses = CustomResponse.ResponseStatus.values();
         assertEquals(statuses[0], CustomResponse.ResponseStatus.failure);
         assertEquals(statuses[1], CustomResponse.ResponseStatus.success);
     }
 
+    @Test
     public void testRESPONSE_STATUSValue() {
         assertEquals(CustomResponse.ResponseStatus.valueOf("success")
                 , CustomResponse.ResponseStatus.success);
     }
 
+    @Test
     public void testRESPONSE_STATUS() {
         CustomResponse response = new CustomResponse();
         response.setStatus(CustomResponse.ResponseStatus.failure);
