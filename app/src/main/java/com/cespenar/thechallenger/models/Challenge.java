@@ -127,10 +127,6 @@ public class Challenge implements Serializable {
         return new SimpleDateFormat("dd-MM-yyyy").format(this.creationDate);
     }
 
-    public boolean isVisibility() {
-        return visibility;
-    }
-
     /**
      * TO_DO Remove as soon as possible after Gson casting was figured out
      * @param map
