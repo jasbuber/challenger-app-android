@@ -29,20 +29,14 @@ public class CustomRequest<T> extends Request<T> {
     Class<T> responseClass;
     private static final int DEFAULT_MAX_RETRIES = 3;
 
-    public CustomRequest(String url, Map<String, String> params,
-                         Response.Listener<T> responseListener, Response.ErrorListener errorListener) {
-        super(Method.GET, url, errorListener);
-        this.listener = responseListener;
-        this.params = params;
-        this.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-    }
-
     public CustomRequest(int method, String url, Map<String, String> params,
                          Response.Listener<T> responseListener, Response.ErrorListener errorListener, Class<T> responseClass) {
         super(method, url, errorListener);
         this.listener = responseListener;
         this.params = params;
         this.responseClass = responseClass;
+        this.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+                DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
 
     protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
@@ -58,14 +52,13 @@ public class CustomRequest<T> extends Request<T> {
             return Response.success(
                     new Gson().fromJson(jsonString, responseClass),
                     HttpHeaderParser.parseCacheHeaders(response));
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             return Response.error(new ParseError(e));
         }
     }
 
     @Override
     protected void deliverResponse(T response) {
-        // TODO Auto-generated method stub
         listener.onResponse(response);
     }
 }
