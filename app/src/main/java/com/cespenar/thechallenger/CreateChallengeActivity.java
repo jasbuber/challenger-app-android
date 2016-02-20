@@ -199,7 +199,8 @@ public class CreateChallengeActivity extends Activity {
             Challenge challenge = new Challenge(challengeName, challengeVideo, challengeCategory,
                     true, challengeDifficulty);
 
-            ChallengeService.getService().createChallenge(this, challenge);
+            ProgressBar progressBar = (ProgressBar) findViewById(R.id.create_challenge_progress);
+            FacebookService.getService().publishVideo(this, challengeVideo, challengeName, progressBar, challenge);
         }
     }
 
@@ -229,24 +230,10 @@ public class CreateChallengeActivity extends Activity {
 
     public void finalizeCreateChallenge(CustomResponse response) {
 
-        if (response.getStatus() == CustomResponse.ResponseStatus.failure) {
+        Intent intent = new Intent(this, CreateChallengeFinalizeActivity.class);
+        intent.putExtra("challengeId", response.getChallengeId());
 
-            for (String message : response.getMessages()) {
-                switch (message) {
-                    case "no_participants":
-                        break;
-                }
-            }
-
-            findViewById(R.id.create_challenge_submit).setEnabled(true);
-
-            return;
-        }
-
-        ProgressBar progressBar = (ProgressBar) findViewById(R.id.create_challenge_progress);
-        String challengeName = getChallengeNameElement().getText().toString();
-
-        FacebookService.getService().publishVideo(this, challengeVideo, challengeName, progressBar, response.getChallengeId());
+        startActivity(intent);
     }
 
     private EditText getChallengeNameElement() {

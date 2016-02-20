@@ -90,6 +90,7 @@ public class Challenge implements Serializable {
         properties.put("category", String.valueOf(category));
         properties.put("visibility", String.valueOf(visibility));
         properties.put("difficulty", String.valueOf(difficulty));
+        properties.put("videoId", videoPath);
 
         return properties;
     }
@@ -180,5 +181,7 @@ public class Challenge implements Serializable {
 
     }
 
-
+    public void setVideoPath(String videoPath) {
+        this.videoPath = videoPath;
+    }
 }

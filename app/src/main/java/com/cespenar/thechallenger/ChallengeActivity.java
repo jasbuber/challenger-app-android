@@ -318,7 +318,7 @@ public class ChallengeActivity extends Activity {
         ProgressBar progress = (ProgressBar) findViewById(R.id.challenge_details_progress);
         progress.setVisibility(View.VISIBLE);
         FacebookService.getService().publishVideo(this, responseVideo,
-                getString(R.string.response_for) + " " + challenge.getName(), progress, challenge.getId());
+                getString(R.string.response_for) + " " + challenge.getName(), progress, challenge);
     }
 
     public void finalizeSubmitResponse(){

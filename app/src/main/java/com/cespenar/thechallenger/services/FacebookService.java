@@ -20,6 +20,7 @@ import com.cespenar.thechallenger.CreateChallengeFinalizeActivity;
 import com.cespenar.thechallenger.MainActivity;
 import com.cespenar.thechallenger.NoConnectionActivity;
 import com.cespenar.thechallenger.R;
+import com.cespenar.thechallenger.models.Challenge;
 import com.cespenar.thechallenger.models.User;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -149,7 +150,7 @@ public class FacebookService {
         UserService.setCurrentUser(user);
     }
 
-    public void acquirePublishPermission(final Activity activity, final String path, final String description, final ProgressBar progressBar, final long challengeId) {
+    public void acquirePublishPermission(final Activity activity, final String path, final String description, final ProgressBar progressBar, final Challenge challenge) {
 
         callbackManager = CallbackManager.Factory.create();
 
@@ -159,11 +160,16 @@ public class FacebookService {
                     public void onSuccess(LoginResult loginResult) {
                         Log.d("Success", "Login");
                         setCurrentUser(Profile.getCurrentProfile());
-                        publishVideo(activity, path, description, progressBar, challengeId);
+                        publishVideo(activity, path, description, progressBar, challenge);
                     }
 
                     @Override
                     public void onCancel() {
+                        if (activity instanceof CreateChallengeActivity) {
+                            activity.findViewById(R.id.create_challenge_submit).setEnabled(true);
+                        }else{
+                            activity.findViewById(R.id.challenge_details_submit_response).setEnabled(true);
+                        }
                         Log.e("cancel", "cancel");
                     }
 
@@ -177,10 +183,10 @@ public class FacebookService {
         LoginManager.getInstance().logInWithPublishPermissions(activity, Arrays.asList("publish_actions"));
     }
 
-    public void publishVideo(final Activity activity, String path, String description, ProgressBar progressBar, final long challengeId) {
+    public void publishVideo(final Activity activity, String path, String description, ProgressBar progressBar, final Challenge challenge) {
 
         if (!isAccessTokenValidForPublishing()) {
-            acquirePublishPermission(activity, path, description, progressBar, challengeId);
+            acquirePublishPermission(activity, path, description, progressBar, challenge);
             return;
         }
 
@@ -194,11 +200,12 @@ public class FacebookService {
             public void onCompleted(Exception e, JsonObject result) {
 
                 String videoId = result.get("id").getAsString();
+                challenge.setVideoPath(videoId);
 
                 if (activity instanceof CreateChallengeActivity) {
-                    ChallengeService.getService().updateChallengeVideo(activity, challengeId, videoId);
+                    ChallengeService.getService().createChallenge(activity, challenge);
                 } else {
-                    ChallengeService.getService().submitChallengeResponse(activity, challengeId, videoId);
+                    ChallengeService.getService().submitChallengeResponse(activity, challenge.getId(), videoId);
                 }
             }
         });

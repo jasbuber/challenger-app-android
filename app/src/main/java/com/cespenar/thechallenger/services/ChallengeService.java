@@ -95,43 +95,6 @@ public class ChallengeService {
         queue.add(request);
     }
 
-    public void updateChallengeVideo(final Context context, final long challengeId, String videoId) {
-
-        RequestQueue queue = getRequestQueue(context);
-
-        Response.Listener<String> listener = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                if (response.equals("success")) {
-
-                    Intent intent = new Intent(context, CreateChallengeFinalizeActivity.class);
-                    intent.putExtra("challengeId", challengeId);
-
-                    context.startActivity(intent);
-                }
-            }
-        };
-
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("error", error.toString());
-            }
-        };
-
-        HashMap<String, String> params = new HashMap<>();
-        params.put("username", UserService.getCurrentUser().getUsername());
-        params.put("videoId", videoId);
-        params.put("challengeId", String.valueOf(challengeId));
-        params.put("token", fbService.getAccessToken().getToken());
-
-
-        CustomRequest request = Router.getRouter()
-                .createRequest(Router.ROUTE_NAME.UPDATE_CHALLENGE_VIDEO, params, listener, errorListener, String.class);
-
-        queue.add(request);
-    }
-
     public void getLatestChallenges(final BrowseChallengesActivity context) {
         prepareChallengesByCriteria(context, null, Router.ROUTE_NAME.LATEST_CHALLENGES, false);
     }
