@@ -83,34 +83,6 @@ public class ChallengeServiceTest {
     }
 
     @Test
-    public void testUpdateChallengeVideoCorrectUrl(){
-
-        spyService.updateChallengeVideo(null, 1L, "testVideoId");
-
-        verify(queue).add(requestCaptor.capture());
-
-        assertThat(requestCaptor.getValue().getUrl(),
-                endsWith(Router.getRouter().getRoute(Router.ROUTE_NAME.UPDATE_CHALLENGE_VIDEO).getUrl()));
-    }
-
-    @Test
-    public void testUpdateChallengeVideoDataIncluded() throws Exception{
-
-        spyService.updateChallengeVideo(null, 1L, "testVideoId");
-
-        verify(queue).add(requestCaptor.capture());
-
-        assertEquals("ChallengeId parameter error",
-                "1", requestCaptor.getValue().getParams().get("challengeId"));
-        assertEquals("VideoId parameter error",
-                "testVideoId", requestCaptor.getValue().getParams().get("videoId"));
-        assertEquals("Username parameter error",
-                "testUser", requestCaptor.getValue().getParams().get("username"));
-        assertEquals("Token parameter error",
-                "testToken", requestCaptor.getValue().getParams().get("token"));
-    }
-
-    @Test
     public void testGetLatestChallengesCorrectUrl(){
 
         spyService.getLatestChallenges(null);
